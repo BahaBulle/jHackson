@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "jHackson": {
+      "commandName": "Project",
+      "commandLineArgs": "jHackson.Evo-Extract.json"
+    }
+  }
+}
