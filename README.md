@@ -5,3 +5,4 @@ In progress...
 
 - Load a file
 - Write a file
+- Load a table (tbl) file

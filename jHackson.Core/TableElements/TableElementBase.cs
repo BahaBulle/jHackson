@@ -125,3 +125,4 @@ namespace jHackson.Core.TableElements
         protected abstract void Split();
     }
 }
+}

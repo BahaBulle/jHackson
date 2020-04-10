@@ -38,13 +38,13 @@ namespace jHackson.Tests.TableElements
         [Test]
         public void ShouldGetRegexValue()
         {
-            Assert.That(element.RegexValue, Is.EqualTo("0"));
+            Assert.That(element.RegexValue, Is.EqualTo(" "));
         }
 
         [Test]
         public void ShouldGetValueChars()
         {
-            Assert.That(element.ValueChars, Is.EqualTo(new char[] { '0' }));
+            Assert.That(element.ValueChars, Is.EqualTo(new char[] { ' ' }));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace jHackson.Tests.TableElements
         [Test]
         public void ShouldGetValueString()
         {
-            Assert.That(element.Value, Is.EqualTo("0"));
+            Assert.That(element.Value, Is.EqualTo(" "));
         }
     }
 }

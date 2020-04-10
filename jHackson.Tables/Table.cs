@@ -124,6 +124,14 @@ namespace jHackson.Tables
             return true;
         }
 
+        public void Print(string filename = null)
+        {
+            if (string.IsNullOrWhiteSpace(filename))
+                this.PrintToScreen();
+            else
+                this.PrintToFile(filename);
+        }
+
         private void Add(string line)
         {
             var element = new TableElementFactory(line)
@@ -148,6 +156,25 @@ namespace jHackson.Tables
                     ex.Data.Add("warnings", element.Warnings);
 
                 throw ex;
+            }
+        }
+
+        private void PrintToFile(string filename)
+        {
+            using (var file = new StreamWriter(filename, false, this._encode))
+            {
+                foreach (var element in this._valueCollection)
+                {
+                    file.WriteLine(element.Line);
+                }
+            }
+        }
+
+        private void PrintToScreen()
+        {
+            foreach (var element in this._valueCollection)
+            {
+                Console.WriteLine(element.Line);
             }
         }
     }
