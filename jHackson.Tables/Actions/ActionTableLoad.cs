@@ -13,7 +13,7 @@ namespace jHackson.Tables.Actions
         public ActionTableLoad()
         {
             this.Name = "TableLoad";
-            this.Title = string.Empty;
+            this.Title = null;
             this.Todo = true;
 
             this.FileName = null;

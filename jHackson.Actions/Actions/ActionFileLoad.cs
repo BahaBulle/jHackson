@@ -26,7 +26,7 @@ namespace jHackson.Actions
         public ActionFileLoad()
         {
             this.Name = "FileLoad";
-            this.Title = string.Empty;
+            this.Title = null;
             this.Todo = true;
 
             this.FileName = null;

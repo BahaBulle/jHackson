@@ -12,7 +12,7 @@ namespace jHackson.Tables.Actions
         public ActionTablePrint()
         {
             this.Name = "TablePrint";
-            this.Title = string.Empty;
+            this.Title = null;
             this.Todo = true;
         }
 

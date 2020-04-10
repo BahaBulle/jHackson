@@ -26,7 +26,7 @@ namespace jHackson.Actions
         public ActionFileSave()
         {
             this.Name = "FileSave";
-            this.Title = string.Empty;
+            this.Title = null;
             this.Todo = true;
 
             this.FileName = null;
