@@ -1,4 +1,5 @@
 ﻿using jHackson.Core.Exceptions;
+using jHackson.Core.Table;
 using System.Collections.Generic;
 using System.IO;
 
@@ -6,15 +7,9 @@ namespace jHackson.Core.Projects
 {
     public class ProjectContext : IProjectContext
     {
-        #region Properties
-
         private readonly Dictionary<int, object> _listBuffers = new Dictionary<int, object>();
-        private readonly Dictionary<int, object> _listTables = new Dictionary<int, object>();
+        private readonly Dictionary<int, ITable> _listTables = new Dictionary<int, ITable>();
         private readonly Dictionary<string, string> _listVariables = new Dictionary<string, string>();
-
-        #endregion
-
-        #region Methods for buffers
 
         public void AddBuffer(int id, object obj)
         {
@@ -33,6 +28,25 @@ namespace jHackson.Core.Projects
             this._listBuffers.Add(id, obj);
         }
 
+        public void AddTable(int id, ITable value)
+        {
+            if (this._listTables.ContainsKey(id))
+            {
+                this._listTables[id] = null;
+                this._listTables.Remove(id);
+            }
+
+            this._listTables.Add(id, value);
+        }
+
+        public void AddVariable(string name, string value)
+        {
+            if (this._listVariables.ContainsKey(name))
+                this._listVariables[name] = value;
+            else
+                this._listVariables.Add(name, value);
+        }
+
         public object GetBuffer(int id, bool forceCreation = false)
         {
             if (!this._listBuffers.ContainsKey(id) && forceCreation)
@@ -49,7 +63,7 @@ namespace jHackson.Core.Projects
                 this.AddBuffer(id, new MemoryStream());
 
             if (!this._listBuffers.ContainsKey(id))
-                throw new JHacksonException(string.Format("Buffer {0} doesn't not exist!", id));
+                throw new JHacksonException(string.Format("Buffer {0} doesn't exist!", id));
 
             if (this._listBuffers.ContainsKey(id) && !(this._listBuffers[id] is MemoryStream))
                 throw new JHacksonException(string.Format("Buffer {0} is not a MemoryBuffer", id));
@@ -57,22 +71,18 @@ namespace jHackson.Core.Projects
             return this._listBuffers[id] as MemoryStream;
         }
 
-        #endregion
-
-        #region Méthodes for Variables
-
-        public void AddVariable(string name, string value)
+        public ITable GetTable(int id)
         {
-            if (this._listVariables.ContainsKey(name))
-                this._listVariables[name] = value;
-            else
-                this._listVariables.Add(name, value);
+            if (!this._listTables.ContainsKey(id))
+                throw new JHacksonException($"Table {id} doesn't exist!");
+
+            return this._listTables[id];
         }
 
         public string GetVariable(string name)
         {
             if (!this._listVariables.ContainsKey(name))
-                throw new JHacksonException($"Variable {name} doesn't not exist!");
+                throw new JHacksonException($"Variable {name} doesn't exist!");
 
             return this._listVariables[name];
         }
@@ -81,7 +91,5 @@ namespace jHackson.Core.Projects
         {
             return this._listVariables;
         }
-
-        #endregion
     }
 }

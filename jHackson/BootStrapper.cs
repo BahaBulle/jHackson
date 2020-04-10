@@ -5,6 +5,7 @@ using jHackson.Core.Json.ContractResolver;
 using jHackson.Core.Json.JsonConverters;
 using jHackson.Core.Projects;
 using jHackson.Core.Services;
+using jHackson.Core.TableElements;
 using System;
 using System.IO;
 using System.Reflection;
@@ -56,19 +57,26 @@ namespace jHackson
                             if (t.GetInterface("IActionJson", true) != null)
                             {
                                 var action = (IActionJson)t.InvokeMember(null, BindingFlags.DeclaredOnly |
-                                                                        BindingFlags.Public | BindingFlags.NonPublic |
-                                                                        BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                                                               BindingFlags.Public | BindingFlags.NonPublic |
+                                                                               BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
 
                                 DataContext.AddMethod(action.Name, t);
                             }
-
-                            if (t.GetInterface("IFileFormat", true) != null)
+                            else if (t.GetInterface("IFileFormat", true) != null)
                             {
                                 var format = (IFileFormat)t.InvokeMember(null, BindingFlags.DeclaredOnly |
-                                                                        BindingFlags.Public | BindingFlags.NonPublic |
-                                                                        BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                                                               BindingFlags.Public | BindingFlags.NonPublic |
+                                                                               BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
 
                                 DataContext.AddFormat(format.Name, t);
+                            }
+                            else if (t.GetInterface("ITableElement", true) != null && !t.IsAbstract)
+                            {
+                                var element = (ITableElement)t.InvokeMember(null, BindingFlags.DeclaredOnly |
+                                                                                  BindingFlags.Public | BindingFlags.NonPublic |
+                                                                                  BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+
+                                DataContext.AddTableElement(element.Name, t);
                             }
                         }
                     }

@@ -4,46 +4,34 @@ using jHackson.Core.Projects;
 using NLog;
 using System.IO;
 
-namespace jHackson.Actions
+namespace jHackson.Tables.Actions
 {
-    public class ActionFileLoad : ActionBase
+    public class ActionTableLoad : ActionBase
     {
-        #region Fields
-
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        #endregion
-
-        #region Properties
-
-        public string FileName { get; set; }
-        public int? To { get; set; }
-
-        #endregion
-
-        #region Constructors
-
-        public ActionFileLoad()
+        public ActionTableLoad()
         {
-            this.Name = "FileLoad";
+            this.Name = "TableLoad";
             this.Title = string.Empty;
             this.Todo = true;
 
             this.FileName = null;
-            this.To = null;
+            this.Id = null;
+            this.Extend = null;
         }
 
-        #endregion
-
-        #region Methods
+        public bool? Extend { get; set; }
+        public string FileName { get; set; }
+        public int? Id { get; set; }
 
         public override void Check()
         {
-            if (string.IsNullOrWhiteSpace(this.FileName) || !File.Exists(this.FileName))
+            if (string.IsNullOrWhiteSpace(this.FileName) || (this.FileName.ToLower() != Table.LabelTableAscii && !File.Exists(this.FileName)))
                 this.AddError($"Parameter '{nameof(this.FileName)}' not found : {this.FileName ?? "null"}");
 
-            if (!this.To.HasValue)
-                this.AddError($"Parameter '{nameof(this.To)}' not found : {(this.To.HasValue ? this.To.Value.ToString() : "null")}");
+            if (!this.Id.HasValue)
+                this.AddError($"Parameter '{nameof(this.Id)}' not found : {(this.Id.HasValue ? this.Id.Value.ToString() : "null")}");
         }
 
         public override void Execute()
@@ -53,8 +41,14 @@ namespace jHackson.Actions
                 if (this.Title != null)
                     _logger.Info(this.Title);
 
-                var ms = new MemoryStream(File.ReadAllBytes(this.FileName));
-                this._context.AddBuffer(this.To.Value, ms);
+                var tbl = new Table();
+
+                if (this.FileName.ToLower() == Table.LabelTableAscii)
+                    tbl.LoadStdAscii(this.Extend);
+                else
+                    tbl.Load(this.FileName);
+
+                this._context.AddTable(this.Id.Value, tbl);
             }
         }
 
@@ -64,7 +58,5 @@ namespace jHackson.Actions
 
             base.Init(context);
         }
-
-        #endregion
     }
 }

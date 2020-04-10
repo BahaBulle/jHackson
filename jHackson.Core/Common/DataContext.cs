@@ -1,5 +1,6 @@
 ﻿using jHackson.Core.Exceptions;
 using jHackson.Core.FileFormat;
+using jHackson.Core.TableElements;
 using System;
 using System.Collections.Generic;
 
@@ -7,15 +8,18 @@ namespace jHackson.Core.Common
 {
     public static class DataContext
     {
-        #region Properties
-
         public static readonly Dictionary<string, Type> ListMethods = new Dictionary<string, Type>();
 
         private static readonly Dictionary<string, Type> ListScriptFormats = new Dictionary<string, Type>();
+        private static readonly Dictionary<string, Type> ListTableElements = new Dictionary<string, Type>();
 
-        #endregion
+        public static void AddFormat(string name, Type type)
+        {
+            if (ListScriptFormats.ContainsKey(name.ToLower()))
+                throw new JHacksonException($"(EE) Format {name} already exists!");
 
-        #region Methods for ListMethods property
+            ListScriptFormats.Add(name.ToLower(), type);
+        }
 
         public static void AddMethod(string name, Type type)
         {
@@ -25,29 +29,12 @@ namespace jHackson.Core.Common
             ListMethods.Add(name.ToLower(), type);
         }
 
-        public static Type GetMethod(string key)
+        public static void AddTableElement(string identifier, Type type)
         {
-            if (ListMethods.ContainsKey(key))
-                return ListMethods[key];
+            if (ListTableElements.ContainsKey(identifier.ToUpper()))
+                throw new JHacksonException($"(EE) TableElement {identifier.ToUpper()} already exists!");
 
-            return null;
-        }
-
-        public static Dictionary<string, Type> GetMethods()
-        {
-            return ListMethods;
-        }
-
-        #endregion
-
-        #region Methods for ListScriptFormats
-
-        public static void AddFormat(string name, Type type)
-        {
-            if (ListScriptFormats.ContainsKey(name.ToLower()))
-                throw new JHacksonException($"(EE) Format {name} already exists!");
-
-            ListScriptFormats.Add(name.ToLower(), type);
+            ListTableElements.Add(identifier.ToUpper(), type);
         }
 
         public static IFileFormat GetFormat(string key)
@@ -63,6 +50,30 @@ namespace jHackson.Core.Common
             return ListScriptFormats;
         }
 
-        #endregion
+        public static Type GetMethod(string key)
+        {
+            if (ListMethods.ContainsKey(key))
+                return ListMethods[key];
+
+            return null;
+        }
+
+        public static Dictionary<string, Type> GetMethods()
+        {
+            return ListMethods;
+        }
+
+        public static ITableElement GetTableElement(string key)
+        {
+            if (ListTableElements.ContainsKey(key.ToUpper()))
+                return Activator.CreateInstance(ListTableElements[key.ToUpper()]) as ITableElement;
+
+            return null;
+        }
+
+        public static Dictionary<string, Type> GetTableElements()
+        {
+            return ListTableElements;
+        }
     }
 }

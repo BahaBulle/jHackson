@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using jHackson.Core.Table;
+using System.Collections.Generic;
 using System.IO;
 
 namespace jHackson.Core.Projects
 {
     public interface IProjectContext
     {
-        #region Methods for Buffers
-
         void AddBuffer(int id, object obj);
+
+        void AddTable(int id, ITable value);
+
+        void AddVariable(string name, string value);
 
         object GetBuffer(int id, bool forceCreation = false);
 
         MemoryStream GetBufferMemoryStream(int id, bool forceCreation = false);
 
-        #endregion
-
-        #region Methods for Variables
-
-        void AddVariable(string name, string value);
+        ITable GetTable(int id);
 
         string GetVariable(string name);
 
         Dictionary<string, string> GetVariables();
-
-        #endregion
     }
 }
