@@ -7,8 +7,6 @@ namespace jHackson.Core.Projects
 {
     public interface IProjectJson
     {
-        #region Properties
-
         [JsonConverter(typeof(ActionJsonConverter))]
         List<IActionJson> Actions { get; set; }
 
@@ -25,16 +23,10 @@ namespace jHackson.Core.Projects
 
         string Version { get; set; }
 
-        #endregion
-
-        #region Methods
-
         void Check();
 
         void Execute();
 
         void Init();
-
-        #endregion
     }
 }

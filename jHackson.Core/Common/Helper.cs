@@ -6,19 +6,9 @@ namespace jHackson.Core.Common
 {
     public static class Helper
     {
-        #region Constants
-
         private const string CHARACTER_VARIABLE = "$";
 
-        #endregion
-
-        #region Fields
-
         private static readonly Regex _regexParameter = new Regex("#([a-zA-Z0-9]+)#");
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Replace properties parameters with their values
@@ -69,7 +59,5 @@ namespace jHackson.Core.Common
 
             return result;
         }
-
-        #endregion
     }
 }

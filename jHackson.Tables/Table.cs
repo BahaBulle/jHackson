@@ -124,12 +124,12 @@ namespace jHackson.Tables
             return true;
         }
 
-        public void Print(string filename = null)
+        public void Save(string filename = null)
         {
             if (string.IsNullOrWhiteSpace(filename))
-                this.PrintToScreen();
+                this.Print();
             else
-                this.PrintToFile(filename);
+                this.SaveToFile(filename);
         }
 
         private void Add(string line)
@@ -159,7 +159,15 @@ namespace jHackson.Tables
             }
         }
 
-        private void PrintToFile(string filename)
+        private void Print()
+        {
+            foreach (var element in this._valueCollection)
+            {
+                Console.WriteLine(element.Line);
+            }
+        }
+
+        private void SaveToFile(string filename)
         {
             using (var file = new StreamWriter(filename, false, this._encode))
             {
@@ -167,14 +175,6 @@ namespace jHackson.Tables
                 {
                     file.WriteLine(element.Line);
                 }
-            }
-        }
-
-        private void PrintToScreen()
-        {
-            foreach (var element in this._valueCollection)
-            {
-                Console.WriteLine(element.Line);
             }
         }
     }

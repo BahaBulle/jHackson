@@ -10,21 +10,16 @@ namespace jHackson.Core.Projects
 {
     public class ProjectJson : IProjectJson
     {
-        #region Constantes
-
         private const string VERSION = "0.9";
-
-        #endregion
-
-        #region Fields
 
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly IProjectContext _context;
         private readonly Regex _regex = new Regex(@"^jHackson v(\d{1,2}\.\d{1,2}) ©BahaBulle$");
 
-        #endregion
-
-        #region Properties
+        public ProjectJson()
+        {
+            this._context = new ProjectContext();
+        }
 
         [JsonConverter(typeof(ActionJsonConverter))]
         public List<IActionJson> Actions { get; set; }
@@ -41,19 +36,6 @@ namespace jHackson.Core.Projects
         public List<IActionVariable> Variables { get; set; }
 
         public string Version { get; set; }
-
-        #endregion
-
-        #region Constructors
-
-        public ProjectJson()
-        {
-            this._context = new ProjectContext();
-        }
-
-        #endregion
-
-        #region Publics methods
 
         public void Check()
         {
@@ -110,10 +92,6 @@ namespace jHackson.Core.Projects
             }
         }
 
-        #endregion
-
-        #region Private methods
-
         private bool ControlApplicationVersion()
         {
             var result = this._regex.Match(this.Application);
@@ -132,7 +110,5 @@ namespace jHackson.Core.Projects
 
             return false;
         }
-
-        #endregion
     }
 }

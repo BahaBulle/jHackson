@@ -6,14 +6,13 @@ namespace jHackson.Core.Actions
 {
     public abstract class ActionBase : IActionJson
     {
-        #region Fields
-
         protected IProjectContext _context;
         private readonly List<string> _Errors;
 
-        #endregion
-
-        #region Properties
+        protected ActionBase()
+        {
+            this._Errors = new List<string>();
+        }
 
         public bool HasErrors => this._Errors.Count > 0;
         public string Name { get; set; }
@@ -22,32 +21,10 @@ namespace jHackson.Core.Actions
 
         public bool? Todo { get; set; }
 
-        #endregion
-
-        #region Constructors
-
-        protected ActionBase()
-        {
-            this._Errors = new List<string>();
-        }
-
-        #endregion
-
-        #region Error methods
-
         public virtual void AddError(string message)
         {
             this._Errors.Add($"{this.Name} - {message}");
         }
-
-        public virtual List<string> GetErrors()
-        {
-            return this._Errors;
-        }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Check if mandatories properties have values
@@ -56,13 +33,16 @@ namespace jHackson.Core.Actions
 
         public abstract void Execute();
 
+        public virtual List<string> GetErrors()
+        {
+            return this._Errors;
+        }
+
         public virtual void Init(IProjectContext context)
         {
             this._context = context;
 
             this.Title = Helper.ReplaceParameters(this, this.Title);
         }
-
-        #endregion
     }
 }

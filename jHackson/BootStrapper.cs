@@ -15,15 +15,9 @@ namespace jHackson
 {
     public class BootStrapper
     {
-        #region Constants
-
         private const string PLUGINS_DIRECTORY = "Plugins";
 
-        #endregion
-
         private static IUnityContainer _container;
-
-        #region Public methods
 
         public static void Init(IUnityContainer container)
         {
@@ -35,10 +29,6 @@ namespace jHackson
             // Load plugins
             LoadPlugins();
         }
-
-        #endregion
-
-        #region Private methods
 
         private static void LoadPlugins()
         {
@@ -94,7 +84,5 @@ namespace jHackson
             _container.RegisterType<Batch>();
             _container.RegisterType<UnityContractResolver>();
         }
-
-        #endregion
     }
 }

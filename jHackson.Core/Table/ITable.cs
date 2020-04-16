@@ -17,6 +17,6 @@ namespace jHackson.Core.Table
 
         bool LoadStdAscii(bool? extend);
 
-        void Print(string filename = null);
+        void Save(string filename = null);
     }
 }

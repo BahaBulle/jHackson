@@ -8,20 +8,7 @@ namespace jHackson.Actions
 {
     public class ActionFileLoad : ActionBase
     {
-        #region Fields
-
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-
-        #endregion
-
-        #region Properties
-
-        public string FileName { get; set; }
-        public int? To { get; set; }
-
-        #endregion
-
-        #region Constructors
 
         public ActionFileLoad()
         {
@@ -33,9 +20,8 @@ namespace jHackson.Actions
             this.To = null;
         }
 
-        #endregion
-
-        #region Methods
+        public string FileName { get; set; }
+        public int? To { get; set; }
 
         public override void Check()
         {
@@ -64,7 +50,5 @@ namespace jHackson.Actions
 
             base.Init(context);
         }
-
-        #endregion
     }
 }

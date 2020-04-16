@@ -8,28 +8,13 @@ namespace jHackson
 {
     public class Batch
     {
-        #region Dependencies
-
-        private readonly ISerializationService _serializationService;
-
-        #endregion
-
-        #region Fields
-
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-
-        #endregion
-
-        #region Constructors
+        private readonly ISerializationService _serializationService;
 
         public Batch(ISerializationService serializationService)
         {
             this._serializationService = serializationService;
         }
-
-        #endregion
-
-        #region Publics methods
 
         public void Run(List<string> arguments)
         {
@@ -68,16 +53,10 @@ namespace jHackson
             }
         }
 
-        #endregion
-
-        #region Privates methods
-
         private static void Usage()
         {
             _logger.Info("Usage :");
             _logger.Info("  jHackson.exe <json_file>");
         }
-
-        #endregion
     }
 }

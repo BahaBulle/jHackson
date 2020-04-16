@@ -8,22 +8,12 @@ namespace jHackson.Core.Services
 {
     public class SerializationService : ISerializationService
     {
-        #region Dépendencies
-
         private readonly UnityContractResolver _contractResolver;
-
-        #endregion
-
-        #region Constructors
 
         public SerializationService(UnityContractResolver unityContractResolver)
         {
             this._contractResolver = unityContractResolver;
         }
-
-        #endregion
-
-        #region Methods
 
         public IProjectJson Deserialize(string filename)
         {
@@ -42,7 +32,7 @@ namespace jHackson.Core.Services
             return pj;
         }
 
-        [SuppressMessage("Style", "IDE0063:Utiliser une instruction 'using' simple", Justification = "Je n'aime pas le 'using' simple")]
+        [SuppressMessage("Style", "IDE0063:Utiliser une instruction 'using' simple", Justification = "I don't like the thing")]
         public void Serialize(IProjectJson project, string filename)
         {
             using (StreamWriter file = File.CreateText(filename))
@@ -55,7 +45,5 @@ namespace jHackson.Core.Services
                 serializer.Serialize(file, project);
             }
         }
-
-        #endregion
     }
 }

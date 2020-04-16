@@ -9,23 +9,13 @@ namespace jHackson.UI
 {
     public class MainBatch : IBatch
     {
-        #region Fields
-
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private readonly ISerializationService _serializationService;
-
-        #endregion Fields
-
-        #region Constructors
 
         public MainBatch(ISerializationService serializationService)
         {
             this._serializationService = serializationService;
         }
-
-        #endregion
-
-        #region Méthods
 
         public void Start(List<string> parameters)
         {
@@ -67,7 +57,5 @@ namespace jHackson.UI
             _logger.Info("Usage :");
             _logger.Info("  jHackson.exe <json_file>");
         }
-
-        #endregion Méthods
     }
 }

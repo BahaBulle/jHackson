@@ -34,7 +34,7 @@ namespace jHackson.Tables.Actions
 
                 var tbl = this._context.GetTable(this.Id.Value);
 
-                tbl.Print(this.FileName);
+                tbl.Save(this.FileName);
             }
         }
 

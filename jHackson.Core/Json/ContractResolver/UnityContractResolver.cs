@@ -6,22 +6,12 @@ namespace jHackson.Core.Json.ContractResolver
 {
     public class UnityContractResolver : DefaultContractResolver
     {
-        #region Dependencies
-
         private readonly IUnityContainer _container;
-
-        #endregion
-
-        #region Constructors
 
         public UnityContractResolver(IUnityContainer container)
         {
             this._container = container;
         }
-
-        #endregion
-
-        #region Methods
 
         protected override JsonObjectContract CreateObjectContract(Type objectType)
         {
@@ -54,7 +44,5 @@ namespace jHackson.Core.Json.ContractResolver
             // fall back to using the registered type
             return base.CreateObjectContract(objectType);
         }
-
-        #endregion
     }
 }

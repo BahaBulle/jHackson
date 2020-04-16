@@ -6,22 +6,12 @@ namespace jHackson.Actions.FileFormat
 {
     public class FileFormatBin : IFileFormat
     {
-        #region Properties
-
-        public string Name { get; set; }
-
-        #endregion
-
-        #region Constructors
-
         public FileFormatBin()
         {
             this.Name = "Bin";
         }
 
-        #endregion
-
-        #region Methods
+        public string Name { get; set; }
 
         public void Save(string filename, object buffer)
         {
@@ -37,7 +27,5 @@ namespace jHackson.Actions.FileFormat
             else
                 throw new JHacksonException(string.Format("(EE) The buffer is not in the correct format {0}", this.Name));
         }
-
-        #endregion
     }
 }
