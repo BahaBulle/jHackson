@@ -5,13 +5,13 @@ using NLog;
 
 namespace jHackson.Tables.Actions
 {
-    public class ActionTablePrint : ActionBase
+    public class ActionTableSave : ActionBase
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ActionTablePrint()
+        public ActionTableSave()
         {
-            this.Name = "TablePrint";
+            this.Name = "TableSave";
             this.Title = null;
             this.Todo = true;
         }
