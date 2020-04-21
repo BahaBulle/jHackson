@@ -1,15 +1,15 @@
 ﻿using System.Windows;
 
-namespace jHackson
+namespace jHackson.UI.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainView.xaml
     /// </summary>
     public partial class MainView : Window
     {
         public MainView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

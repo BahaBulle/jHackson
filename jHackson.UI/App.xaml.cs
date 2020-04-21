@@ -1,57 +1,51 @@
-﻿using jHackson.Core.Localization;
+﻿using jHackson.Core.Common;
+using jHackson.Core.Json.ContractResolver;
+using jHackson.Core.Json.JsonConverters;
+using jHackson.Core.Localization;
 using jHackson.Core.Localization.Providers;
+using jHackson.Core.Projects;
+using jHackson.Core.Services;
+using jHackson.UI.Views;
+using Prism.Ioc;
+using Prism.Unity;
 using System.Globalization;
 using System.Windows;
 
-namespace jHackson
+namespace jHackson.UI
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
-        //protected override Window CreateShell()
-        //{
-        //    var args = Environment.GetCommandLineArgs()
-        //        .ToList();
+        protected override Window CreateShell()
+        {
+            return this.Container.Resolve<MainView>();
+        }
 
-        //    if (args.Any())
-        //        return null;
-        //    else
-        //        return this.Container.Resolve<MainView>();
-        //}
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+        }
 
-        //protected override IModuleCatalog CreateModuleCatalog()
-        //{
-        //    return new DirectoryModuleCatalog() { ModulePath = @".\Modules" };
-        //}
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            this.InitCulture();
 
-        //protected override void OnStartup(StartupEventArgs e)
-        //{
-        //    base.OnStartup(e);
+            Helper.LoadPlugins();
 
-        //    var args = Environment.GetCommandLineArgs()
-        //        .ToList();
+            base.OnStartup(e);
+        }
 
-        //    if (args.Any())
-        //    {
-        //        var batch = this.Container.Resolve<IBatch>();
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.Register<IProjectJson, ProjectJson>();
+            containerRegistry.Register<ISerializationService, SerializationService>();
 
-        //        batch.Start(args);
-
-        //        if (Current != null)
-        //            Current.Shutdown();
-        //    }
-        //}
-
-        //protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        //{
-        //    // Enregistrement des services nécessaires
-        //    containerRegistry.Register<ISerializationService, SerializationService>();
-
-        //    // Enregistrement des objects
-        //    //containerRegistry.Register<IBatch, MainBatch>();
-        //}
+            containerRegistry.Register<ActionJsonConverter>();
+            containerRegistry.Register<VariableJsonConverter>();
+            containerRegistry.Register<UnityContractResolver>();
+        }
 
         private void InitCulture()
         {

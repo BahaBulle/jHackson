@@ -1,5 +1,10 @@
 ﻿using jHackson.Core.Actions;
+using jHackson.Core.FileFormat;
+using jHackson.Core.TableElements;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace jHackson.Core.Common
@@ -7,8 +12,53 @@ namespace jHackson.Core.Common
     public static class Helper
     {
         private const string CHARACTER_VARIABLE = "$";
+        private const string PLUGINS_DIRECTORY = "Plugins";
 
         private static readonly Regex _regexParameter = new Regex("#([a-zA-Z0-9]+)#");
+
+        public static void LoadPlugins()
+        {
+            if (Directory.Exists(PLUGINS_DIRECTORY))
+            {
+                var filesList = Directory.GetFiles(PLUGINS_DIRECTORY, "*.dll");
+
+                if (filesList.Length > 0)
+                {
+                    foreach (var fileName in filesList)
+                    {
+                        var assembly = Assembly.LoadFrom(fileName);
+
+                        foreach (Type t in assembly.GetExportedTypes())
+                        {
+                            if (t.GetInterface("IActionJson", true) != null)
+                            {
+                                var action = (IActionJson)t.InvokeMember(null, BindingFlags.DeclaredOnly |
+                                                                               BindingFlags.Public | BindingFlags.NonPublic |
+                                                                               BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+
+                                DataContext.AddMethod(action.Name, t);
+                            }
+                            else if (t.GetInterface("IFileFormat", true) != null)
+                            {
+                                var format = (IFileFormat)t.InvokeMember(null, BindingFlags.DeclaredOnly |
+                                                                               BindingFlags.Public | BindingFlags.NonPublic |
+                                                                               BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+
+                                DataContext.AddFormat(format.Name, t);
+                            }
+                            else if (t.GetInterface("ITableElement", true) != null && !t.IsAbstract)
+                            {
+                                var element = (ITableElement)t.InvokeMember(null, BindingFlags.DeclaredOnly |
+                                                                                  BindingFlags.Public | BindingFlags.NonPublic |
+                                                                                  BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+
+                                DataContext.AddTableElement(element.Name, t);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Replace properties parameters with their values
