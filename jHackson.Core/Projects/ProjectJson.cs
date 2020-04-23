@@ -1,6 +1,7 @@
 ﻿using jHackson.Core.Actions;
 using jHackson.Core.Exceptions;
 using jHackson.Core.Json.JsonConverters;
+using jHackson.Core.Localization;
 using Newtonsoft.Json;
 using NLog;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace jHackson.Core.Projects
             LogManager.Flush();
 
             if (hasErrors)
-                throw new JHacksonException("There are errors in the script!");
+                throw new JHacksonException(LocalizationManager.GetMessage("core.project.scriptErrors"));
         }
 
         public void Execute()
@@ -74,7 +75,7 @@ namespace jHackson.Core.Projects
 
                     LogManager.Flush();
 
-                    throw new JHacksonException("There are errors in the script!");
+                    throw new JHacksonException(LocalizationManager.GetMessage("core.project.scriptErrors"));
                 }
             }
         }
@@ -98,13 +99,13 @@ namespace jHackson.Core.Projects
 
             if (!result.Success)
             {
-                _logger.Error($"The json file is incorrect!");
+                _logger.Error(LocalizationManager.GetMessage("core.project.incorrectProjectFile"));
                 return true;
             }
 
             if (result.Groups[1].Value != VERSION)
             {
-                _logger.Error($"The version of the json script ({this.Version}) are not supported by this version of application ({VERSION})");
+                _logger.Error(LocalizationManager.GetMessage("core.project.incorrectVersion", this.Version, VERSION));
                 return true;
             }
 

@@ -1,4 +1,5 @@
 ﻿using jHackson.Core.Exceptions;
+using jHackson.Core.Localization;
 using jHackson.Core.Services;
 using NLog;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace jHackson
         {
             if (arguments == null || arguments.Count < 1)
             {
-                _logger.Error("Not enough parameter!");
+                _logger.Error(LocalizationManager.GetMessage("batch.insufficientParameters"));
                 Usage();
 
                 return;
@@ -28,7 +29,7 @@ namespace jHackson
 
             if (!File.Exists(arguments[0]))
             {
-                _logger.Error($"File doesn't exists : {arguments[0]}");
+                _logger.Error(LocalizationManager.GetMessage("batch.fileUnknow", arguments[0]));
 
                 return;
             }
@@ -55,7 +56,7 @@ namespace jHackson
 
         private static void Usage()
         {
-            _logger.Info("Usage :");
+            _logger.Info(LocalizationManager.GetMessage("batch.usage"));
             _logger.Info("  jHackson.exe <json_file>");
         }
     }

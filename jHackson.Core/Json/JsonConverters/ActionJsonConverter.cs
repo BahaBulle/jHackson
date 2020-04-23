@@ -1,6 +1,7 @@
 ﻿using jHackson.Core.Actions;
 using jHackson.Core.Common;
 using jHackson.Core.Exceptions;
+using jHackson.Core.Localization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -38,18 +39,18 @@ namespace jHackson.Core.Json.JsonConverters
                 }
 
                 if (childToken == null)
-                    throw new JHacksonException($"Name property not found in '{jToken.ToString()}'");
+                    throw new JHacksonException(LocalizationManager.GetMessage("core.serialization.propertyNameUnknow", jToken.ToString()));
 
                 // Create Action object
-                if (DataContext.ListMethods.ContainsKey(childToken.ToString().ToLower()))
+                if (DataContext.ListActions.ContainsKey(childToken.ToString().ToLower()))
                 {
-                    IActionJson newObject = Activator.CreateInstance(DataContext.GetMethod(childToken.ToString().ToLower())) as IActionJson;
+                    IActionJson newObject = Activator.CreateInstance(DataContext.GetAction(childToken.ToString().ToLower())) as IActionJson;
                     serializer.Populate(jToken.CreateReader(), newObject);
 
                     list.Add(newObject);
                 }
                 else
-                    throw new JHacksonException($"Unkwnow method '{childToken.ToString()}'");
+                    throw new JHacksonException(LocalizationManager.GetMessage("core.serialization.actionUnknow", childToken.ToString()));
             }
 
             return list;

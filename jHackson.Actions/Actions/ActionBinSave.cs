@@ -1,17 +1,18 @@
 ﻿using jHackson.Core.Actions;
 using jHackson.Core.Common;
+using jHackson.Core.Localization;
 using jHackson.Core.Projects;
 using NLog;
 
 namespace jHackson.Actions
 {
-    public class ActionFileSave : ActionBase
+    public class ActionBinSave : ActionBase
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ActionFileSave()
+        public ActionBinSave()
         {
-            this.Name = "FileSave";
+            this.Name = "BinSave";
             this.Title = null;
             this.Todo = true;
 
@@ -27,13 +28,19 @@ namespace jHackson.Actions
         public override void Check()
         {
             if (string.IsNullOrWhiteSpace(this.FileName))
-                this.AddError($"Parameter 'FileName' not found : {this.FileName ?? "null"}");
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.FileName), this.FileName ?? "null"));
 
             if (!this.From.HasValue)
-                this.AddError($"Parameter 'From' not found : {(this.From.HasValue ? this.From.Value.ToString() : "null")}");
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString() : "null"));
+
+            if (!this._context.BufferExists(this.From.Value))
+                this.AddError(LocalizationManager.GetMessage("core.bufferUnknow", this.From));
 
             if (string.IsNullOrWhiteSpace(this.Format))
-                this.AddError($"Parameter 'Format' not found : {this.Format ?? "null"}");
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Format), this.Format ?? "null"));
+
+            if (!DataContext.FormatExists(this.Format))
+                this.AddError(LocalizationManager.GetMessage("core.formatUnknow", this.From));
         }
 
         public override void Execute()
@@ -46,14 +53,7 @@ namespace jHackson.Actions
                 var obj = this._context.GetBuffer(this.From.Value);
                 var format = DataContext.GetFormat(this.Format);
 
-                if (obj == null)
-                    this.AddError($"Buffer {this.From.Value} doesn't not exist!");
-
-                if (format == null)
-                    this.AddError($"Format {this.Format} doesn't not exist!");
-
-                if (!this.HasErrors)
-                    format.Save(this.FileName, obj);
+                format.Save(this.FileName, obj);
             }
         }
 

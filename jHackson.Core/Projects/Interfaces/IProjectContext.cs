@@ -12,6 +12,8 @@ namespace jHackson.Core.Projects
 
         void AddVariable(string name, string value);
 
+        bool BufferExists(int id);
+
         object GetBuffer(int id, bool forceCreation = false);
 
         MemoryStream GetBufferMemoryStream(int id, bool forceCreation = false);
@@ -21,5 +23,7 @@ namespace jHackson.Core.Projects
         string GetVariable(string name);
 
         Dictionary<string, string> GetVariables();
+
+        bool TableExists(int id);
     }
 }

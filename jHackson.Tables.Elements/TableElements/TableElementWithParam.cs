@@ -1,4 +1,5 @@
 ﻿using jHackson.Core.Exceptions;
+using jHackson.Core.Localization;
 using jHackson.Core.TableElements;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -68,7 +69,7 @@ namespace jHackson.Tables.TableElements
                 }
             }
             else
-                this.AddError($"Non-conforming line : {this.Line}");
+                this.AddError(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", this.Line));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using jHackson.Core.Common;
 using jHackson.Core.Projects;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace jHackson.Core.Actions
@@ -14,8 +15,11 @@ namespace jHackson.Core.Actions
             this._Errors = new List<string>();
         }
 
+        [JsonIgnore]
         public bool HasErrors => this._Errors.Count > 0;
-        public string Name { get; set; }
+
+        [JsonIgnore]
+        public string Name { get; protected set; }
 
         public string Title { get; set; }
 

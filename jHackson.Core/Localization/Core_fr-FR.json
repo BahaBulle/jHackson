@@ -1,0 +1,27 @@
+﻿{
+  "core": {
+    "actionAlreadyExists": "L'action {0} existe déjà !",
+    "bufferNotMemoryStream": "Le buffer {0} n'est pas un fichier virtuel",
+    "bufferUnknow": "Le buffer {0} n'existe pas !",
+    "formatUnknow": "Le format {0} n'existe pas !",
+    "formatAlreadyExists": "Le format {0} existe déjà !",
+    "parameterNotFound": "La paramètre '{0}' n'est pas renseigné : {1}",
+    "tableUnknow": "La table {0} n'existe pas !",
+    "tableElementAlreadyExists": "Le TableElement {0} existe déjà !",
+    "variableUnknow": "La variable {0} n'existe pas !",
+    "project": {
+      "incorrectProjectFile": "Le fichier projet n'est pas supporté",
+      "incorrectVersion": "La version du fichier projet ({0}) n'est pas supporté par la version de cette application ({1})",
+      "scriptErrors": "Le projet contient des erreurs"
+    },
+    "serialization": {
+      "actionUnknow": "L'action {0} n'existe pas !",
+      "propertyNameUnknow": "La propriété 'Name' n'est pas renseignée dans {0}"
+    },
+    "tableElement": {
+      "incorrectKeyLength": "La longueur de la clé est incorrecte : {0}",
+      "incorrectKeySyntax": "La clé contient des caractères non hexadécimaux : {0}",
+      "notConfirmingLine": "Ligne non conforme - {0}"
+    }
+  }
+}

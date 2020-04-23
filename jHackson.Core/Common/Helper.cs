@@ -36,7 +36,7 @@ namespace jHackson.Core.Common
                                                                                BindingFlags.Public | BindingFlags.NonPublic |
                                                                                BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
 
-                                DataContext.AddMethod(action.Name, t);
+                                DataContext.AddAction(action.Name, t);
                             }
                             else if (t.GetInterface("IFileFormat", true) != null)
                             {

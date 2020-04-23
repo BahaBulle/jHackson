@@ -1,4 +1,5 @@
 ﻿using jHackson.Core.Exceptions;
+using jHackson.Core.Localization;
 using jHackson.Core.Table;
 using jHackson.Tables.Common;
 using System;
@@ -78,7 +79,7 @@ namespace jHackson.Tables
         public void Load(string filename)
         {
             if (!File.Exists(filename))
-                throw new jHacksonTableException($"load - Unknow file {filename}");
+                throw new jHacksonTableException(LocalizationManager.GetMessage("tables.unkwownFile", filename));
 
             this.Name = filename;
 

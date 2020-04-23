@@ -1,0 +1,7 @@
+﻿{
+  "batch": {
+    "fileUnknow": "Le fichier n'existe pas : {0}",
+    "insufficientParameters": "Nombre de paramètres incorrect !",
+    "usage": "Usage :"
+  }
+}

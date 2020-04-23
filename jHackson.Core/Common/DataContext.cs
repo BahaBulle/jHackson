@@ -1,5 +1,6 @@
 ﻿using jHackson.Core.Exceptions;
 using jHackson.Core.FileFormat;
+using jHackson.Core.Localization;
 using jHackson.Core.TableElements;
 using System;
 using System.Collections.Generic;
@@ -8,33 +9,50 @@ namespace jHackson.Core.Common
 {
     public static class DataContext
     {
-        public static readonly Dictionary<string, Type> ListMethods = new Dictionary<string, Type>();
-
+        public static readonly Dictionary<string, Type> ListActions = new Dictionary<string, Type>();
         private static readonly Dictionary<string, Type> ListScriptFormats = new Dictionary<string, Type>();
         private static readonly Dictionary<string, Type> ListTableElements = new Dictionary<string, Type>();
+
+        public static void AddAction(string name, Type type)
+        {
+            if (ListActions.ContainsKey(name.ToLower()))
+                throw new JHacksonException(LocalizationManager.GetMessage("core.actionAlreadyExists", name));
+
+            ListActions.Add(name.ToLower(), type);
+        }
 
         public static void AddFormat(string name, Type type)
         {
             if (ListScriptFormats.ContainsKey(name.ToLower()))
-                throw new JHacksonException($"(EE) Format {name} already exists!");
+                throw new JHacksonException(LocalizationManager.GetMessage("core.formatAlreadyExists", name));
 
             ListScriptFormats.Add(name.ToLower(), type);
-        }
-
-        public static void AddMethod(string name, Type type)
-        {
-            if (ListMethods.ContainsKey(name.ToLower()))
-                throw new JHacksonException($"(EE) Method {name} already exists!");
-
-            ListMethods.Add(name.ToLower(), type);
         }
 
         public static void AddTableElement(string identifier, Type type)
         {
             if (ListTableElements.ContainsKey(identifier.ToUpper()))
-                throw new JHacksonException($"(EE) TableElement {identifier.ToUpper()} already exists!");
+                throw new JHacksonException(LocalizationManager.GetMessage("core.tableElementAlreadyExists", identifier.ToUpper()));
 
             ListTableElements.Add(identifier.ToUpper(), type);
+        }
+
+        public static bool FormatExists(string key)
+        {
+            return ListScriptFormats.ContainsKey(key);
+        }
+
+        public static Type GetAction(string key)
+        {
+            if (ListActions.ContainsKey(key))
+                return ListActions[key];
+
+            return null;
+        }
+
+        public static Dictionary<string, Type> GetActions()
+        {
+            return ListActions;
         }
 
         public static IFileFormat GetFormat(string key)
@@ -48,19 +66,6 @@ namespace jHackson.Core.Common
         public static Dictionary<string, Type> GetFormats()
         {
             return ListScriptFormats;
-        }
-
-        public static Type GetMethod(string key)
-        {
-            if (ListMethods.ContainsKey(key))
-                return ListMethods[key];
-
-            return null;
-        }
-
-        public static Dictionary<string, Type> GetMethods()
-        {
-            return ListMethods;
         }
 
         public static ITableElement GetTableElement(string key)

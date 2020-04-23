@@ -1,5 +1,6 @@
 ﻿using jHackson.Core.Exceptions;
 using jHackson.Core.FileFormat;
+using jHackson.Core.Localization;
 using System.IO;
 
 namespace jHackson.Actions.FileFormat
@@ -25,7 +26,7 @@ namespace jHackson.Actions.FileFormat
                 File.WriteAllBytes(filename, ms.ToArray());
             }
             else
-                throw new JHacksonException(string.Format("(EE) The buffer is not in the correct format {0}", this.Name));
+                throw new JHacksonException(LocalizationManager.GetMessage("formats.incorrectFormat", this.Name));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using jHackson.Core.Exceptions;
+using jHackson.Core.Localization;
 using jHackson.Core.Table;
 using System.Collections.Generic;
 using System.IO;
@@ -47,12 +48,17 @@ namespace jHackson.Core.Projects
                 this._listVariables.Add(name, value);
         }
 
+        public bool BufferExists(int id)
+        {
+            return this._listBuffers.ContainsKey(id);
+        }
+
         public object GetBuffer(int id, bool forceCreation = false)
         {
             if (!this._listBuffers.ContainsKey(id) && forceCreation)
                 this.AddBuffer(id, new MemoryStream());
             else if (!this._listBuffers.ContainsKey(id))
-                throw new JHacksonException($"Buffer {id} doesn't not exist!");
+                throw new JHacksonException(LocalizationManager.GetMessage("core.bufferUnknow", id));
 
             return this._listBuffers[id];
         }
@@ -63,10 +69,10 @@ namespace jHackson.Core.Projects
                 this.AddBuffer(id, new MemoryStream());
 
             if (!this._listBuffers.ContainsKey(id))
-                throw new JHacksonException(string.Format("Buffer {0} doesn't exist!", id));
+                throw new JHacksonException(LocalizationManager.GetMessage("core.bufferUnknow", id));
 
             if (this._listBuffers.ContainsKey(id) && !(this._listBuffers[id] is MemoryStream))
-                throw new JHacksonException(string.Format("Buffer {0} is not a MemoryBuffer", id));
+                throw new JHacksonException(LocalizationManager.GetMessage("core.bufferNotMemoryStream", id));
 
             return this._listBuffers[id] as MemoryStream;
         }
@@ -74,7 +80,7 @@ namespace jHackson.Core.Projects
         public ITable GetTable(int id)
         {
             if (!this._listTables.ContainsKey(id))
-                throw new JHacksonException($"Table {id} doesn't exist!");
+                throw new JHacksonException(LocalizationManager.GetMessage("core.tableUnknow", id));
 
             return this._listTables[id];
         }
@@ -82,7 +88,7 @@ namespace jHackson.Core.Projects
         public string GetVariable(string name)
         {
             if (!this._listVariables.ContainsKey(name))
-                throw new JHacksonException($"Variable {name} doesn't exist!");
+                throw new JHacksonException(LocalizationManager.GetMessage("core.variableUnknow", name));
 
             return this._listVariables[name];
         }
@@ -90,6 +96,11 @@ namespace jHackson.Core.Projects
         public Dictionary<string, string> GetVariables()
         {
             return this._listVariables;
+        }
+
+        public bool TableExists(int id)
+        {
+            return this._listTables.ContainsKey(id);
         }
     }
 }

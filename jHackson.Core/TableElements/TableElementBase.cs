@@ -1,4 +1,5 @@
 ﻿using jHackson.Core.Exceptions;
+using jHackson.Core.Localization;
 using jHackson.Core.TableElements.Extensions;
 using System;
 using System.Collections.Generic;
@@ -82,7 +83,7 @@ namespace jHackson.Core.TableElements
             this.Key = key;
 
             if (this.Key != null && this.Key.Length % 2 != 0)
-                throw new jHacksonTableException($"Non-confirming line - Incorrect key length : {this.Line}");
+                throw new jHacksonTableException(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", LocalizationManager.GetMessage("core.tableElement.incorrectKeyLength", this.Line)));
 
             this.KeySize = this.Key.Length / 2;
             this.KeyBytes = new byte[this.KeySize];
@@ -95,7 +96,7 @@ namespace jHackson.Core.TableElements
                 bool result = byte.TryParse(s, NumberStyles.HexNumber, null as IFormatProvider, out this.KeyBytes[cpt++]);
 
                 if (!result)
-                    throw new jHacksonTableException($"Non-confirming line - Key contains non hexadecimal character : {this.Line}");
+                    throw new jHacksonTableException(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", LocalizationManager.GetMessage("core.tableElement.incorrectKeySyntax", this.Line)));
             }
         }
 

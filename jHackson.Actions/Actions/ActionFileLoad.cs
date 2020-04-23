@@ -1,5 +1,6 @@
 ﻿using jHackson.Core.Actions;
 using jHackson.Core.Common;
+using jHackson.Core.Localization;
 using jHackson.Core.Projects;
 using NLog;
 using System.IO;
@@ -26,10 +27,10 @@ namespace jHackson.Actions
         public override void Check()
         {
             if (string.IsNullOrWhiteSpace(this.FileName) || !File.Exists(this.FileName))
-                this.AddError($"Parameter '{nameof(this.FileName)}' not found : {this.FileName ?? "null"}");
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.FileName), this.FileName ?? "null"));
 
             if (!this.To.HasValue)
-                this.AddError($"Parameter '{nameof(this.To)}' not found : {(this.To.HasValue ? this.To.Value.ToString() : "null")}");
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString() : "null"));
         }
 
         public override void Execute()

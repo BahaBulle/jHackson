@@ -1,5 +1,6 @@
 ﻿using jHackson.Core.Actions;
 using jHackson.Core.Common;
+using jHackson.Core.Localization;
 using jHackson.Core.Projects;
 using NLog;
 
@@ -22,7 +23,7 @@ namespace jHackson.Tables.Actions
         public override void Check()
         {
             if (!this.Id.HasValue)
-                this.AddError($"Parameter '{nameof(this.Id)}' not found : {(this.Id.HasValue ? this.Id.Value.ToString() : "null")}");
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString() : "null"));
         }
 
         public override void Execute()

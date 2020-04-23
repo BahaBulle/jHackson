@@ -18,6 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Localization\Core_fr-FR.json~RF39ae4b.TMP" />
     <None Remove="Localization\Providers\JsonLocalizationProvider.cs~RF143806.TMP" />
   </ItemGroup>
 
@@ -29,6 +30,12 @@
 
   <ItemGroup>
     <Folder Include="Common\Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Localization\Core_fr-FR.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
