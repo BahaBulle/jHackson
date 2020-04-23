@@ -2,7 +2,7 @@
   "profiles": {
     "jHackson": {
       "commandName": "Project",
-      "commandLineArgs": "jHackson.Evo-Extract.json"
+      "commandLineArgs": "jHackson.StarOcean-Extract.json"
     }
   }
 }

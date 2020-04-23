@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -15,18 +15,12 @@
     <OutputPath>..\Build\bin\Release\$(MSBuildProjectName)\</OutputPath>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;" />
+  </Target>
+
   <ItemGroup>
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Localization\Actions_fr-FR.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)\Localization\Actions_fr-FR.json&quot; &quot;$(TargetDir)..\jHackson\Localization\Actions_fr-FR.json&quot;" />
-  </Target>
 
 </Project>

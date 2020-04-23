@@ -39,7 +39,7 @@ namespace jHackson.Core.Common
 
         public static bool FormatExists(string key)
         {
-            return ListScriptFormats.ContainsKey(key);
+            return ListScriptFormats.ContainsKey(key.ToLower());
         }
 
         public static Type GetAction(string key)

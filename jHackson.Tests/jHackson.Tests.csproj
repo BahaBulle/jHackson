@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\jHackson.Actions\jHackson.Actions.csproj" />
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
     <ProjectReference Include="..\jHackson.Tables.Elements\jHackson.Tables.Elements.csproj" />
     <ProjectReference Include="..\jHackson.Tables\jHackson.Tables.csproj" />
