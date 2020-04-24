@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "jHackson": {
-      "commandName": "Project",
-      "commandLineArgs": "jHackson.StarOcean-Extract.json"
-    }
-  }
-}
