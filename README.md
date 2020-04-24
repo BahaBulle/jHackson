@@ -3,7 +3,8 @@ Dedicated romhacking tool in C# driven by json files
 
 In progress...
 
-- Load a file
-- Write a file
+- Load a file in memory
+- Write binary data in file
+- Copy binary data from buffer to another buffer
 - Load a table (tbl) file
-- Print a table (tbl) file at screen or in file
+- Save a table (tbl) file in file
