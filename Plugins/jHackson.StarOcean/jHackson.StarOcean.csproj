@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
+    <OutputPath>..\..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Build\bin\Release\$(MSBuildProjectName)\</OutputPath>
+    <OutputPath>..\..\Build\bin\Release\$(MSBuildProjectName)\</OutputPath>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -20,7 +20,7 @@
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
+    <ProjectReference Include="..\..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
 
 </Project>
