@@ -59,7 +59,7 @@ namespace jHackson.Actions
                     this.Destination.Size = this.Source.Size;
 
                 if (this.Source.Size.Value > this.Destination.Size.Value)
-                    throw new JHacksonException(LocalizationManager.GetMessage("actions.binCopy.notEnoughSpace", this.Source.Size, this.Destination.Size));
+                    throw new JHacksonException(LocalizationManager.GetMessage("actions.notEnoughSpace", this.Source.Size, this.Destination.Size));
 
                 var bytes = new byte[this.Source.Size.Value];
                 msSource.Position = this.Source.AdressStart.Value;

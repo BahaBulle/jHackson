@@ -1,8 +1,6 @@
 ﻿{
   "actions": {
-    "binCopy": {
-      "notEnoughSpace": "Espace insuffisant dans le buffer de destination {0}/{1}"
-    }
+    "notEnoughSpace": "Espace insuffisant dans le buffer de destination {0}/{1}"
   },
   "formats": {
     "incorrectFormat": "The buffer is not in the correct format {0}"
