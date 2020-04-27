@@ -30,6 +30,11 @@ namespace jHackson.Core.Actions
             this._Errors.Add($"{this.Name} - {message}");
         }
 
+        public virtual void AddErrors(List<string> errors)
+        {
+            this._Errors.AddRange(errors);
+        }
+
         /// <summary>
         /// Check if mandatories properties have values
         /// </summary>
