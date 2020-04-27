@@ -1,0 +1,5 @@
+{
+  "starocean": {
+    "incorrectSizeOut": "La taille de sortie de la décompression SDD1 est incorrecte (> 0xFFFF)"
+  }
+}
