@@ -65,22 +65,25 @@ namespace jHackson.StarOcean.Compression
             OL = new SDD1_OL(CM);
         }
 
-        public void Decompress(StreamReader in_buf, ushort out_len, MemoryStream out_buf)
+        public void Decompress(MemoryStream in_buf, ushort out_len, MemoryStream out_buf)
         {
-            IM.PrepareDecomp(in_buf);
-            BG0.PrepareDecomp();
-            BG1.PrepareDecomp();
-            BG2.PrepareDecomp();
-            BG3.PrepareDecomp();
-            BG4.PrepareDecomp();
-            BG5.PrepareDecomp();
-            BG6.PrepareDecomp();
-            BG7.PrepareDecomp();
-            PEM.PrepareDecomp();
-            CM.PrepareDecomp(in_buf);
-            OL.PrepareDecomp(in_buf, out_len, out_buf);
+            using (var stream = new StreamReader(in_buf))
+            {
+                IM.PrepareDecomp(stream);
+                BG0.PrepareDecomp();
+                BG1.PrepareDecomp();
+                BG2.PrepareDecomp();
+                BG3.PrepareDecomp();
+                BG4.PrepareDecomp();
+                BG5.PrepareDecomp();
+                BG6.PrepareDecomp();
+                BG7.PrepareDecomp();
+                PEM.PrepareDecomp();
+                CM.PrepareDecomp(stream);
+                OL.PrepareDecomp(stream, out_len, out_buf);
 
-            OL.Launch();
+                OL.Launch();
+            }
         }
     }
 }
