@@ -38,7 +38,7 @@ namespace jHackson.StarOcean.Compression
     {
         private readonly SDD1_CM CM;
         private byte bitplanesInfo;
-        private StreamWriter buffer;
+        private MemoryStream buffer;
         private ushort length;
 
         public SDD1_OL(SDD1_CM associatedCM)
@@ -63,7 +63,7 @@ namespace jHackson.StarOcean.Compression
                         // if length == 0, we output 2^16 bytes
                         if (i == 0)
                         {
-                            this.buffer.Write(register2);
+                            this.buffer.WriteByte(register2);
                             i = Convert.ToByte(~i);
                         }
                         else
@@ -75,7 +75,7 @@ namespace jHackson.StarOcean.Compression
                                 if (this.CM.GetBit() > 0)
                                     register2 |= i;
                             }
-                            this.buffer.Write(register1);
+                            this.buffer.WriteByte(register1);
                         }
                     } while (--this.length > 0);
                     break;
@@ -88,13 +88,13 @@ namespace jHackson.StarOcean.Compression
                             if (this.CM.GetBit() > 0)
                                 register1 |= i;
                         }
-                        this.buffer.Write(register1);
+                        this.buffer.WriteByte(register1);
                     } while (--this.length > 0);
                     break;
             }
         }
 
-        public void PrepareDecomp(StreamReader first_byte, ushort out_len, StreamWriter out_buf)
+        public void PrepareDecomp(StreamReader first_byte, ushort out_len, MemoryStream out_buf)
         {
             this.bitplanesInfo = Convert.ToByte(first_byte.Peek() & 0xC0);
             this.length = out_len;

@@ -65,7 +65,7 @@ namespace jHackson.StarOcean.Compression
             OL = new SDD1_OL(CM);
         }
 
-        public void Decompress(StreamReader in_buf, ushort out_len, StreamWriter out_buf)
+        public void Decompress(StreamReader in_buf, ushort out_len, MemoryStream out_buf)
         {
             IM.PrepareDecomp(in_buf);
             BG0.PrepareDecomp();
