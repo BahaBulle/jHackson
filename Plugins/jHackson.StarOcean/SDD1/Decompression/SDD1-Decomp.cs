@@ -32,7 +32,7 @@ using System.IO;
 
 namespace jHackson.StarOcean.Compression
 {
-    public class SDD1
+    public class SDD1_Decomp
     {
         private readonly SDD1_BG BG0;
         private readonly SDD1_BG BG1;
@@ -48,7 +48,7 @@ namespace jHackson.StarOcean.Compression
         private readonly SDD1_OL OL;
         private readonly SDD1_PEM PEM;
 
-        public SDD1()
+        public SDD1_Decomp()
         {
             IM = new SDD1_IM();
             GCD = new SDD1_GCD(IM);
