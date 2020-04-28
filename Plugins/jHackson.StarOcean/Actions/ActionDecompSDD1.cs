@@ -6,13 +6,13 @@ using System.IO;
 
 namespace jHackson.StarOcean.Actions
 {
-    public class SODecompSDD1 : ActionBase
+    public class ActionDecompSDD1 : ActionBase
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public SODecompSDD1()
+        public ActionDecompSDD1()
         {
-            this.Name = "BinCopy";
+            this.Name = "SODecompSDD1";
             this.Title = null;
             this.Todo = true;
 
