@@ -35,14 +35,11 @@ namespace jHackson.Actions
 
         public override void Execute()
         {
-            if (this.Todo.HasValue && this.Todo.Value)
-            {
-                if (this.Title != null)
-                    _logger.Info(this.Title);
+            if (this.Title != null)
+                _logger.Info(this.Title);
 
-                var ms = new MemoryStream(File.ReadAllBytes(this.FileName));
-                this._context.AddBuffer(this.To.Value, ms);
-            }
+            var ms = new MemoryStream(File.ReadAllBytes(this.FileName));
+            this._context.AddBuffer(this.To.Value, ms);
         }
 
         public override void Init(IProjectContext context)

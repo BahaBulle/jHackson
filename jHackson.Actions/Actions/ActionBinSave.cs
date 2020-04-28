@@ -46,33 +46,30 @@ namespace jHackson.Actions
 
         public override void Execute()
         {
-            if (this.Todo.HasValue && this.Todo.Value)
-            {
-                if (this.Title != null)
-                    _logger.Info(this.Title);
+            if (this.Title != null)
+                _logger.Info(this.Title);
 
-                if (!this._context.BufferExists(this.From.Value))
-                    throw new JHacksonException(LocalizationManager.GetMessage("core.bufferUnknow", this.From));
+            if (!this._context.BufferExists(this.From.Value))
+                throw new JHacksonException(LocalizationManager.GetMessage("core.bufferUnknow", this.From));
 
-                var msSource = this._context.GetBufferMemoryStream(this.From.Value);
-                var format = DataContext.GetFormat(this.Format);
+            var msSource = this._context.GetBufferMemoryStream(this.From.Value);
+            var format = DataContext.GetFormat(this.Format);
 
-                if (!this.Source.AdressStart.HasValue)
-                    this.Source.AdressStart = 0;
+            if (!this.Source.AdressStart.HasValue)
+                this.Source.AdressStart = 0;
 
-                if (!this.Source.Size.HasValue && !this.Source.AdressEnd.HasValue)
-                    this.Source.Size = msSource.Length - this.Source.AdressStart;
+            if (!this.Source.Size.HasValue && !this.Source.AdressEnd.HasValue)
+                this.Source.Size = msSource.Length - this.Source.AdressStart;
 
-                var msDest = new MemoryStream();
+            var msDest = new MemoryStream();
 
-                var bytes = new byte[this.Source.Size.Value];
-                msSource.Position = this.Source.AdressStart.Value;
-                msSource.Read(bytes, 0, (int)this.Source.Size.Value);
+            var bytes = new byte[this.Source.Size.Value];
+            msSource.Position = this.Source.AdressStart.Value;
+            msSource.Read(bytes, 0, (int)this.Source.Size.Value);
 
-                msDest.Write(bytes, 0, (int)this.Source.Size.Value);
+            msDest.Write(bytes, 0, (int)this.Source.Size.Value);
 
-                format.Save(this.FileName, msDest);
-            }
+            format.Save(this.FileName, msDest);
         }
 
         public override void Init(IProjectContext context)

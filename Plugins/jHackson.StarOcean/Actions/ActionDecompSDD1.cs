@@ -42,20 +42,17 @@ namespace jHackson.StarOcean.Actions
 
         public override void Execute()
         {
-            if (this.Todo.HasValue && this.Todo.Value)
-            {
-                if (this.Title != null)
-                    _logger.Info(this.Title);
+            if (this.Title != null)
+                _logger.Info(this.Title);
 
-                var msSource = this._context.GetBufferMemoryStream(this.From.Value);
-                var msDestination = new MemoryStream();
+            var msSource = this._context.GetBufferMemoryStream(this.From.Value);
+            var msDestination = new MemoryStream();
 
-                var sdd1 = new SDD1_Decomp();
+            var sdd1 = new SDD1_Decomp();
 
-                sdd1.Decompress(msSource, this.SizeOut.Value, msDestination);
+            sdd1.Decompress(msSource, this.SizeOut.Value, msDestination);
 
-                this._context.AddBuffer(this.To.Value, msDestination);
-            }
+            this._context.AddBuffer(this.To.Value, msDestination);
         }
     }
 }

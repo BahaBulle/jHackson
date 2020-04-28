@@ -37,20 +37,17 @@ namespace jHackson.Tables.Actions
 
         public override void Execute()
         {
-            if (this.Todo.HasValue && this.Todo.Value)
-            {
-                if (this.Title != null)
-                    _logger.Info(this.Title);
+            if (this.Title != null)
+                _logger.Info(this.Title);
 
-                var tbl = new Table();
+            var tbl = new Table();
 
-                if (this.FileName.ToLower() == Table.LabelTableAscii)
-                    tbl.LoadStdAscii(this.Extend);
-                else
-                    tbl.Load(this.FileName);
+            if (this.FileName.ToLower() == Table.LabelTableAscii)
+                tbl.LoadStdAscii(this.Extend);
+            else
+                tbl.Load(this.FileName);
 
-                this._context.AddTable(this.Id.Value, tbl);
-            }
+            this._context.AddTable(this.Id.Value, tbl);
         }
 
         public override void Init(IProjectContext context)

@@ -5,6 +5,7 @@ using jHackson.Core.Localization;
 using Newtonsoft.Json;
 using NLog;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace jHackson.Core.Projects
@@ -44,7 +45,7 @@ namespace jHackson.Core.Projects
 
             hasErrors = this.ControlApplicationVersion();
 
-            foreach (var action in this.Actions)
+            foreach (var action in this.Actions.Where(x => x.Todo == true))
             {
                 action.Check();
 
@@ -64,7 +65,7 @@ namespace jHackson.Core.Projects
 
         public void Execute()
         {
-            foreach (var action in this.Actions)
+            foreach (var action in this.Actions.Where(x => x.Todo == true))
             {
                 action.Execute();
 
@@ -87,7 +88,7 @@ namespace jHackson.Core.Projects
                 this._context.AddVariable(variable.Name, variable.Value);
             }
 
-            foreach (var action in this.Actions)
+            foreach (var action in this.Actions.Where(x => x.Todo == true))
             {
                 action.Init(this._context);
             }

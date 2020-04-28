@@ -1,8 +1,10 @@
 ﻿using jHackson.Core.Actions;
 using jHackson.Core.Json.JsonConverters;
+using jHackson.Core.Projects;
 using Newtonsoft.Json;
 using NLog;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace jHackson.Actions.Actions
 {
@@ -22,7 +24,7 @@ namespace jHackson.Actions.Actions
 
         public override void Check()
         {
-            foreach (var action in this.Actions)
+            foreach (var action in this.Actions.Where(x => x.Todo == true))
             {
                 action.Check();
 
@@ -33,15 +35,22 @@ namespace jHackson.Actions.Actions
 
         public override void Execute()
         {
-            if (this.Todo.HasValue && this.Todo.Value)
-            {
-                if (this.Title != null)
-                    _logger.Info(this.Title);
+            if (this.Title != null)
+                _logger.Info(this.Title);
 
-                foreach (var action in this.Actions)
-                {
-                    action.Execute();
-                }
+            foreach (var action in this.Actions.Where(x => x.Todo == true))
+            {
+                action.Execute();
+            }
+        }
+
+        public override void Init(IProjectContext context)
+        {
+            base.Init(context);
+
+            foreach (var action in this.Actions.Where(x => x.Todo == true))
+            {
+                action.Init(context);
             }
         }
     }
