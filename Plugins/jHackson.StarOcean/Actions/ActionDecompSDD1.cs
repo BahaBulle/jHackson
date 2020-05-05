@@ -2,7 +2,6 @@
 using jHackson.Core.Localization;
 using jHackson.StarOcean.Compression;
 using NLog;
-using System.IO;
 
 namespace jHackson.StarOcean.Actions
 {
@@ -46,11 +45,10 @@ namespace jHackson.StarOcean.Actions
                 _logger.Info(this.Title);
 
             var msSource = this._context.GetBufferMemoryStream(this.From.Value);
-            var msDestination = new MemoryStream();
 
             var sdd1 = new SDD1_Decomp();
 
-            sdd1.Decompress(msSource, this.SizeOut.Value, msDestination);
+            var msDestination = sdd1.Decompress(msSource, this.SizeOut.Value);
 
             this._context.AddBuffer(this.To.Value, msDestination);
         }

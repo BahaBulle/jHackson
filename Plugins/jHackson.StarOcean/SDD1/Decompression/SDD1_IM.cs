@@ -28,6 +28,8 @@ understood.
 
 ************************************************************************/
 
+using jHackson.StarOcean.Extensions;
+using NLog;
 using System;
 using System.IO;
 
@@ -36,37 +38,37 @@ namespace jHackson.StarOcean.Compression
     // Input Manager
     internal class SDD1_IM
     {
+        private static readonly Logger _logger = LogManager.GetLogger("PluginSO");
         private byte _bit_count;
-        private StreamReader _byte_ptr;
+        private BinaryReader _byte_ptr;
 
         public byte GetCodeword(byte code_len)
         {
             byte codeword;
 
-            var pos = this._byte_ptr.BaseStream.Position;
-
-            codeword = Convert.ToByte(this._byte_ptr.Peek() << this._bit_count);
+            codeword = Convert.ToByte((this._byte_ptr.PeekByte() << this._bit_count) & 0xFF);
+            _logger.Debug("1 - {0} : {1:X02}", _bit_count, this._byte_ptr.PeekByte());
 
             ++this._bit_count;
 
             if ((codeword & 0x80) == 0x80)
             {
-                this._byte_ptr.BaseStream.Position++;
-                codeword |= Convert.ToByte(this._byte_ptr.Peek() >> (9 - this._bit_count));
-                this._byte_ptr.BaseStream.Position = pos;
+                codeword |= Convert.ToByte((this._byte_ptr.PeekByte(1) >> (9 - this._bit_count)) & 0xFF);
+                _logger.Debug("2 - {0} : {1:X02}", _bit_count, this._byte_ptr.PeekByte(1));
                 this._bit_count += code_len;
             }
 
             if ((this._bit_count & 0x08) == 0x08)
             {
-                this._byte_ptr.Read();
+                this._byte_ptr.ReadByte();
+                _logger.Debug("Position++ : {0}", this._byte_ptr.BaseStream.Position);
                 this._bit_count &= 0x07;
             }
 
             return codeword;
         }
 
-        public void PrepareDecomp(StreamReader buffer)
+        public void PrepareDecomp(BinaryReader buffer)
         {
             this._byte_ptr = buffer;
             this._bit_count = 4;

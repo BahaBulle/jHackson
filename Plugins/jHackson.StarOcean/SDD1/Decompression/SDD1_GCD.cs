@@ -88,7 +88,7 @@ namespace jHackson.StarOcean.Compression
                 MPScount = run_count[codeword >> (code_num ^ 0x07)];
             }
             else
-                MPScount = Convert.ToByte(1 << code_num);
+                MPScount = Convert.ToByte((1 << code_num) & 0xFF);
         }
     }
 }

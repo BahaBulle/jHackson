@@ -28,6 +28,8 @@ understood.
 
 ************************************************************************/
 
+using jHackson.StarOcean.Extensions;
+using NLog;
 using System;
 using System.IO;
 
@@ -36,6 +38,8 @@ namespace jHackson.StarOcean.Compression
     // Output Logic
     internal class SDD1_OL
     {
+        private static readonly Logger _logger = LogManager.GetLogger("PluginSO");
+
         private readonly SDD1_CM CM;
         private byte bitplanesInfo;
         private MemoryStream buffer;
@@ -64,7 +68,8 @@ namespace jHackson.StarOcean.Compression
                         if (i == 0)
                         {
                             this.buffer.WriteByte(register2);
-                            i = Convert.ToByte(~i);
+                            _logger.Debug("Write 1 : {0:X02}", register2);
+                            i = Convert.ToByte(~i & 0xFF);
                         }
                         else
                         {
@@ -76,6 +81,7 @@ namespace jHackson.StarOcean.Compression
                                     register2 |= i;
                             }
                             this.buffer.WriteByte(register1);
+                            _logger.Debug("Write 2 : {0:X02}", register1);
                         }
                     } while (--this.length > 0);
                     break;
@@ -89,14 +95,15 @@ namespace jHackson.StarOcean.Compression
                                 register1 |= i;
                         }
                         this.buffer.WriteByte(register1);
+                        _logger.Debug("Write 3 : {0:X02}", register1);
                     } while (--this.length > 0);
                     break;
             }
         }
 
-        public void PrepareDecomp(StreamReader first_byte, ushort out_len, MemoryStream out_buf)
+        public void PrepareDecomp(BinaryReader first_byte, ushort out_len, MemoryStream out_buf)
         {
-            this.bitplanesInfo = Convert.ToByte(first_byte.Peek() & 0xC0);
+            this.bitplanesInfo = Convert.ToByte(first_byte.PeekByte() & 0xC0);
             this.length = out_len;
             this.buffer = out_buf;
         }

@@ -28,6 +28,7 @@ understood.
 
 ************************************************************************/
 
+using jHackson.StarOcean.Extensions;
 using System;
 using System.IO;
 
@@ -79,41 +80,41 @@ namespace jHackson.StarOcean.Compression
 
             context_bits = this.prevBitplaneBits[this.currBitplane];
 
-            currContext = Convert.ToByte((this.currBitplane & 0x01) << 4);
+            currContext = Convert.ToByte(((this.currBitplane & 0x01) << 4) & 0xFF);
 
             switch (this.contextBitsInfo)
             {
                 case 0x00:
-                    currContext |= Convert.ToByte(((context_bits & 0x01c0) >> 5) | (context_bits & 0x0001));
+                    currContext |= Convert.ToByte((((context_bits & 0x01c0) >> 5) | (context_bits & 0x0001)) & 0xFFFF);
                     break;
 
                 case 0x10:
-                    currContext |= Convert.ToByte(((context_bits & 0x0180) >> 5) | (context_bits & 0x0001));
+                    currContext |= Convert.ToByte((((context_bits & 0x0180) >> 5) | (context_bits & 0x0001)) & 0xFFFF);
                     break;
 
                 case 0x20:
-                    currContext |= Convert.ToByte(((context_bits & 0x00c0) >> 5) | (context_bits & 0x0001));
+                    currContext |= Convert.ToByte((((context_bits & 0x00c0) >> 5) | (context_bits & 0x0001)) & 0xFFFF);
                     break;
 
                 case 0x30:
-                    currContext |= Convert.ToByte(((context_bits & 0x0180) >> 5) | (context_bits & 0x0003));
+                    currContext |= Convert.ToByte((((context_bits & 0x0180) >> 5) | (context_bits & 0x0003)) & 0xFFFF);
                     break;
             }
 
             byte bit = this.PEM.GetBit(currContext);
 
-            context_bits <<= 1;
-            context_bits |= bit;
+            this.prevBitplaneBits[this.currBitplane] <<= 1;
+            this.prevBitplaneBits[this.currBitplane] |= bit;
 
             this.bit_number++;
 
             return bit;
         }
 
-        public void PrepareDecomp(StreamReader first_byte)
+        public void PrepareDecomp(BinaryReader first_byte)
         {
-            this.bitplanesInfo = Convert.ToByte(first_byte.Peek() & 0xC0);
-            this.contextBitsInfo = Convert.ToByte(first_byte.Peek() & 0x30);
+            this.bitplanesInfo = Convert.ToByte(first_byte.PeekByte() & 0xC0);
+            this.contextBitsInfo = Convert.ToByte(first_byte.PeekByte() & 0x30);
             this.bit_number = 0;
 
             for (int i = 0; i < 8; i++)
