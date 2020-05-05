@@ -66,6 +66,7 @@ namespace jHackson.Actions
             var bytes = new byte[this.Source.Size.Value];
             msSource.Position = this.Source.AdressStart.Value;
             msSource.Read(bytes, 0, (int)this.Source.Size.Value);
+            msSource.Position = this.Source.AdressStart.Value;
 
             msDest.Write(bytes, 0, (int)this.Source.Size.Value);
 
