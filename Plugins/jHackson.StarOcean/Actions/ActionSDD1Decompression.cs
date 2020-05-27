@@ -1,17 +1,17 @@
 ﻿using jHackson.Core.Actions;
 using jHackson.Core.Localization;
-using jHackson.StarOcean.Compression;
+using jHackson.StarOcean.SDD1Algorithm;
 using NLog;
 
 namespace jHackson.StarOcean.Actions
 {
-    public class ActionDecompSDD1 : ActionBase
+    public class ActionSDD1Decompression : ActionBase
     {
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ActionDecompSDD1()
+        public ActionSDD1Decompression()
         {
-            this.Name = "SODecompSDD1";
+            this.Name = "SOSDD1Decompression";
             this.Title = null;
             this.Todo = true;
 
@@ -46,7 +46,7 @@ namespace jHackson.StarOcean.Actions
 
             var msSource = this._context.GetBufferMemoryStream(this.From.Value);
 
-            var sdd1 = new SDD1_Decomp();
+            ISDD1Decomp sdd1 = new SDD1();
 
             var msDestination = sdd1.Decompress(msSource, this.SizeOut.Value);
 

@@ -33,19 +33,19 @@ using NLog;
 using System;
 using System.IO;
 
-namespace jHackson.StarOcean.Compression
+namespace jHackson.StarOcean.SDD1Algorithm.Decompression
 {
     // Output Logic
     internal class SDD1_OL
     {
         private static readonly Logger _logger = LogManager.GetLogger("PluginSO");
 
-        private readonly SDD1_CM CM;
+        private readonly SDD1_CMD CM;
         private byte bitplanesInfo;
         private MemoryStream buffer;
         private ushort length;
 
-        public SDD1_OL(SDD1_CM associatedCM)
+        public SDD1_OL(SDD1_CMD associatedCM)
         {
             this.CM = associatedCM;
         }

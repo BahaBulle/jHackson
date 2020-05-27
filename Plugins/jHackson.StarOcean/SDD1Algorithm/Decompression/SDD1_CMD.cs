@@ -32,19 +32,19 @@ using jHackson.StarOcean.Extensions;
 using System;
 using System.IO;
 
-namespace jHackson.StarOcean.Compression
+namespace jHackson.StarOcean.SDD1Algorithm.Decompression
 {
-    // Context Model
-    internal class SDD1_CM
+    // Context Model Decompression
+    internal class SDD1_CMD
     {
-        private readonly SDD1_PEM PEM;
+        private readonly SDD1_PEMD PEM;
         private readonly ushort[] prevBitplaneBits;
         private byte bit_number;
         private byte bitplanesInfo;
         private byte contextBitsInfo;
         private byte currBitplane;
 
-        public SDD1_CM(SDD1_PEM associatedPEM)
+        public SDD1_CMD(SDD1_PEMD associatedPEM)
         {
             this.prevBitplaneBits = new ushort[8];
             this.PEM = associatedPEM;

@@ -20,6 +20,10 @@
   </Target>
 
   <ItemGroup>
+    <PackageReference Include="NLog" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
 

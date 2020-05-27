@@ -30,7 +30,7 @@ understood.
 
 using System;
 
-namespace jHackson.StarOcean.Compression
+namespace jHackson.StarOcean.SDD1Algorithm.Decompression
 {
     // Golomb-Code Decoder
     internal class SDD1_GCD
