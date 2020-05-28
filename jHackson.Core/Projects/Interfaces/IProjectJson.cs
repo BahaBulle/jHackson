@@ -1,10 +1,14 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.Json.JsonConverters;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿// <copyright file="IProjectJson.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Projects
+namespace JHackson.Core.Projects
 {
+    using System.Collections.Generic;
+    using JHackson.Core.Actions;
+    using JHackson.Core.Json.JsonConverters;
+    using Newtonsoft.Json;
+
     public interface IProjectJson
     {
         [JsonConverter(typeof(ActionJsonConverter))]

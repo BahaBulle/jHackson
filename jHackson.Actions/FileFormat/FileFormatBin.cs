@@ -1,10 +1,14 @@
-﻿using jHackson.Core.Exceptions;
-using jHackson.Core.FileFormat;
-using jHackson.Core.Localization;
-using System.IO;
+﻿// <copyright file="FileFormatBin.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Actions.FileFormat
+namespace JHackson.Actions.FileFormat
 {
+    using System.IO;
+    using JHackson.Core.Exceptions;
+    using JHackson.Core.FileFormat;
+    using JHackson.Core.Localization;
+
     public class FileFormatBin : IFileFormat
     {
         public FileFormatBin()
@@ -21,12 +25,16 @@ namespace jHackson.Actions.FileFormat
                 var directory = Path.GetDirectoryName(filename);
 
                 if (!Directory.Exists(directory))
+                {
                     Directory.CreateDirectory(directory);
+                }
 
                 File.WriteAllBytes(filename, ms.ToArray());
             }
             else
+            {
                 throw new JHacksonException(LocalizationManager.GetMessage("formats.incorrectFormat", this.Name));
+            }
         }
     }
 }

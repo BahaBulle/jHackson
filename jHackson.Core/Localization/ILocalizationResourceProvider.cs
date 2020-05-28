@@ -1,4 +1,8 @@
-﻿namespace jHackson.Core.Localization
+﻿// <copyright file="ILocalizationResourceProvider.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Core.Localization
 {
     public interface ILocalizationResourceProvider
     {

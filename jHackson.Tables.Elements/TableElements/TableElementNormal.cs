@@ -1,13 +1,18 @@
-﻿using jHackson.Core.Exceptions;
-using jHackson.Core.Localization;
-using jHackson.Core.TableElements;
-using System.Text.RegularExpressions;
+﻿// <copyright file="TableElementNormal.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
 namespace jHackson.Tables.TableElements
 {
+    using System.Text.RegularExpressions;
+    using jHackson.Core.Exceptions;
+    using jHackson.Core.Localization;
+    using jHackson.Core.TableElements;
+
     public class TableElementNormal : TableElementBase
     {
-        public TableElementNormal() : base()
+        public TableElementNormal()
+            : base()
         {
             this.Identifier = null;
             this.Name = "NORMAL";
@@ -20,7 +25,9 @@ namespace jHackson.Tables.TableElements
             if (obj is TableElementNormal element)
             {
                 if (element.Key == this.Key && element.Value == this.Value)
+                {
                     return true;
+                }
             }
 
             return false;
@@ -28,8 +35,7 @@ namespace jHackson.Tables.TableElements
 
         public override int GetHashCode()
         {
-            // TODO
-            return base.GetHashCode();
+            return System.HashCode.Combine(this.Key, this.Value);
         }
 
         protected override void Split()
@@ -46,13 +52,15 @@ namespace jHackson.Tables.TableElements
 
                     this.SetRegexValue();
                 }
-                catch (jHacksonTableException ex)
+                catch (JHacksonTableException ex)
                 {
                     this.AddError(ex.Message);
                 }
             }
             else
+            {
                 this.AddError(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", this.Line));
+            }
         }
     }
 }

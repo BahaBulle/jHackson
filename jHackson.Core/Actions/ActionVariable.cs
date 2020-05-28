@@ -1,4 +1,8 @@
-﻿namespace jHackson.Core.Actions
+﻿// <copyright file="ActionVariable.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Core.Actions
 {
     public class ActionVariable : IActionVariable
     {
@@ -9,6 +13,7 @@
         }
 
         public string Name { get; set; }
+
         public string Value { get; set; }
     }
 }

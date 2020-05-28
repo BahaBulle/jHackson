@@ -1,11 +1,16 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Globalization;
+﻿// <copyright file="LocalizationLanguageResources.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Localization
+namespace JHackson.Core.Localization
 {
+    using System.Globalization;
+    using Newtonsoft.Json.Linq;
+
     public class LocalizationLanguageResources
     {
         public CultureInfo Culture { get; set; }
+
         public JToken Value { get; set; }
     }
 }

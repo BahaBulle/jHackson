@@ -1,10 +1,14 @@
-﻿/************************************************************************
+﻿// <copyright file="SDD1_CMD.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/************************************************************************
 
 S-DD1'algorithm emulation code
 ------------------------------
 
-Author:	     Andreas Naive
-Date:        August 2003
+Author: Andreas Naive
+Date: August 2003
 Last update: October 2004
 
 This code is Public Domain. There is no copyright holded by the author.
@@ -28,18 +32,18 @@ understood.
 
 ************************************************************************/
 
-using jHackson.StarOcean.Extensions;
-using System;
-using System.IO;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Decompression
+namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
+    using System;
+    using System.IO;
+    using JHackson.StarOcean.Extensions;
+
     // Context Model Decompression
     internal class SDD1_CMD
     {
-        private readonly SDD1_PEMD PEM;
+        private readonly SDD1_PEMD pem;
         private readonly ushort[] prevBitplaneBits;
-        private byte bit_number;
+        private byte bitNumber;
         private byte bitplanesInfo;
         private byte contextBitsInfo;
         private byte currBitplane;
@@ -47,7 +51,7 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
         public SDD1_CMD(SDD1_PEMD associatedPEM)
         {
             this.prevBitplaneBits = new ushort[8];
-            this.PEM = associatedPEM;
+            this.pem = associatedPEM;
         }
 
         public byte GetBit()
@@ -63,18 +67,24 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
 
                 case 0x40:
                     this.currBitplane ^= 0x01;
-                    if ((this.bit_number & 0x7F) != 0x7F)
+                    if ((this.bitNumber & 0x7F) != 0x7F)
+                    {
                         this.currBitplane = Convert.ToByte((this.currBitplane + 2) & 0x07);
+                    }
+
                     break;
 
                 case 0x80:
                     this.currBitplane ^= 0x01;
-                    if ((this.bit_number & 0x7F) != 0x7F)
+                    if ((this.bitNumber & 0x7F) != 0x7F)
+                    {
                         this.currBitplane ^= 0x02;
+                    }
+
                     break;
 
                 case 0xc0:
-                    this.currBitplane = Convert.ToByte(this.bit_number & 0x07);
+                    this.currBitplane = Convert.ToByte(this.bitNumber & 0x07);
                     break;
             }
 
@@ -101,12 +111,12 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
                     break;
             }
 
-            byte bit = this.PEM.GetBit(currContext);
+            byte bit = this.pem.GetBit(currContext);
 
             this.prevBitplaneBits[this.currBitplane] <<= 1;
             this.prevBitplaneBits[this.currBitplane] |= bit;
 
-            this.bit_number++;
+            this.bitNumber++;
 
             return bit;
         }
@@ -115,10 +125,12 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
         {
             this.bitplanesInfo = Convert.ToByte(first_byte.PeekByte() & 0xC0);
             this.contextBitsInfo = Convert.ToByte(first_byte.PeekByte() & 0x30);
-            this.bit_number = 0;
+            this.bitNumber = 0;
 
             for (int i = 0; i < 8; i++)
+            {
                 this.prevBitplaneBits[i] = 0;
+            }
 
             switch (this.bitplanesInfo)
             {

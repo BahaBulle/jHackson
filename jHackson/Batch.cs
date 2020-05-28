@@ -1,27 +1,31 @@
-﻿using jHackson.Core.Exceptions;
-using jHackson.Core.Localization;
-using jHackson.Core.Services;
-using NLog;
-using System.Collections.Generic;
-using System.IO;
+﻿// <copyright file="Batch.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson
+namespace JHackson
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using JHackson.Core.Exceptions;
+    using JHackson.Core.Localization;
+    using JHackson.Core.Services;
+    using NLog;
+
     public class Batch
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly ISerializationService _serializationService;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly ISerializationService serializationService;
 
         public Batch(ISerializationService serializationService)
         {
-            this._serializationService = serializationService;
+            this.serializationService = serializationService;
         }
 
         public void Run(List<string> arguments)
         {
             if (arguments == null || arguments.Count < 1)
             {
-                _logger.Error(LocalizationManager.GetMessage("batch.insufficientParameters"));
+                Logger.Error(LocalizationManager.GetMessage("batch.insufficientParameters"));
                 Usage();
 
                 return;
@@ -29,14 +33,14 @@ namespace jHackson
 
             if (!File.Exists(arguments[0]))
             {
-                _logger.Error(LocalizationManager.GetMessage("batch.fileUnknow", arguments[0]));
+                Logger.Error(LocalizationManager.GetMessage("batch.fileUnknow", arguments[0]));
 
                 return;
             }
 
             try
             {
-                var pj = this._serializationService.Deserialize(arguments[0]);
+                var pj = this.serializationService.Deserialize(arguments[0]);
 
                 pj.Init();
 
@@ -56,8 +60,8 @@ namespace jHackson
 
         private static void Usage()
         {
-            _logger.Info(LocalizationManager.GetMessage("batch.usage"));
-            _logger.Info("  jHackson.exe <json_file>");
+            Logger.Info(LocalizationManager.GetMessage("batch.usage"));
+            Logger.Info("  jHackson.exe <json_file>");
         }
     }
 }

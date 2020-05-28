@@ -1,4 +1,8 @@
-﻿/**********************************************************************
+﻿// <copyright file="SDD1_CMC.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/**********************************************************************
 
 S-DD1'inverse algorithm emulation code
 --------------------------------------
@@ -28,31 +32,36 @@ understood.
 
 *************************************************************************/
 
-using System;
-using System.Collections.Generic;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Compression
+namespace JHackson.StarOcean.SDD1Algorithm.Compression
 {
+    using System;
+    using System.Collections.Generic;
+
     // Context Model Compression
     public class SDD1_CMC
     {
-        public SDD1_PEMC PEM;
-
         private readonly List<byte>[] bitplaneBuffer;
         private readonly byte[] bpBitInd;
-        private readonly int?[] byte_ptr;
+        private readonly int?[] bytePtr;
         private readonly ushort[] prevBitplaneBits;
-        private byte bit_number;
+        private byte bitNumber;
         private byte bitplanesInfo;
         private byte contextBitsInfo;
         private byte currBitplane;
 
-        public SDD1_CMC(List<byte> associatedBBuf0, List<byte> associatedBBuf1, List<byte> associatedBBuf2, List<byte> associatedBBuf3,
-                       List<byte> associatedBBuf4, List<byte> associatedBBuf5, List<byte> associatedBBuf6, List<byte> associatedBBuf7)
+        public SDD1_CMC(
+            List<byte> associatedBBuf0,
+            List<byte> associatedBBuf1,
+            List<byte> associatedBBuf2,
+            List<byte> associatedBBuf3,
+            List<byte> associatedBBuf4,
+            List<byte> associatedBBuf5,
+            List<byte> associatedBBuf6,
+            List<byte> associatedBBuf7)
         {
             this.bpBitInd = new byte[8];
             this.prevBitplaneBits = new ushort[8];
-            this.byte_ptr = new int?[8];
+            this.bytePtr = new int?[8];
 
             this.bitplaneBuffer = new List<byte>[8];
             this.bitplaneBuffer[0] = associatedBBuf0;
@@ -65,70 +74,80 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
             this.bitplaneBuffer[7] = associatedBBuf7;
         }
 
+        public SDD1_PEMC ProbabilityEstimationModuleCompression { get; set; }
+
         public byte GetBit(ref byte context)
         {
             byte currContext;
             byte bit;
 
-            switch (bitplanesInfo)
+            switch (this.bitplanesInfo)
             {
                 case 0x00:
-                    currBitplane ^= 0x01;
+                    this.currBitplane ^= 0x01;
                     break;
 
                 case 0x04:
-                    currBitplane ^= 0x01;
-                    if ((bit_number & 0x7F) == 0)
-                        currBitplane = Convert.ToByte((currBitplane + 2) & 0x07 & 0xFF);
+                    this.currBitplane ^= 0x01;
+                    if ((this.bitNumber & 0x7F) == 0)
+                    {
+                        this.currBitplane = Convert.ToByte((this.currBitplane + 2) & 0x07 & 0xFF);
+                    }
+
                     break;
 
                 case 0x08:
-                    currBitplane ^= 0x01;
-                    if ((bit_number & 0x7F) == 0)
-                        currBitplane ^= 0x02;
+                    this.currBitplane ^= 0x01;
+                    if ((this.bitNumber & 0x7F) == 0)
+                    {
+                        this.currBitplane ^= 0x02;
+                    }
+
                     break;
 
                 case 0x0c:
-                    currBitplane = Convert.ToByte(bit_number & 0x07 & 0xFF);
+                    this.currBitplane = Convert.ToByte(this.bitNumber & 0x07 & 0xFF);
                     break;
             }
 
-            currContext = Convert.ToByte(((currBitplane & 0x01) << 4) & 0xFF);
-            switch (contextBitsInfo)
+            currContext = Convert.ToByte(((this.currBitplane & 0x01) << 4) & 0xFF);
+            switch (this.contextBitsInfo)
             {
                 case 0x00:
-                    currContext |= Convert.ToByte(((prevBitplaneBits[currBitplane] & 0x01c0) >> 5) | prevBitplaneBits[currBitplane] & 0x0001 & 0xFF);
+                    currContext |= Convert.ToByte(((this.prevBitplaneBits[this.currBitplane] & 0x01c0) >> 5) | this.prevBitplaneBits[this.currBitplane] & 0x0001 & 0xFF);
                     break;
 
                 case 0x01:
-                    currContext |= Convert.ToByte(((prevBitplaneBits[currBitplane] & 0x0180) >> 5) | prevBitplaneBits[currBitplane] & 0x0001 & 0xFF);
+                    currContext |= Convert.ToByte(((this.prevBitplaneBits[this.currBitplane] & 0x0180) >> 5) | this.prevBitplaneBits[this.currBitplane] & 0x0001 & 0xFF);
                     break;
 
                 case 0x02:
-                    currContext |= Convert.ToByte(((prevBitplaneBits[currBitplane] & 0x00c0) >> 5) | prevBitplaneBits[currBitplane] & 0x0001 & 0xFF);
+                    currContext |= Convert.ToByte(((this.prevBitplaneBits[this.currBitplane] & 0x00c0) >> 5) | this.prevBitplaneBits[this.currBitplane] & 0x0001 & 0xFF);
                     break;
 
                 case 0x03:
-                    currContext |= Convert.ToByte(((prevBitplaneBits[currBitplane] & 0x0180) >> 5) | prevBitplaneBits[currBitplane] & 0x0003 & 0xFF);
+                    currContext |= Convert.ToByte(((this.prevBitplaneBits[this.currBitplane] & 0x0180) >> 5) | this.prevBitplaneBits[this.currBitplane] & 0x0003 & 0xFF);
                     break;
             }
 
-            if (byte_ptr[currBitplane].HasValue && byte_ptr[currBitplane] == bitplaneBuffer[currBitplane].Count)
-                bit = PEM.GetMPS(currContext);
+            if (this.bytePtr[this.currBitplane].HasValue && this.bytePtr[this.currBitplane] == this.bitplaneBuffer[this.currBitplane].Count)
+            {
+                bit = this.ProbabilityEstimationModuleCompression.GetMPS(currContext);
+            }
             else
             {
-                bit = Convert.ToByte((bitplaneBuffer[currBitplane][byte_ptr[currBitplane].Value]) & (0x80 >> bpBitInd[currBitplane]) & 0xFF) > 0 ? (byte)1 : (byte)0;
-                if (((++bpBitInd[currBitplane]) & 0x08) > 0)
+                bit = Convert.ToByte(this.bitplaneBuffer[this.currBitplane][this.bytePtr[this.currBitplane].Value] & (0x80 >> this.bpBitInd[this.currBitplane]) & 0xFF) > 0 ? (byte)1 : (byte)0;
+                if (((++this.bpBitInd[this.currBitplane]) & 0x08) > 0)
                 {
-                    bpBitInd[currBitplane] = 0;
-                    byte_ptr[currBitplane]++;
+                    this.bpBitInd[this.currBitplane] = 0;
+                    this.bytePtr[this.currBitplane]++;
                 }
             }
 
-            prevBitplaneBits[currBitplane] <<= 1;
-            prevBitplaneBits[currBitplane] |= bit;
+            this.prevBitplaneBits[this.currBitplane] <<= 1;
+            this.prevBitplaneBits[this.currBitplane] |= bit;
 
-            bit_number++;
+            this.bitNumber++;
 
             context = currContext;
 
@@ -137,30 +156,30 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
 
         public void PrepareComp(byte header)
         {
-            bitplanesInfo = Convert.ToByte(header & 0x0C & 0xFF);
-            contextBitsInfo = Convert.ToByte(header & 0x03 & 0xFF);
+            this.bitplanesInfo = Convert.ToByte(header & 0x0C & 0xFF);
+            this.contextBitsInfo = Convert.ToByte(header & 0x03 & 0xFF);
 
             for (int i = 0; i < 8; i++)
             {
-                byte_ptr[i] = bitplaneBuffer[i].Count > 0 ? (int?)0 : null;
-                bpBitInd[i] = 0;
-                prevBitplaneBits[i] = 0;
+                this.bytePtr[i] = this.bitplaneBuffer[i].Count > 0 ? (int?)0 : null;
+                this.bpBitInd[i] = 0;
+                this.prevBitplaneBits[i] = 0;
             }
 
-            bit_number = 0;
+            this.bitNumber = 0;
 
-            switch (bitplanesInfo)
+            switch (this.bitplanesInfo)
             {
                 case 0x00:
-                    currBitplane = 1;
+                    this.currBitplane = 1;
                     break;
 
                 case 0x04:
-                    currBitplane = 7;
+                    this.currBitplane = 7;
                     break;
 
                 case 0x08:
-                    currBitplane = 3;
+                    this.currBitplane = 3;
                     break;
             }
         }

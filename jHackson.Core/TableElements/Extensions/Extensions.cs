@@ -1,8 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="Extensions.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.TableElements.Extensions
+namespace JHackson.Core.TableElements.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class Extensions
     {
         public static IEnumerable<string> SplitByLength(this string str, int maxLength)

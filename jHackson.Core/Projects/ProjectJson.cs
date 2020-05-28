@@ -1,26 +1,30 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.Exceptions;
-using jHackson.Core.Json.JsonConverters;
-using jHackson.Core.Localization;
-using Newtonsoft.Json;
-using NLog;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿// <copyright file="ProjectJson.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Projects
+namespace JHackson.Core.Projects
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using JHackson.Core.Actions;
+    using JHackson.Core.Exceptions;
+    using JHackson.Core.Json.JsonConverters;
+    using JHackson.Core.Localization;
+    using Newtonsoft.Json;
+    using NLog;
+
     public class ProjectJson : IProjectJson
     {
         private const string VERSION = "0.9";
 
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
-        private readonly IProjectContext _context;
-        private readonly Regex _regex = new Regex(@"^jHackson v(\d{1,2}\.\d{1,2}) ©BahaBulle$");
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly IProjectContext context;
+        private readonly Regex regex = new Regex(@"^jHackson v(\d{1,2}\.\d{1,2}) ©BahaBulle$");
 
         public ProjectJson()
         {
-            this._context = new ProjectContext();
+            this.context = new ProjectContext();
         }
 
         [JsonConverter(typeof(ActionJsonConverter))]
@@ -52,7 +56,7 @@ namespace jHackson.Core.Projects
                 if (action.HasErrors)
                 {
                     action.GetErrors()
-                        .ForEach(x => _logger.Error(x));
+                        .ForEach(x => Logger.Error(x));
                     hasErrors = true;
                 }
             }
@@ -60,7 +64,9 @@ namespace jHackson.Core.Projects
             LogManager.Flush();
 
             if (hasErrors)
+            {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.project.scriptErrors"));
+            }
         }
 
         public void Execute()
@@ -72,7 +78,7 @@ namespace jHackson.Core.Projects
                 if (action.HasErrors)
                 {
                     action.GetErrors()
-                        .ForEach(x => _logger.Error(x));
+                        .ForEach(x => Logger.Error(x));
 
                     LogManager.Flush();
 
@@ -85,28 +91,28 @@ namespace jHackson.Core.Projects
         {
             foreach (var variable in this.Variables)
             {
-                this._context.AddVariable(variable.Name, variable.Value);
+                this.context.AddVariable(variable.Name, variable.Value);
             }
 
             foreach (var action in this.Actions.Where(x => x.Todo == true))
             {
-                action.Init(this._context);
+                action.Init(this.context);
             }
         }
 
         private bool ControlApplicationVersion()
         {
-            var result = this._regex.Match(this.Application);
+            var result = this.regex.Match(this.Application);
 
             if (!result.Success)
             {
-                _logger.Error(LocalizationManager.GetMessage("core.project.incorrectProjectFile"));
+                Logger.Error(LocalizationManager.GetMessage("core.project.incorrectProjectFile"));
                 return true;
             }
 
             if (result.Groups[1].Value != VERSION)
             {
-                _logger.Error(LocalizationManager.GetMessage("core.project.incorrectVersion", this.Version, VERSION));
+                Logger.Error(LocalizationManager.GetMessage("core.project.incorrectVersion", this.Version, VERSION));
                 return true;
             }
 

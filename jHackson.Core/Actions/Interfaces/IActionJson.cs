@@ -1,13 +1,20 @@
-﻿using jHackson.Core.Projects;
-using System.Collections.Generic;
+﻿// <copyright file="IActionJson.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Actions
+namespace JHackson.Core.Actions
 {
+    using System.Collections.Generic;
+    using JHackson.Core.Projects;
+
     public interface IActionJson
     {
         bool HasErrors { get; }
+
         string Name { get; }
+
         string Title { get; set; }
+
         bool? Todo { get; set; }
 
         void AddError(string message);

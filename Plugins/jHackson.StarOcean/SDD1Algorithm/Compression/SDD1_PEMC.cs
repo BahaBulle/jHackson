@@ -1,4 +1,8 @@
-﻿/**********************************************************************
+﻿// <copyright file="SDD1_PEMC.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/**********************************************************************
 
 S-DD1'inverse algorithm emulation code
 --------------------------------------
@@ -28,70 +32,34 @@ understood.
 
 *************************************************************************/
 
-using jHackson.StarOcean.SDD1Algorithm.Common;
-using System.Collections.Generic;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Compression
+namespace JHackson.StarOcean.SDD1Algorithm.Compression
 {
+    using System.Collections.Generic;
+    using JHackson.StarOcean.SDD1Algorithm.Common;
+
     // Probability Estimation Module Compression
     public class SDD1_PEMC
     {
-        //private static readonly State[] evolution_table = new State[] {
-        //    new State{ code_num = 0, nextIfMPS = 25, nextIfLPS = 25},
-        //    new State{ code_num = 0, nextIfMPS =  2, nextIfLPS =  1},
-        //    new State{ code_num = 0, nextIfMPS =  3, nextIfLPS =  1},
-        //    new State{ code_num = 0, nextIfMPS =  4, nextIfLPS =  2},
-        //    new State{ code_num = 0, nextIfMPS =  5, nextIfLPS =  3},
-        //    new State{ code_num = 1, nextIfMPS =  6, nextIfLPS =  4},
-        //    new State{ code_num = 1, nextIfMPS =  7, nextIfLPS =  5},
-        //    new State{ code_num = 1, nextIfMPS =  8, nextIfLPS =  6},
-        //    new State{ code_num = 1, nextIfMPS =  9, nextIfLPS =  7},
-        //    new State{ code_num = 2, nextIfMPS = 10, nextIfLPS =  8},
-        //    new State{ code_num = 2, nextIfMPS = 11, nextIfLPS =  9},
-        //    new State{ code_num = 2, nextIfMPS = 12, nextIfLPS = 10},
-        //    new State{ code_num = 2, nextIfMPS = 13, nextIfLPS = 11},
-        //    new State{ code_num = 3, nextIfMPS = 14, nextIfLPS = 12},
-        //    new State{ code_num = 3, nextIfMPS = 15, nextIfLPS = 13},
-        //    new State{ code_num = 3, nextIfMPS = 16, nextIfLPS = 14},
-        //    new State{ code_num = 3, nextIfMPS = 17, nextIfLPS = 15},
-        //    new State{ code_num = 4, nextIfMPS = 18, nextIfLPS = 16},
-        //    new State{ code_num = 4, nextIfMPS = 19, nextIfLPS = 17},
-        //    new State{ code_num = 5, nextIfMPS = 20, nextIfLPS = 18},
-        //    new State{ code_num = 5, nextIfMPS = 21, nextIfLPS = 19},
-        //    new State{ code_num = 6, nextIfMPS = 22, nextIfLPS = 20},
-        //    new State{ code_num = 6, nextIfMPS = 23, nextIfLPS = 21},
-        //    new State{ code_num = 7, nextIfMPS = 24, nextIfLPS = 22},
-        //    new State{ code_num = 7, nextIfMPS = 24, nextIfLPS = 23},
-        //    new State{ code_num = 0, nextIfMPS = 26, nextIfLPS =  1},
-        //    new State{ code_num = 1, nextIfMPS = 27, nextIfLPS =  2},
-        //    new State{ code_num = 2, nextIfMPS = 28, nextIfLPS =  4},
-        //    new State{ code_num = 3, nextIfMPS = 29, nextIfLPS =  8},
-        //    new State{ code_num = 4, nextIfMPS = 30, nextIfLPS = 12},
-        //    new State{ code_num = 5, nextIfMPS = 31, nextIfLPS = 16},
-        //    new State{ code_num = 6, nextIfMPS = 32, nextIfLPS = 18},
-        //    new State{ code_num = 7, nextIfMPS = 24, nextIfLPS = 22}
-        //};
-        private static readonly List<State> evolution_table = SDD1Helper.GetEvolutionTable();
+        private static readonly List<State> EvolutionTable = SDD1Helper.GetEvolutionTable();
 
-        private readonly SDD1_ContextInfo[] _contextInfo;
-
-        private readonly SDD1_CMC CM;
-        private readonly SDD1_GCE GCE;
+        private readonly SDD1_CMC cm;
+        private readonly SDD1_ContextInfo[] contextInfo;
+        private readonly SDD1_GCE gce;
         private uint inputLength;
 
         public SDD1_PEMC(SDD1_CMC associatedCM, SDD1_GCE associatedGCE)
         {
-            this.CM = associatedCM;
-            this.GCE = associatedGCE;
+            this.cm = associatedCM;
+            this.gce = associatedGCE;
 
-            this.CM.PEM = this;
+            this.cm.ProbabilityEstimationModuleCompression = this;
 
-            this._contextInfo = new SDD1_ContextInfo[32];
+            this.contextInfo = new SDD1_ContextInfo[32];
         }
 
         public byte GetMPS(byte context)
         {
-            return this._contextInfo[context].MPS;
+            return this.contextInfo[context].MPS;
         }
 
         public void Launch()
@@ -104,58 +72,51 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
 
             for (int i = 0; i < this.inputLength; i++)
             {
-                bit = this.CM.GetBit(ref context);
+                bit = this.cm.GetBit(ref context);
 
-                currStatus = this._contextInfo[context].status;
-                pState = evolution_table[currStatus];
-                bit ^= this._contextInfo[context].MPS;
+                currStatus = this.contextInfo[context].Status;
+                pState = EvolutionTable[currStatus];
+                bit ^= this.contextInfo[context].MPS;
 
-                this.GCE.PutBit(pState.code_num, bit, ref endOfRun);
+                this.gce.PutBit(pState.CodeNum, bit, ref endOfRun);
 
                 if (endOfRun)
                 {
                     if (bit > 0)
                     {
                         if ((currStatus & 0xFE) == 0)
-                            this._contextInfo[context].MPS ^= 0x01;
+                        {
+                            this.contextInfo[context].MPS ^= 0x01;
+                        }
 
-                        this._contextInfo[context].status = pState.nextIfLPS;
+                        this.contextInfo[context].Status = pState.NextIfLPS;
                     }
                     else
-                        this._contextInfo[context].status = pState.nextIfMPS;
+                    {
+                        this.contextInfo[context].Status = pState.NextIfMPS;
+                    }
                 }
             }
 
-            this.GCE.FinishComp();
+            this.gce.FinishComp();
         }
 
         public void PrepareComp(byte header, ushort length)
         {
             for (byte i = 0; i < 32; i++)
             {
-                this._contextInfo[i].status = 0;
-                this._contextInfo[i].MPS = 0;
+                this.contextInfo[i].Status = 0;
+                this.contextInfo[i].MPS = 0;
             }
 
             this.inputLength = length;
 
             if (((header & 0x0C) != 0x0C) && (length & 0x0001) > 0)
+            {
                 this.inputLength++;
+            }
 
             this.inputLength <<= 3;
         }
-
-        //private struct SDD1_ContextInfo
-        //{
-        //    public byte MPS;
-        //    public byte status;
-        //};
-
-        //private struct State
-        //{
-        //    public byte code_num;
-        //    public byte nextIfLPS;
-        //    public byte nextIfMPS;
-        //};
     }
 }

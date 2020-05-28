@@ -1,4 +1,8 @@
-﻿/**********************************************************************
+﻿// <copyright file="SDD1_BE.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/**********************************************************************
 
 S-DD1'inverse algorithm emulation code
 --------------------------------------
@@ -28,13 +32,13 @@ understood.
 
 *************************************************************************/
 
-using jHackson.StarOcean.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Compression
+namespace JHackson.StarOcean.SDD1Algorithm.Compression
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using JHackson.StarOcean.Extensions;
+
     // Bitplanes Extractor
     public class SDD1_BE
     {
@@ -47,8 +51,15 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
         private BinaryReader inputBuffer;
         private ushort inputLength;
 
-        public SDD1_BE(List<byte> associatedBBuf0, List<byte> associatedBBuf1, List<byte> associatedBBuf2, List<byte> associatedBBuf3,
-                       List<byte> associatedBBuf4, List<byte> associatedBBuf5, List<byte> associatedBBuf6, List<byte> associatedBBuf7)
+        public SDD1_BE(
+            List<byte> associatedBBuf0,
+            List<byte> associatedBBuf1,
+            List<byte> associatedBBuf2,
+            List<byte> associatedBBuf3,
+            List<byte> associatedBBuf4,
+            List<byte> associatedBBuf5,
+            List<byte> associatedBBuf6,
+            List<byte> associatedBBuf7)
         {
             this.bpBitInd = new byte[8];
 
@@ -87,6 +98,7 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
                     {
                         this.bpBitInd[i] = 0;
                     }
+
                     break;
             }
 
@@ -103,14 +115,20 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
                     case 0x04:
                         this.currBitplane ^= 0x01;
                         if ((counter & 0x000F) == 0)
+                        {
                             this.currBitplane = Convert.ToByte((this.currBitplane + 2) & 0x07 & 0xFF);
+                        }
+
                         this.bitplaneBuffer[this.currBitplane].Add(this.inputBuffer.ReadByte());
                         break;
 
                     case 0x08:
                         this.currBitplane ^= 0x01;
                         if ((counter & 0x000F) == 0)
+                        {
                             this.currBitplane ^= 0x02;
+                        }
+
                         this.bitplaneBuffer[this.currBitplane].Add(this.inputBuffer.ReadByte());
                         break;
 
@@ -119,10 +137,12 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
                         {
                             this.PutBit(i);
                         }
+
                         this.inputBuffer.ReadByte();
                         break;
                 }
-            } while (counter++ < this.inputLength);
+            }
+            while (counter++ < this.inputLength);
         }
 
         public void PrepareComp(BinaryReader in_buf, byte header)
@@ -135,7 +155,9 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
         private void PutBit(byte bitplane)
         {
             if (this.bpBitInd[bitplane] == 0)
+            {
                 this.bitplaneBuffer[bitplane].Add(0);
+            }
 
             this.bitplaneBuffer[bitplane][^1] |= Convert.ToByte((((this.inputBuffer.PeekByte() & (0x80 >> this.inBitInd)) << this.inBitInd) >> this.bpBitInd[bitplane]) & 0xFF);
 

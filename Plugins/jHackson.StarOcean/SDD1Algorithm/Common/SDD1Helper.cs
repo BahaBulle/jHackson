@@ -1,45 +1,50 @@
-﻿using System.Collections.Generic;
+﻿// <copyright file="SDD1Helper.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.StarOcean.SDD1Algorithm.Common
+namespace JHackson.StarOcean.SDD1Algorithm.Common
 {
+    using System.Collections.Generic;
+
     public static class SDD1Helper
     {
         public static List<State> GetEvolutionTable()
         {
-            return new List<State>() {
-                new State{ code_num = 0, nextIfMPS = 25, nextIfLPS = 25},
-                new State{ code_num = 0, nextIfMPS =  2, nextIfLPS =  1},
-                new State{ code_num = 0, nextIfMPS =  3, nextIfLPS =  1},
-                new State{ code_num = 0, nextIfMPS =  4, nextIfLPS =  2},
-                new State{ code_num = 0, nextIfMPS =  5, nextIfLPS =  3},
-                new State{ code_num = 1, nextIfMPS =  6, nextIfLPS =  4},
-                new State{ code_num = 1, nextIfMPS =  7, nextIfLPS =  5},
-                new State{ code_num = 1, nextIfMPS =  8, nextIfLPS =  6},
-                new State{ code_num = 1, nextIfMPS =  9, nextIfLPS =  7},
-                new State{ code_num = 2, nextIfMPS = 10, nextIfLPS =  8},
-                new State{ code_num = 2, nextIfMPS = 11, nextIfLPS =  9},
-                new State{ code_num = 2, nextIfMPS = 12, nextIfLPS = 10},
-                new State{ code_num = 2, nextIfMPS = 13, nextIfLPS = 11},
-                new State{ code_num = 3, nextIfMPS = 14, nextIfLPS = 12},
-                new State{ code_num = 3, nextIfMPS = 15, nextIfLPS = 13},
-                new State{ code_num = 3, nextIfMPS = 16, nextIfLPS = 14},
-                new State{ code_num = 3, nextIfMPS = 17, nextIfLPS = 15},
-                new State{ code_num = 4, nextIfMPS = 18, nextIfLPS = 16},
-                new State{ code_num = 4, nextIfMPS = 19, nextIfLPS = 17},
-                new State{ code_num = 5, nextIfMPS = 20, nextIfLPS = 18},
-                new State{ code_num = 5, nextIfMPS = 21, nextIfLPS = 19},
-                new State{ code_num = 6, nextIfMPS = 22, nextIfLPS = 20},
-                new State{ code_num = 6, nextIfMPS = 23, nextIfLPS = 21},
-                new State{ code_num = 7, nextIfMPS = 24, nextIfLPS = 22},
-                new State{ code_num = 7, nextIfMPS = 24, nextIfLPS = 23},
-                new State{ code_num = 0, nextIfMPS = 26, nextIfLPS =  1},
-                new State{ code_num = 1, nextIfMPS = 27, nextIfLPS =  2},
-                new State{ code_num = 2, nextIfMPS = 28, nextIfLPS =  4},
-                new State{ code_num = 3, nextIfMPS = 29, nextIfLPS =  8},
-                new State{ code_num = 4, nextIfMPS = 30, nextIfLPS = 12},
-                new State{ code_num = 5, nextIfMPS = 31, nextIfLPS = 16},
-                new State{ code_num = 6, nextIfMPS = 32, nextIfLPS = 18},
-                new State{ code_num = 7, nextIfMPS = 24, nextIfLPS = 22}
+            return new List<State>()
+            {
+                new State { CodeNum = 0, NextIfMPS = 25, NextIfLPS = 25 },
+                new State { CodeNum = 0, NextIfMPS = 2, NextIfLPS = 1 },
+                new State { CodeNum = 0, NextIfMPS = 3, NextIfLPS = 1 },
+                new State { CodeNum = 0, NextIfMPS = 4, NextIfLPS = 2 },
+                new State { CodeNum = 0, NextIfMPS = 5, NextIfLPS = 3 },
+                new State { CodeNum = 1, NextIfMPS = 6, NextIfLPS = 4 },
+                new State { CodeNum = 1, NextIfMPS = 7, NextIfLPS = 5 },
+                new State { CodeNum = 1, NextIfMPS = 8, NextIfLPS = 6 },
+                new State { CodeNum = 1, NextIfMPS = 9, NextIfLPS = 7 },
+                new State { CodeNum = 2, NextIfMPS = 10, NextIfLPS = 8 },
+                new State { CodeNum = 2, NextIfMPS = 11, NextIfLPS = 9 },
+                new State { CodeNum = 2, NextIfMPS = 12, NextIfLPS = 10 },
+                new State { CodeNum = 2, NextIfMPS = 13, NextIfLPS = 11 },
+                new State { CodeNum = 3, NextIfMPS = 14, NextIfLPS = 12 },
+                new State { CodeNum = 3, NextIfMPS = 15, NextIfLPS = 13 },
+                new State { CodeNum = 3, NextIfMPS = 16, NextIfLPS = 14 },
+                new State { CodeNum = 3, NextIfMPS = 17, NextIfLPS = 15 },
+                new State { CodeNum = 4, NextIfMPS = 18, NextIfLPS = 16 },
+                new State { CodeNum = 4, NextIfMPS = 19, NextIfLPS = 17 },
+                new State { CodeNum = 5, NextIfMPS = 20, NextIfLPS = 18 },
+                new State { CodeNum = 5, NextIfMPS = 21, NextIfLPS = 19 },
+                new State { CodeNum = 6, NextIfMPS = 22, NextIfLPS = 20 },
+                new State { CodeNum = 6, NextIfMPS = 23, NextIfLPS = 21 },
+                new State { CodeNum = 7, NextIfMPS = 24, NextIfLPS = 22 },
+                new State { CodeNum = 7, NextIfMPS = 24, NextIfLPS = 23 },
+                new State { CodeNum = 0, NextIfMPS = 26, NextIfLPS = 1 },
+                new State { CodeNum = 1, NextIfMPS = 27, NextIfLPS = 2 },
+                new State { CodeNum = 2, NextIfMPS = 28, NextIfLPS = 4 },
+                new State { CodeNum = 3, NextIfMPS = 29, NextIfLPS = 8 },
+                new State { CodeNum = 4, NextIfMPS = 30, NextIfLPS = 12 },
+                new State { CodeNum = 5, NextIfMPS = 31, NextIfLPS = 16 },
+                new State { CodeNum = 6, NextIfMPS = 32, NextIfLPS = 18 },
+                new State { CodeNum = 7, NextIfMPS = 24, NextIfLPS = 22 },
             };
         }
     }

@@ -1,12 +1,16 @@
-﻿using jHackson.Core.Exceptions;
-using jHackson.Core.FileFormat;
-using jHackson.Core.Localization;
-using jHackson.Core.TableElements;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="DataContext.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Common
+namespace JHackson.Core.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using JHackson.Core.Exceptions;
+    using JHackson.Core.FileFormat;
+    using JHackson.Core.Localization;
+    using JHackson.Core.TableElements;
+
     public static class DataContext
     {
         public static readonly Dictionary<string, Type> ListActions = new Dictionary<string, Type>();
@@ -16,7 +20,9 @@ namespace jHackson.Core.Common
         public static void AddAction(string name, Type type)
         {
             if (ListActions.ContainsKey(name.ToLower()))
+            {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.actionAlreadyExists", name));
+            }
 
             ListActions.Add(name.ToLower(), type);
         }
@@ -24,7 +30,9 @@ namespace jHackson.Core.Common
         public static void AddFormat(string name, Type type)
         {
             if (ListScriptFormats.ContainsKey(name.ToLower()))
+            {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.formatAlreadyExists", name));
+            }
 
             ListScriptFormats.Add(name.ToLower(), type);
         }
@@ -32,7 +40,9 @@ namespace jHackson.Core.Common
         public static void AddTableElement(string identifier, Type type)
         {
             if (ListTableElements.ContainsKey(identifier.ToUpper()))
+            {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.tableElementAlreadyExists", identifier.ToUpper()));
+            }
 
             ListTableElements.Add(identifier.ToUpper(), type);
         }
@@ -44,10 +54,7 @@ namespace jHackson.Core.Common
 
         public static Type GetAction(string key)
         {
-            if (ListActions.ContainsKey(key))
-                return ListActions[key];
-
-            return null;
+            return ListActions.ContainsKey(key) ? ListActions[key] : null;
         }
 
         public static Dictionary<string, Type> GetActions()
@@ -57,10 +64,9 @@ namespace jHackson.Core.Common
 
         public static IFileFormat GetFormat(string key)
         {
-            if (ListScriptFormats.ContainsKey(key.ToLower()))
-                return Activator.CreateInstance(ListScriptFormats[key.ToLower()]) as IFileFormat;
-
-            return null;
+            return ListScriptFormats.ContainsKey(key.ToLower())
+                ? Activator.CreateInstance(ListScriptFormats[key.ToLower()]) as IFileFormat
+                : null;
         }
 
         public static Dictionary<string, Type> GetFormats()
@@ -70,10 +76,9 @@ namespace jHackson.Core.Common
 
         public static ITableElement GetTableElement(string key)
         {
-            if (ListTableElements.ContainsKey(key.ToUpper()))
-                return Activator.CreateInstance(ListTableElements[key.ToUpper()]) as ITableElement;
-
-            return null;
+            return ListTableElements.ContainsKey(key.ToUpper())
+                ? Activator.CreateInstance(ListTableElements[key.ToUpper()]) as ITableElement
+                : null;
         }
 
         public static Dictionary<string, Type> GetTableElements()

@@ -19,6 +19,10 @@
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Unity" Version="5.11.4" />
   </ItemGroup>
 
@@ -26,6 +30,10 @@
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
+  </ItemGroup>
+  
   <ItemGroup>
     <None Update="Localization\Batch_fr-FR.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

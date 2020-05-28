@@ -1,9 +1,13 @@
-﻿using jHackson.Core.Table;
-using System.Collections.Generic;
-using System.IO;
+﻿// <copyright file="IProjectContext.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Projects
+namespace JHackson.Core.Projects
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using JHackson.Core.Table;
+
     public interface IProjectContext
     {
         void AddBuffer(int id, object obj);

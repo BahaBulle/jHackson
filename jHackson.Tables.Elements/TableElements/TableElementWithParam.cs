@@ -1,14 +1,20 @@
-﻿using jHackson.Core.Exceptions;
-using jHackson.Core.Localization;
-using jHackson.Core.TableElements;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿// <copyright file="TableElementWithParam.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
 namespace jHackson.Tables.TableElements
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text.RegularExpressions;
+    using jHackson.Core.Exceptions;
+    using jHackson.Core.Localization;
+    using jHackson.Core.TableElements;
+
     public class TableElementWithParam : TableElementBase
     {
-        public TableElementWithParam() : base()
+        public TableElementWithParam()
+            : base()
         {
             this.Identifier = '%';
             this.Name = "PARAM";
@@ -32,17 +38,18 @@ namespace jHackson.Tables.TableElements
                 var param = new TableElementParam
                 {
                     Position = match.Index,
-                    Value = match.Groups[0].Value
+                    Value = match.Groups[0].Value,
                 };
-                int.TryParse(match.Value.Substring(1), out int nb);
+
+                var result = int.TryParse(match.Value.Substring(1), out int nb);
                 param.NbBytes = nb;
 
                 this.ListParam.Add(param);
 
-                this.ValueSize = this.ValueSize - (nb.ToString().Length + 1) + (nb * 2);
+                this.ValueSize = this.ValueSize - (nb.ToString(CultureInfo.InvariantCulture).Length + 1) + (nb * 2);
 
                 var reg = new Regex(this.Identifier.ToString() + nb);
-                temp = reg.Replace(temp, string.Format("[0-9A-Fa-f]{{{0}}}", nb * 2), 1);
+                temp = reg.Replace(temp, string.Format(CultureInfo.InvariantCulture, "[0-9A-Fa-f]{{{0}}}", nb * 2), 1);
                 reg = null;
             }
 
@@ -63,13 +70,15 @@ namespace jHackson.Tables.TableElements
 
                     this.SetParam();
                 }
-                catch (jHacksonTableException ex)
+                catch (JHacksonTableException ex)
                 {
                     this.AddError(ex.Message);
                 }
             }
             else
+            {
                 this.AddError(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", this.Line));
+            }
         }
     }
 }

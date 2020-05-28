@@ -1,25 +1,29 @@
-﻿using Newtonsoft.Json.Serialization;
-using System;
-using Unity;
+﻿// <copyright file="UnityContractResolver.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Json.ContractResolver
+namespace JHackson.Core.Json.ContractResolver
 {
+    using System;
+    using Newtonsoft.Json.Serialization;
+    using Unity;
+
     public class UnityContractResolver : DefaultContractResolver
     {
-        private readonly IUnityContainer _container;
+        private readonly IUnityContainer container;
 
         public UnityContractResolver(IUnityContainer container)
         {
-            this._container = container;
+            this.container = container;
         }
 
         protected override JsonObjectContract CreateObjectContract(Type objectType)
         {
             // use Unity to create types that have been registered with it
-            if (this._container.IsRegistered(objectType))
+            if (this.container.IsRegistered(objectType))
             {
                 var contract = this.ResolveContact(objectType);
-                contract.DefaultCreator = () => this._container.Resolve(objectType);
+                contract.DefaultCreator = () => this.container.Resolve(objectType);
 
                 return contract;
             }
@@ -29,18 +33,6 @@ namespace jHackson.Core.Json.ContractResolver
 
         private JsonObjectContract ResolveContact(Type objectType)
         {
-            // attempt to create the contact from the resolved type
-            //IComponentRegistration registration;
-
-            //if (this._container.ComponentRegistry.TryGetRegistration(new TypedService(objectType), out registration))
-            //{
-            //    Type viewType = (registration.Activator as ReflectionActivator)?.LimitType;
-            //    if (viewType != null)
-            //    {
-            //        return base.CreateObjectContract(viewType);
-            //    }
-            //}
-
             // fall back to using the registered type
             return base.CreateObjectContract(objectType);
         }

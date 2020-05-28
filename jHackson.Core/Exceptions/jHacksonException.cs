@@ -1,7 +1,11 @@
-﻿using System;
+﻿// <copyright file="JHacksonException.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Exceptions
+namespace JHackson.Core.Exceptions
 {
+    using System;
+
     public class JHacksonException : Exception
     {
         public JHacksonException()
@@ -13,7 +17,8 @@ namespace jHackson.Core.Exceptions
         {
         }
 
-        public JHacksonException(string message, Exception inner) : base(message, inner)
+        public JHacksonException(string message, Exception inner)
+            : base(message, inner)
         {
         }
     }

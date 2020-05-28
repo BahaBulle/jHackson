@@ -1,10 +1,14 @@
-﻿/************************************************************************
+﻿// <copyright file="SDD1_BG.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/************************************************************************
 
 S-DD1'algorithm emulation code
 ------------------------------
 
-Author:	     Andreas Naive
-Date:        August 2003
+Author: Andreas Naive
+Date: August 2003
 Last update: October 2004
 
 This code is Public Domain. There is no copyright holded by the author.
@@ -28,55 +32,61 @@ understood.
 
 ************************************************************************/
 
-namespace jHackson.StarOcean.SDD1Algorithm.Decompression
+namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
     // Bits Generator
     internal class SDD1_BG
     {
-        private readonly byte code_num;
+        private readonly byte codeNum;
 
-        private readonly SDD1_GCD GCD;
+        private readonly SDD1_GCD gcd;
 
-        private bool LPSind;
+        private bool lpsInd;
 
-        private byte MPScount;
+        private byte mpsCount;
 
         public SDD1_BG(SDD1_GCD associatedGCD, byte code)
         {
-            this.GCD = associatedGCD;
-            this.code_num = code;
+            this.gcd = associatedGCD;
+            this.codeNum = code;
         }
 
         public byte GetBit(ref bool endOfRun)
         {
             byte bit;
 
-            if (!(this.MPScount > 0 || this.LPSind))
-                this.GCD.GetRunCount(this.code_num, ref this.MPScount, ref this.LPSind);
+            if (!(this.mpsCount > 0 || this.lpsInd))
+            {
+                this.gcd.GetRunCount(this.codeNum, ref this.mpsCount, ref this.lpsInd);
+            }
 
-            if (this.MPScount > 0)
+            if (this.mpsCount > 0)
             {
                 bit = 0;
-                this.MPScount--;
+                this.mpsCount--;
             }
             else
             {
                 bit = 1;
-                this.LPSind = false;
+                this.lpsInd = false;
             }
 
-            if (this.MPScount > 0 || this.LPSind)
+            if (this.mpsCount > 0 || this.lpsInd)
+            {
                 endOfRun = false;
+            }
             else
+            {
                 endOfRun = true;
+            }
 
             return bit;
         }
 
         public void PrepareDecomp()
         {
-            this.MPScount = 0;
-            this.LPSind = false;
+            this.mpsCount = 0;
+            this.lpsInd = false;
         }
     }
 }

@@ -1,14 +1,19 @@
-﻿using jHackson.Core.Actions;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
+﻿// <copyright file="VariableJsonConverter.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Json.JsonConverters
+namespace JHackson.Core.Json.JsonConverters
 {
+    using System;
+    using System.Collections;
+    using JHackson.Core.Actions;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     public class VariableJsonConverter : JsonConverter
     {
         public override bool CanRead => true;
+
         public override bool CanWrite => false;
 
         public override bool CanConvert(Type objectType)

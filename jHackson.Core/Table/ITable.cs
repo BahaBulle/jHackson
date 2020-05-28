@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿// <copyright file="ITable.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Table
+namespace JHackson.Core.Table
 {
+    using System.Collections.Generic;
+    using System.IO;
+
     public interface ITable
     {
         int Count { get; }
+
         string Name { get; }
+
         bool WarningAsErrors { get; set; }
 
         void Load(string filename);

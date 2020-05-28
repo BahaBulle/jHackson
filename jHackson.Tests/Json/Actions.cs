@@ -1,9 +1,9 @@
-﻿using jHackson.Actions;
-using jHackson.Core.Actions;
+﻿using JHackson.Actions;
+using JHackson.Core.Actions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace jHackson.Tests.Json
+namespace JHackson.Tests.Json
 {
     public class Actions
     {

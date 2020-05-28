@@ -1,16 +1,20 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.Json.JsonConverters;
-using jHackson.Core.Projects;
-using Newtonsoft.Json;
-using NLog;
-using System.Collections.Generic;
-using System.Linq;
+﻿// <copyright file="ActionGroup.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Actions.Actions
+namespace JHackson.Actions.Actions
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using JHackson.Core.Actions;
+    using JHackson.Core.Json.JsonConverters;
+    using JHackson.Core.Projects;
+    using Newtonsoft.Json;
+    using NLog;
+
     public class ActionGroup : ActionBase
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ActionGroup()
         {
@@ -29,14 +33,18 @@ namespace jHackson.Actions.Actions
                 action.Check();
 
                 if (action.HasErrors)
+                {
                     this.AddErrors(action.GetErrors());
+                }
             }
         }
 
         public override void Execute()
         {
             if (this.Title != null)
-                _logger.Info(this.Title);
+            {
+                Logger.Info(this.Title);
+            }
 
             foreach (var action in this.Actions.Where(x => x.Todo == true))
             {

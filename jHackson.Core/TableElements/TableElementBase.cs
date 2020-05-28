@@ -1,20 +1,23 @@
-﻿using jHackson.Core.Exceptions;
-using jHackson.Core.Localization;
-using jHackson.Core.TableElements.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
+﻿// <copyright file="TableElementBase.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
 namespace jHackson.Core.TableElements
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text.RegularExpressions;
+    using jHackson.Core.Exceptions;
+    using jHackson.Core.Localization;
+    using jHackson.Core.TableElements.Extensions;
+
     public abstract class TableElementBase : ITableElement
     {
-        public const string CHAR_END_BLOCK = "/";
-        public const string CHAR_PARAM_INSERT = "@";
+        public const string CHARENDBLOCK = "/";
+        public const string CHARPARAMINSERT = "@";
 
-        protected readonly Regex rgxEndBlock = new Regex(@"^/([0-9A-Fa-f]+)=(.+)$");
-        protected readonly Regex rgxParamInsert = new Regex(@"^@=(.+)$");
+        private Regex rgxEndBlock;
 
         public TableElementBase()
         {
@@ -23,23 +26,55 @@ namespace jHackson.Core.TableElements
         }
 
         public List<string> Errors { get; }
+
         public bool HasErrors => this.Errors.Count > 0;
+
         public bool HasWarnings => this.Warnings.Count > 0;
+
         public char? Identifier { get; protected set; }
+
         public string Key { get; protected set; }
+
         public byte[] KeyBytes { get; protected set; }
+
         public int KeySize { get; protected set; }
+
         public string Line { get; protected set; }
+
         public List<ITableElementParam> ListParam { get; protected set; }
+
         public string Name { get; protected set; }
+
         public int NbParam { get; protected set; }
+
         public Regex RegexLine { get; protected set; }
+
         public string RegexValue { get; protected set; }
+
         public string Value { get; protected set; }
+
         public char[] ValueChars { get; protected set; }
+
         public int ValueSize { get; protected set; }
+
         public List<string> Warnings { get; }
+
         public bool WarningsAsErrors { get; protected set; }
+
+        protected Regex RgxEndBlock
+        {
+            get
+            {
+                if (this.rgxEndBlock == null)
+                {
+                    this.rgxEndBlock = new Regex(@"^/([0-9A-Fa-f]+)=(.+)$");
+                }
+
+                return this.rgxEndBlock;
+            }
+        }
+
+        protected Regex RgxParamInsert => new Regex(@"^@=(.+)$");
 
         public void Init()
         {
@@ -68,9 +103,13 @@ namespace jHackson.Core.TableElements
         protected void AddError(string message)
         {
             if (this.WarningsAsErrors)
+            {
                 this.Errors.Add(message);
+            }
             else
+            {
                 this.Warnings.Add(message);
+            }
         }
 
         protected void AddWarning(string message)
@@ -83,7 +122,9 @@ namespace jHackson.Core.TableElements
             this.Key = key;
 
             if (this.Key != null && this.Key.Length % 2 != 0)
-                throw new jHacksonTableException(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", LocalizationManager.GetMessage("core.tableElement.incorrectKeyLength", this.Line)));
+            {
+                throw new JHacksonTableException(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", LocalizationManager.GetMessage("core.tableElement.incorrectKeyLength", this.Line)));
+            }
 
             this.KeySize = this.Key.Length / 2;
             this.KeyBytes = new byte[this.KeySize];
@@ -96,7 +137,9 @@ namespace jHackson.Core.TableElements
                 bool result = byte.TryParse(s, NumberStyles.HexNumber, null as IFormatProvider, out this.KeyBytes[cpt++]);
 
                 if (!result)
-                    throw new jHacksonTableException(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", LocalizationManager.GetMessage("core.tableElement.incorrectKeySyntax", this.Line)));
+                {
+                    throw new JHacksonTableException(LocalizationManager.GetMessage("core.tableElement.notConfirmingLine", LocalizationManager.GetMessage("core.tableElement.incorrectKeySyntax", this.Line)));
+                }
             }
         }
 
@@ -111,7 +154,9 @@ namespace jHackson.Core.TableElements
 
             this.RegexValue = this.Value;
             for (int i = 0; i < badChars.Length; i++)
+            {
                 this.RegexValue = this.RegexValue.Replace(badChars[i], goodChars[i]);
+            }
         }
 
         protected virtual void SetValue(string value)

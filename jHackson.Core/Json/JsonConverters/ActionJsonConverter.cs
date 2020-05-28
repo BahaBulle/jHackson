@@ -1,17 +1,22 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.Common;
-using jHackson.Core.Exceptions;
-using jHackson.Core.Localization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections;
+﻿// <copyright file="ActionJsonConverter.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Json.JsonConverters
+namespace JHackson.Core.Json.JsonConverters
 {
+    using System;
+    using System.Collections;
+    using JHackson.Core.Actions;
+    using JHackson.Core.Common;
+    using JHackson.Core.Exceptions;
+    using JHackson.Core.Localization;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     public class ActionJsonConverter : JsonConverter
     {
         public override bool CanRead => true;
+
         public override bool CanWrite => false;
 
         public override bool CanConvert(Type objectType)
@@ -39,18 +44,22 @@ namespace jHackson.Core.Json.JsonConverters
                 }
 
                 if (childToken == null)
+                {
                     throw new JHacksonException(LocalizationManager.GetMessage("core.serialization.propertyNameUnknow", jToken.ToString()));
+                }
 
                 // Create Action object
                 if (DataContext.ListActions.ContainsKey(childToken.ToString().ToLower()))
                 {
-                    IActionJson newObject = Activator.CreateInstance(DataContext.GetAction(childToken.ToString().ToLower())) as IActionJson;
+                    var newObject = Activator.CreateInstance(DataContext.GetAction(childToken.ToString().ToLower())) as IActionJson;
                     serializer.Populate(jToken.CreateReader(), newObject);
 
                     list.Add(newObject);
                 }
                 else
+                {
                     throw new JHacksonException(LocalizationManager.GetMessage("core.serialization.actionUnknow", childToken.ToString()));
+                }
             }
 
             return list;

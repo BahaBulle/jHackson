@@ -1,13 +1,17 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.Localization;
-using jHackson.StarOcean.SDD1Algorithm;
-using NLog;
+﻿// <copyright file="ActionSDD1Compression.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.StarOcean.Actions
+namespace JHackson.StarOcean.Actions
 {
+    using JHackson.Core.Actions;
+    using JHackson.Core.Localization;
+    using JHackson.StarOcean.SDD1Algorithm;
+    using NLog;
+
     public class ActionSDD1Compression : ActionBase
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ActionSDD1Compression()
         {
@@ -20,29 +24,36 @@ namespace jHackson.StarOcean.Actions
         }
 
         public int? From { get; set; }
+
         public int? To { get; set; }
 
         public override void Check()
         {
             if (!this.From.HasValue)
+            {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString() : "null"));
+            }
 
             if (!this.To.HasValue)
+            {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString() : "null"));
+            }
         }
 
         public override void Execute()
         {
             if (this.Title != null)
-                _logger.Info(this.Title);
+            {
+                Logger.Info(this.Title);
+            }
 
-            var msSource = this._context.GetBufferMemoryStream(this.From.Value);
+            var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
 
             ISDD1Comp sdd1 = new SDD1();
 
             var msDestination = sdd1.Compress(msSource);
 
-            this._context.AddBuffer(this.To.Value, msDestination);
+            this.Context.AddBuffer(this.To.Value, msDestination);
         }
     }
 }

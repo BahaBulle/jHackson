@@ -1,8 +1,12 @@
-﻿using System.Linq;
-using Unity;
+﻿// <copyright file="Program.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson
+namespace JHackson
 {
+    using System.Linq;
+    using Unity;
+
     internal class Program
     {
         private static void Main(string[] args)

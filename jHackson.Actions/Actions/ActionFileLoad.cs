@@ -1,15 +1,19 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.Common;
-using jHackson.Core.Localization;
-using jHackson.Core.Projects;
-using NLog;
-using System.IO;
+﻿// <copyright file="ActionFileLoad.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Actions
+namespace JHackson.Actions
 {
+    using System.IO;
+    using JHackson.Core.Actions;
+    using JHackson.Core.Common;
+    using JHackson.Core.Localization;
+    using JHackson.Core.Projects;
+    using NLog;
+
     public class ActionFileLoad : ActionBase
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ActionFileLoad()
         {
@@ -22,24 +26,31 @@ namespace jHackson.Actions
         }
 
         public string FileName { get; set; }
+
         public int? To { get; set; }
 
         public override void Check()
         {
             if (string.IsNullOrWhiteSpace(this.FileName) || !File.Exists(this.FileName))
+            {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.FileName), this.FileName ?? "null"));
+            }
 
             if (!this.To.HasValue)
+            {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString() : "null"));
+            }
         }
 
         public override void Execute()
         {
             if (this.Title != null)
-                _logger.Info(this.Title);
+            {
+                Logger.Info(this.Title);
+            }
 
             var ms = new MemoryStream(File.ReadAllBytes(this.FileName));
-            this._context.AddBuffer(this.To.Value, ms);
+            this.Context.AddBuffer(this.To.Value, ms);
         }
 
         public override void Init(IProjectContext context)

@@ -1,18 +1,24 @@
-﻿using System;
+﻿// <copyright file="jHacksonTableException.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Exceptions
+namespace JHackson.Core.Exceptions
 {
-    public class jHacksonTableException : JHacksonException
+    using System;
+
+    public class JHacksonTableException : JHacksonException
     {
-        public jHacksonTableException()
+        public JHacksonTableException()
         {
         }
 
-        public jHacksonTableException(string message) : base(message)
+        public JHacksonTableException(string message)
+            : base(message)
         {
         }
 
-        public jHacksonTableException(string message, Exception inner) : base(message, inner)
+        public JHacksonTableException(string message, Exception inner)
+            : base(message, inner)
         {
         }
     }

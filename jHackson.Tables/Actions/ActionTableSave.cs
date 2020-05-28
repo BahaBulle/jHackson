@@ -1,14 +1,18 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.Common;
-using jHackson.Core.Localization;
-using jHackson.Core.Projects;
-using NLog;
+﻿// <copyright file="ActionTableSave.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Tables.Actions
+namespace JHackson.Tables.Actions
 {
+    using JHackson.Core.Actions;
+    using JHackson.Core.Common;
+    using JHackson.Core.Localization;
+    using JHackson.Core.Projects;
+    using NLog;
+
     public class ActionTableSave : ActionBase
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ActionTableSave()
         {
@@ -18,20 +22,25 @@ namespace jHackson.Tables.Actions
         }
 
         public string FileName { get; set; }
+
         public int? Id { get; set; }
 
         public override void Check()
         {
             if (!this.Id.HasValue)
+            {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString() : "null"));
+            }
         }
 
         public override void Execute()
         {
             if (this.Title != null)
-                _logger.Info(this.Title);
+            {
+                Logger.Info(this.Title);
+            }
 
-            var tbl = this._context.GetTable(this.Id.Value);
+            var tbl = this.Context.GetTable(this.Id.Value);
 
             tbl.Save(this.FileName);
         }

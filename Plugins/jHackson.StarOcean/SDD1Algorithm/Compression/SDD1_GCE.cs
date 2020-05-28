@@ -1,4 +1,8 @@
-﻿/**********************************************************************
+﻿// <copyright file="SDD1_GCE.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/**********************************************************************
 
 S-DD1'inverse algorithm emulation code
 --------------------------------------
@@ -28,11 +32,11 @@ understood.
 
 *************************************************************************/
 
-using System;
-using System.Collections.Generic;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Compression
+namespace JHackson.StarOcean.SDD1Algorithm.Compression
 {
+    using System;
+    using System.Collections.Generic;
+
     // Golomb-Code Encoder
     public class SDD1_GCE
     {
@@ -42,10 +46,18 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
 
         private readonly List<byte> codewSequence;
 
-        private readonly byte[] MPScount;
+        private readonly byte[] mPScount;
 
-        public SDD1_GCE(List<byte> associatedCWSeq, List<byte> associatedCWBuf0, List<byte> associatedCWBuf1, List<byte> associatedCWBuf2, List<byte> associatedCWBuf3,
-                                                    List<byte> associatedCWBuf4, List<byte> associatedCWBuf5, List<byte> associatedCWBuf6, List<byte> associatedCWBuf7)
+        public SDD1_GCE(
+            List<byte> associatedCWSeq,
+            List<byte> associatedCWBuf0,
+            List<byte> associatedCWBuf1,
+            List<byte> associatedCWBuf2,
+            List<byte> associatedCWBuf3,
+            List<byte> associatedCWBuf4,
+            List<byte> associatedCWBuf5,
+            List<byte> associatedCWBuf6,
+            List<byte> associatedCWBuf7)
         {
             this.codewSequence = associatedCWSeq;
 
@@ -60,15 +72,17 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
             this.codewBuffer[7] = associatedCWBuf7;
 
             this.bitInd = new byte[8];
-            this.MPScount = new byte[8];
+            this.mPScount = new byte[8];
         }
 
         public void FinishComp()
         {
             for (byte i = 0; i < 8; i++)
             {
-                if (this.MPScount[i] > 0)
+                if (this.mPScount[i] > 0)
+                {
                     this.OutputBit(i, false);
+                }
             }
         }
 
@@ -76,15 +90,17 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
         {
             for (byte i = 0; i < 8; i++)
             {
-                this.MPScount[i] = 0;
+                this.mPScount[i] = 0;
                 this.bitInd[i] = 0;
             }
         }
 
         public void PutBit(byte code_num, byte bit, ref bool endOfRun)
         {
-            if (this.MPScount[code_num] == 0)
+            if (this.mPScount[code_num] == 0)
+            {
                 this.codewSequence.Add(code_num);
+            }
 
             if (bit > 0)
             {
@@ -93,21 +109,23 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
 
                 for (byte i = 0, aux = 0x01; i < code_num; i++, aux <<= 1)
                 {
-                    this.OutputBit(code_num, (this.MPScount[code_num] & aux) == 0);
+                    this.OutputBit(code_num, (this.mPScount[code_num] & aux) == 0);
                 }
 
-                this.MPScount[code_num] = 0;
+                this.mPScount[code_num] = 0;
             }
             else
             {
-                if (++(this.MPScount[code_num]) == (1 << code_num))
+                if (++this.mPScount[code_num] == (1 << code_num))
                 {
                     endOfRun = true;
                     this.OutputBit(code_num, false);
-                    this.MPScount[code_num] = 0;
+                    this.mPScount[code_num] = 0;
                 }
                 else
+                {
                     endOfRun = false;
+                }
             }
         }
 
@@ -116,7 +134,9 @@ namespace jHackson.StarOcean.SDD1Algorithm.Compression
             byte oBit = Convert.ToByte((bit ? 0x80 >> this.bitInd[code_num] : 0x00) & 0xFF);
 
             if (this.bitInd[code_num] == 0)
+            {
                 this.codewBuffer[code_num].Add(0);
+            }
 
             this.codewBuffer[code_num][^1] |= oBit;
 

@@ -1,22 +1,26 @@
-﻿using jHackson.Core.Common;
-using jHackson.Core.Json.ContractResolver;
-using jHackson.Core.Json.JsonConverters;
-using jHackson.Core.Localization;
-using jHackson.Core.Localization.Providers;
-using jHackson.Core.Projects;
-using jHackson.Core.Services;
-using System.Globalization;
-using Unity;
+﻿// <copyright file="BootStrapper.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson
+namespace JHackson
 {
+    using System.Globalization;
+    using JHackson.Core.Common;
+    using JHackson.Core.Json.ContractResolver;
+    using JHackson.Core.Json.JsonConverters;
+    using JHackson.Core.Localization;
+    using JHackson.Core.Localization.Providers;
+    using JHackson.Core.Projects;
+    using JHackson.Core.Services;
+    using Unity;
+
     public class BootStrapper
     {
-        private static IUnityContainer _container;
+        private static IUnityContainer container;
 
         public static void Init(IUnityContainer container)
         {
-            _container = container;
+            BootStrapper.container = container;
 
             // Register IoC
             RegisterElements();
@@ -42,13 +46,13 @@ namespace jHackson
 
         private static void RegisterElements()
         {
-            _container.RegisterType<IProjectJson, ProjectJson>();
-            _container.RegisterType<ISerializationService, SerializationService>();
+            container.RegisterType<IProjectJson, ProjectJson>();
+            container.RegisterType<ISerializationService, SerializationService>();
 
-            _container.RegisterType<ActionJsonConverter>();
-            _container.RegisterType<VariableJsonConverter>();
-            _container.RegisterType<Batch>();
-            _container.RegisterType<UnityContractResolver>();
+            container.RegisterType<ActionJsonConverter>();
+            container.RegisterType<VariableJsonConverter>();
+            container.RegisterType<Batch>();
+            container.RegisterType<UnityContractResolver>();
         }
     }
 }

@@ -1,40 +1,47 @@
-﻿using jHackson.StarOcean.SDD1Algorithm.Compression;
-using jHackson.StarOcean.SDD1Algorithm.Decompression;
-using System.Collections.Generic;
-using System.IO;
+﻿// <copyright file="SDD1.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.StarOcean.SDD1Algorithm
+namespace JHackson.StarOcean.SDD1Algorithm
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using JHackson.StarOcean.SDD1Algorithm.Compression;
+    using JHackson.StarOcean.SDD1Algorithm.Decompression;
+
     public class SDD1 : ISDD1Comp, ISDD1Decomp
     {
-        public static byte[] OutBuffer;
-        public static int OutBufferLength;
-        public static int OutBufferPosition;
-        private SDD1_BE _BE;
-        private List<byte>[] _bitplaneBuffer;
-        private SDD1_CMC _CMC;
-        private List<byte>[] _codewordBuffer;
-        private List<byte> _codewordsSequence;
-        private SDD1_GCE _GCE;
-        private SDD1_I _I;
-        private SDD1_PEMC _PEMC;
-        private SDD1_BG BG0;
-        private SDD1_BG BG1;
-        private SDD1_BG BG2;
-        private SDD1_BG BG3;
-        private SDD1_BG BG4;
-        private SDD1_BG BG5;
-        private SDD1_BG BG6;
-        private SDD1_BG BG7;
-        private SDD1_CMD CMD;
-        private SDD1_GCD GCD;
-        private SDD1_IM IM;
-        private SDD1_OL OL;
-        private SDD1_PEMD PEMD;
+        private SDD1_BE be;
+        private SDD1_BG bg0;
+        private SDD1_BG bg1;
+        private SDD1_BG bg2;
+        private SDD1_BG bg3;
+        private SDD1_BG bg4;
+        private SDD1_BG bg5;
+        private SDD1_BG bg6;
+        private SDD1_BG bg7;
+        private List<byte>[] bitplaneBuffer;
+        private SDD1_CMC cmc;
+        private SDD1_CMD cmd;
+        private List<byte>[] codewordBuffer;
+        private List<byte> codewordsSequence;
+        private SDD1_GCD gcd;
+        private SDD1_GCE gce;
+        private SDD1_I il;
+        private SDD1_IM im;
+        private SDD1_OL ol;
+        private SDD1_PEMC pemc;
+        private SDD1_PEMD pemd;
 
         public SDD1()
         {
         }
+
+        public static byte[] OutBuffer { get; set; }
+
+        public static int OutBufferLength { get; set; }
+
+        public static int OutBufferPosition { get; set; }
 
         public MemoryStream Compress(MemoryStream in_buf)
         {
@@ -95,20 +102,20 @@ namespace jHackson.StarOcean.SDD1Algorithm
             {
                 stream.BaseStream.Position = 0;
 
-                IM.PrepareDecomp(stream);
-                BG0.PrepareDecomp();
-                BG1.PrepareDecomp();
-                BG2.PrepareDecomp();
-                BG3.PrepareDecomp();
-                BG4.PrepareDecomp();
-                BG5.PrepareDecomp();
-                BG6.PrepareDecomp();
-                BG7.PrepareDecomp();
-                PEMD.PrepareDecomp();
-                CMD.PrepareDecomp(stream);
-                OL.PrepareDecomp(stream, out_len, out_buf);
+                this.im.PrepareDecomp(stream);
+                this.bg0.PrepareDecomp();
+                this.bg1.PrepareDecomp();
+                this.bg2.PrepareDecomp();
+                this.bg3.PrepareDecomp();
+                this.bg4.PrepareDecomp();
+                this.bg5.PrepareDecomp();
+                this.bg6.PrepareDecomp();
+                this.bg7.PrepareDecomp();
+                this.pemd.PrepareDecomp();
+                this.cmd.PrepareDecomp(stream);
+                this.ol.PrepareDecomp(stream, out_len, out_buf);
 
-                OL.Launch();
+                this.ol.Launch();
             }
 
             return out_buf;
@@ -119,71 +126,71 @@ namespace jHackson.StarOcean.SDD1Algorithm
             in_buf.BaseStream.Position = 0;
             OutBufferPosition = 0;
 
-            //Step 1
+            // Step 1
             for (byte i = 0; i < 8; i++)
             {
-                this._bitplaneBuffer[i].Clear();
+                this.bitplaneBuffer[i].Clear();
             }
 
-            this._BE.PrepareComp(in_buf, header);
-            this._BE.Launch();
+            this.be.PrepareComp(in_buf, header);
+            this.be.Launch();
 
-            //Step 2
-            this._codewordsSequence.Clear();
+            // Step 2
+            this.codewordsSequence.Clear();
 
             for (byte i = 0; i < 8; i++)
             {
-                this._codewordBuffer[i].Clear();
+                this.codewordBuffer[i].Clear();
             }
 
-            this._CMC.PrepareComp(header);
-            this._PEMC.PrepareComp(header, (ushort)in_buf.BaseStream.Length);
-            this._GCE.PrepareComp();
-            this._PEMC.Launch();
+            this.cmc.PrepareComp(header);
+            this.pemc.PrepareComp(header, (ushort)in_buf.BaseStream.Length);
+            this.gce.PrepareComp();
+            this.pemc.Launch();
 
-            //Step 3
-            this._I.PrepareComp(header);
-            this._I.Launch();
+            // Step 3
+            this.il.PrepareComp(header);
+            this.il.Launch();
         }
 
         private void InitCompression()
         {
-            this._bitplaneBuffer = new List<byte>[8];
-            this._codewordBuffer = new List<byte>[8];
-            this._codewordsSequence = new List<byte>();
+            this.bitplaneBuffer = new List<byte>[8];
+            this.codewordBuffer = new List<byte>[8];
+            this.codewordsSequence = new List<byte>();
 
             for (int i = 0; i < 8; i++)
             {
-                this._bitplaneBuffer[i] = new List<byte>();
+                this.bitplaneBuffer[i] = new List<byte>();
             }
 
             for (int i = 0; i < 8; i++)
             {
-                this._codewordBuffer[i] = new List<byte>();
+                this.codewordBuffer[i] = new List<byte>();
             }
 
-            this._BE = new SDD1_BE(this._bitplaneBuffer[0], this._bitplaneBuffer[1], this._bitplaneBuffer[2], this._bitplaneBuffer[3], this._bitplaneBuffer[4], this._bitplaneBuffer[5], this._bitplaneBuffer[6], this._bitplaneBuffer[7]);
-            this._CMC = new SDD1_CMC(this._bitplaneBuffer[0], this._bitplaneBuffer[1], this._bitplaneBuffer[2], this._bitplaneBuffer[3], this._bitplaneBuffer[4], this._bitplaneBuffer[5], this._bitplaneBuffer[6], this._bitplaneBuffer[7]);
-            this._GCE = new SDD1_GCE(this._codewordsSequence, this._codewordBuffer[0], this._codewordBuffer[1], this._codewordBuffer[2], this._codewordBuffer[3], this._codewordBuffer[4], this._codewordBuffer[5], this._codewordBuffer[6], this._codewordBuffer[7]);
-            this._PEMC = new SDD1_PEMC(this._CMC, this._GCE);
-            this._I = new SDD1_I(this._codewordsSequence, this._codewordBuffer[0], this._codewordBuffer[1], this._codewordBuffer[2], this._codewordBuffer[3], this._codewordBuffer[4], this._codewordBuffer[5], this._codewordBuffer[6], this._codewordBuffer[7]);
+            this.be = new SDD1_BE(this.bitplaneBuffer[0], this.bitplaneBuffer[1], this.bitplaneBuffer[2], this.bitplaneBuffer[3], this.bitplaneBuffer[4], this.bitplaneBuffer[5], this.bitplaneBuffer[6], this.bitplaneBuffer[7]);
+            this.cmc = new SDD1_CMC(this.bitplaneBuffer[0], this.bitplaneBuffer[1], this.bitplaneBuffer[2], this.bitplaneBuffer[3], this.bitplaneBuffer[4], this.bitplaneBuffer[5], this.bitplaneBuffer[6], this.bitplaneBuffer[7]);
+            this.gce = new SDD1_GCE(this.codewordsSequence, this.codewordBuffer[0], this.codewordBuffer[1], this.codewordBuffer[2], this.codewordBuffer[3], this.codewordBuffer[4], this.codewordBuffer[5], this.codewordBuffer[6], this.codewordBuffer[7]);
+            this.pemc = new SDD1_PEMC(this.cmc, this.gce);
+            this.il = new SDD1_I(this.codewordsSequence, this.codewordBuffer[0], this.codewordBuffer[1], this.codewordBuffer[2], this.codewordBuffer[3], this.codewordBuffer[4], this.codewordBuffer[5], this.codewordBuffer[6], this.codewordBuffer[7]);
         }
 
         private void InitDecompression()
         {
-            IM = new SDD1_IM();
-            GCD = new SDD1_GCD(IM);
-            BG0 = new SDD1_BG(GCD, 0);
-            BG1 = new SDD1_BG(GCD, 1);
-            BG2 = new SDD1_BG(GCD, 2);
-            BG3 = new SDD1_BG(GCD, 3);
-            BG4 = new SDD1_BG(GCD, 4);
-            BG5 = new SDD1_BG(GCD, 5);
-            BG6 = new SDD1_BG(GCD, 6);
-            BG7 = new SDD1_BG(GCD, 7);
-            PEMD = new SDD1_PEMD(BG0, BG1, BG2, BG3, BG4, BG5, BG6, BG7);
-            CMD = new SDD1_CMD(PEMD);
-            OL = new SDD1_OL(CMD);
+            this.im = new SDD1_IM();
+            this.gcd = new SDD1_GCD(this.im);
+            this.bg0 = new SDD1_BG(this.gcd, 0);
+            this.bg1 = new SDD1_BG(this.gcd, 1);
+            this.bg2 = new SDD1_BG(this.gcd, 2);
+            this.bg3 = new SDD1_BG(this.gcd, 3);
+            this.bg4 = new SDD1_BG(this.gcd, 4);
+            this.bg5 = new SDD1_BG(this.gcd, 5);
+            this.bg6 = new SDD1_BG(this.gcd, 6);
+            this.bg7 = new SDD1_BG(this.gcd, 7);
+            this.pemd = new SDD1_PEMD(this.bg0, this.bg1, this.bg2, this.bg3, this.bg4, this.bg5, this.bg6, this.bg7);
+            this.cmd = new SDD1_CMD(this.pemd);
+            this.ol = new SDD1_OL(this.cmd);
         }
     }
 }

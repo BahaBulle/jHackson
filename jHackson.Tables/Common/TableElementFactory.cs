@@ -1,29 +1,31 @@
-﻿using jHackson.Core.Common;
-using jHackson.Core.TableElements;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="TableElementFactory.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Tables.Common
+namespace JHackson.Tables.Common
 {
+    using JHackson.Core.Common;
+    using JHackson.Core.TableElements;
+
     public class TableElementFactory
     {
-        private readonly string _line;
+        private readonly string line;
 
         public TableElementFactory(string line)
         {
-            this._line = line;
+            this.line = line;
         }
 
         public ITableElement Build(bool warningsAsErrors = false)
         {
-            foreach (KeyValuePair<string, Type> element in DataContext.GetTableElements())
+            foreach (var element in DataContext.GetTableElements())
             {
                 var elem = DataContext.GetTableElement(element.Key);
 
-                if (elem.IsThisElement(this._line))
+                if (elem.IsThisElement(this.line))
                 {
                     elem = elem
-                        .WithLine(this._line)
+                        .WithLine(this.line)
                         .WithWarningsAsErrors(warningsAsErrors);
 
                     elem.Init();

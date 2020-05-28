@@ -1,7 +1,11 @@
-﻿using System.IO;
+﻿// <copyright file="BinaryReaderExtension.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.StarOcean.Extensions
+namespace JHackson.StarOcean.Extensions
 {
+    using System.IO;
+
     public static class BinaryReaderExtension
     {
         public static byte PeekByte(this BinaryReader reader)

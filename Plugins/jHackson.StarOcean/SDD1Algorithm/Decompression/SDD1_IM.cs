@@ -1,10 +1,14 @@
-﻿/************************************************************************
+﻿// <copyright file="SDD1_IM.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/************************************************************************
 
 S-DD1'algorithm emulation code
 ------------------------------
 
-Author:	     Andreas Naive
-Date:        August 2003
+Author: Andreas Naive
+Date: August 2003
 Last update: October 2004
 
 This code is Public Domain. There is no copyright holded by the author.
@@ -28,41 +32,41 @@ understood.
 
 ************************************************************************/
 
-using jHackson.StarOcean.Extensions;
-using NLog;
-using System;
-using System.IO;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Decompression
+namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
+    using System;
+    using System.IO;
+    using JHackson.StarOcean.Extensions;
+    using NLog;
+
     // Input Manager
     internal class SDD1_IM
     {
-        private static readonly Logger _logger = LogManager.GetLogger("PluginSO");
-        private byte _bit_count;
-        private BinaryReader _byte_ptr;
+        private static readonly Logger Logger = LogManager.GetLogger("PluginSO");
+        private byte bitCount;
+        private BinaryReader bytePtr;
 
         public byte GetCodeword(byte code_len)
         {
             byte codeword;
 
-            codeword = Convert.ToByte((this._byte_ptr.PeekByte() << this._bit_count) & 0xFF);
-            _logger.Debug("1 - {0} : {1:X02}", _bit_count, this._byte_ptr.PeekByte());
+            codeword = Convert.ToByte((this.bytePtr.PeekByte() << this.bitCount) & 0xFF);
+            Logger.Debug("1 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte());
 
-            ++this._bit_count;
+            ++this.bitCount;
 
             if ((codeword & 0x80) == 0x80)
             {
-                codeword |= Convert.ToByte((this._byte_ptr.PeekByte(1) >> (9 - this._bit_count)) & 0xFF);
-                _logger.Debug("2 - {0} : {1:X02}", _bit_count, this._byte_ptr.PeekByte(1));
-                this._bit_count += code_len;
+                codeword |= Convert.ToByte((this.bytePtr.PeekByte(1) >> (9 - this.bitCount)) & 0xFF);
+                Logger.Debug("2 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte(1));
+                this.bitCount += code_len;
             }
 
-            if ((this._bit_count & 0x08) == 0x08)
+            if ((this.bitCount & 0x08) == 0x08)
             {
-                this._byte_ptr.ReadByte();
-                _logger.Debug("Position++ : {0}", this._byte_ptr.BaseStream.Position);
-                this._bit_count &= 0x07;
+                this.bytePtr.ReadByte();
+                Logger.Debug("Position++ : {0}", this.bytePtr.BaseStream.Position);
+                this.bitCount &= 0x07;
             }
 
             return codeword;
@@ -70,8 +74,8 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
 
         public void PrepareDecomp(BinaryReader buffer)
         {
-            this._byte_ptr = buffer;
-            this._bit_count = 4;
+            this.bytePtr = buffer;
+            this.bitCount = 4;
         }
     }
 }

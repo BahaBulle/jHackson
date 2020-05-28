@@ -1,26 +1,29 @@
-﻿using jHackson.Core.Actions;
-using jHackson.Core.FileFormat;
-using jHackson.Core.TableElements;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text.RegularExpressions;
+﻿// <copyright file="Helper.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Common
+namespace JHackson.Core.Common
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+    using JHackson.Core.Actions;
+    using JHackson.Core.FileFormat;
+    using JHackson.Core.TableElements;
+
     public static class Helper
     {
-        private const string CHARACTER_VARIABLE = "$";
-        private const string PLUGINS_DIRECTORY = "Plugins";
+        private const string CHARACTERVARIABLE = "$";
+        private const string PLUGINSDIRECTORY = "Plugins";
 
-        private static readonly Regex _regexParameter = new Regex("#([a-zA-Z0-9]+)#");
+        private static readonly Regex RegexParameter = new Regex("#([a-zA-Z0-9]+)#");
 
         public static void LoadPlugins()
         {
-            if (Directory.Exists(PLUGINS_DIRECTORY))
+            if (Directory.Exists(PLUGINSDIRECTORY))
             {
-                var filesList = Directory.GetFiles(PLUGINS_DIRECTORY, "*.dll");
+                var filesList = Directory.GetFiles(PLUGINSDIRECTORY, "*.dll");
 
                 if (filesList.Length > 0)
                 {
@@ -28,29 +31,23 @@ namespace jHackson.Core.Common
                     {
                         var assembly = Assembly.LoadFrom(fileName);
 
-                        foreach (Type t in assembly.GetExportedTypes())
+                        foreach (var t in assembly.GetExportedTypes())
                         {
                             if (t.GetInterface("IActionJson", true) != null)
                             {
-                                var action = (IActionJson)t.InvokeMember(null, BindingFlags.DeclaredOnly |
-                                                                               BindingFlags.Public | BindingFlags.NonPublic |
-                                                                               BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                var action = (IActionJson)t.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
 
                                 DataContext.AddAction(action.Name, t);
                             }
                             else if (t.GetInterface("IFileFormat", true) != null)
                             {
-                                var format = (IFileFormat)t.InvokeMember(null, BindingFlags.DeclaredOnly |
-                                                                               BindingFlags.Public | BindingFlags.NonPublic |
-                                                                               BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                var format = (IFileFormat)t.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
 
                                 DataContext.AddFormat(format.Name, t);
                             }
                             else if (t.GetInterface("ITableElement", true) != null && !t.IsAbstract)
                             {
-                                var element = (ITableElement)t.InvokeMember(null, BindingFlags.DeclaredOnly |
-                                                                                  BindingFlags.Public | BindingFlags.NonPublic |
-                                                                                  BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                var element = (ITableElement)t.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
 
                                 DataContext.AddTableElement(element.Name, t);
                             }
@@ -61,19 +58,21 @@ namespace jHackson.Core.Common
         }
 
         /// <summary>
-        /// Replace properties parameters with their values
+        /// Replace properties parameters with their values.
         /// </summary>
-        /// <param name="action">Action which have the property</param>
-        /// <param name="text">Text containing parameters</param>
-        /// <returns>Return a string with all parameters replaced by their values</returns>
+        /// <param name="action">Action which have the property.</param>
+        /// <param name="text">Text containing parameters.</param>
+        /// <returns>Return a string with all parameters replaced by their values.</returns>
         public static string ReplaceParameters(IActionJson action, string text)
         {
             if (string.IsNullOrWhiteSpace(text))
+            {
                 return text;
+            }
 
             var result = text;
 
-            var list = _regexParameter.Matches(result);
+            var list = RegexParameter.Matches(result);
 
             foreach (Match m in list)
             {
@@ -82,29 +81,35 @@ namespace jHackson.Core.Common
                     .GetProperty(m.Groups[1].Value);
 
                 if (obj.GetValue(action) != null)
+                {
                     result = result.Replace(m.Groups[0].Value, obj.GetValue(action).ToString());
+                }
             }
 
             return result;
         }
 
         /// <summary>
-        /// Replace variables name by their values
+        /// Replace variables name by their values.
         /// </summary>
-        /// <param name="variablesList">List of variables in the project</param>
-        /// <param name="text">Text containing variables to replace</param>
-        /// <returns>Return string with all variables replaced by their values</returns>
+        /// <param name="variablesList">List of variables in the project.</param>
+        /// <param name="text">Text containing variables to replace.</param>
+        /// <returns>Return string with all variables replaced by their values.</returns>
         public static string ReplaceVariables(Dictionary<string, string> variablesList, string text)
         {
             if (string.IsNullOrWhiteSpace(text))
+            {
                 return text;
+            }
 
             string result = text;
 
-            foreach (KeyValuePair<string, string> variable in variablesList)
+            foreach (var variable in variablesList)
             {
-                if (result.Contains(CHARACTER_VARIABLE + variable.Key + CHARACTER_VARIABLE))
-                    result = result.Replace(CHARACTER_VARIABLE + variable.Key + CHARACTER_VARIABLE, variable.Value);
+                if (result.Contains(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE))
+                {
+                    result = result.Replace(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE, variable.Value);
+                }
             }
 
             return result;

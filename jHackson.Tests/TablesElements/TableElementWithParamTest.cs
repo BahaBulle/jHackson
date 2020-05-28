@@ -1,9 +1,9 @@
-﻿using jHackson.Core.TableElements;
-using jHackson.Tables.TableElements;
+﻿using JHackson.Core.TableElements;
+using JHackson.Tables.TableElements;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace jHackson.Tests.TableElements
+namespace JHackson.Tests.TableElements
 {
     public class TableElementWithParamTest
     {

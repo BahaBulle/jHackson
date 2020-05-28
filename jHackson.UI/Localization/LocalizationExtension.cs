@@ -1,11 +1,11 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
-
-namespace jHackson.Core.Localization
+﻿namespace JHackson.Core.Localization
 {
+    using System;
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Data;
+    using System.Windows.Markup;
+
     public class LocalizationExtension : MarkupExtension
     {
         protected DependencyObject targetObject;
@@ -34,57 +34,67 @@ namespace jHackson.Core.Localization
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (targetType == null)
+            if (this.targetType == null)
             {
                 var targetHelper = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
 
-                targetObject = targetHelper.TargetObject as DependencyObject;
-                targetProperty = targetHelper.TargetProperty as DependencyProperty;
+                this.targetObject = targetHelper.TargetObject as DependencyObject;
+                this.targetProperty = targetHelper.TargetProperty as DependencyProperty;
 
-                if (targetProperty != null)
+                if (this.targetProperty != null)
                 {
-                    targetType = targetProperty.PropertyType;
-                    typeConverter = TypeDescriptor.GetConverter(targetType);
+                    this.targetType = this.targetProperty.PropertyType;
+                    this.typeConverter = TypeDescriptor.GetConverter(this.targetType);
                 }
                 else if (targetHelper.TargetProperty != null)
                 {
-                    targetType = targetHelper.TargetProperty.GetType();
-                    typeConverter = TypeDescriptor.GetConverter(targetType);
+                    this.targetType = targetHelper.TargetProperty.GetType();
+                    this.typeConverter = TypeDescriptor.GetConverter(this.targetType);
                 }
             }
 
-            return ProvideValueInternal();
+            return this.ProvideValueInternal();
         }
 
         protected object ProvideValueInternal()
         {
             // Get the localized value.
-            object value = LocalizationManager.GetMessage(Key);
+            object value = LocalizationManager.GetMessage(this.Key);
 
             // Automatically convert the type if a matching converter is available.
-            if (value != null && typeConverter != null && typeConverter.CanConvertFrom(value.GetType()))
-                value = typeConverter.ConvertFrom(value);
+            if (value != null && this.typeConverter != null && this.typeConverter.CanConvertFrom(value.GetType()))
+            {
+                value = this.typeConverter.ConvertFrom(value);
+            }
 
             // If the value is null and we have a default value, use it.
-            if (value == null && DefaultValue != null)
-                value = DefaultValue;
+            if (value == null && this.DefaultValue != null)
+            {
+                value = this.DefaultValue;
+            }
 
             // If we have no fallback value, return the key.
             if (value == null)
             {
-                if (targetType == typeof(string))
-                    value = string.Concat("?", Key, "?");
-                else if (targetProperty != null)
-                    return DependencyProperty.UnsetValue;
+                if (this.targetType == typeof(string))
+                {
+                    value = string.Concat("?", this.Key, "?");
+                }
                 else
-                    return null;
+                {
+                    return this.targetProperty != null ? DependencyProperty.UnsetValue : null;
+                }
             }
 
-            if (Converter != null)
-                value = Converter.Convert(value, targetType, null, LocalizationManager.CurrentCulture);
+            if (this.Converter != null)
+            {
+                value = this.Converter.Convert(value, this.targetType, null, LocalizationManager.CurrentCulture);
+            }
 
-            if (Format != null && value is IFormattable)
-                ((IFormattable)value).ToString(Format, LocalizationManager.CurrentCulture);
+            if (this.Format != null && value is IFormattable)
+            {
+                ((IFormattable)value).ToString(this.Format, LocalizationManager.CurrentCulture);
+            }
 
             return value;
         }
@@ -93,7 +103,7 @@ namespace jHackson.Core.Localization
         {
             if (this.targetObject != null && this.targetProperty != null)
             {
-                this.targetObject.SetValue(this.targetProperty, ProvideValueInternal());
+                this.targetObject.SetValue(this.targetProperty, this.ProvideValueInternal());
             }
         }
 

@@ -1,10 +1,14 @@
-﻿/************************************************************************
+﻿// <copyright file="SDD1_GCD.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/************************************************************************
 
 S-DD1'algorithm emulation code
 ------------------------------
 
-Author:	     Andreas Naive
-Date:        August 2003
+Author: Andreas Naive
+Date: August 2003
 Last update: October 2004
 
 This code is Public Domain. There is no copyright holded by the author.
@@ -28,21 +32,21 @@ understood.
 
 ************************************************************************/
 
-using System;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Decompression
+namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
+    using System;
+
     // Golomb-Code Decoder
     internal class SDD1_GCD
     {
-        private readonly SDD1_IM IM;
+        private readonly SDD1_IM inputManager;
 
         public SDD1_GCD(SDD1_IM associatedIM)
         {
-            this.IM = associatedIM;
+            this.inputManager = associatedIM;
         }
 
-        public void GetRunCount(byte code_num, ref byte MPScount, ref bool LPSind)
+        public void GetRunCount(byte code_num, ref byte mpsCount, ref bool lpsInd)
         {
             byte[] run_count = new byte[]
             {
@@ -80,15 +84,17 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
                 0x70, 0x30, 0x50, 0x10, 0x60, 0x20, 0x40, 0x00,
             };
 
-            byte codeword = this.IM.GetCodeword(code_num);
+            byte codeword = this.inputManager.GetCodeword(code_num);
 
             if ((codeword & 0x80) == 0x80)
             {
-                LPSind = true;
-                MPScount = run_count[codeword >> (code_num ^ 0x07)];
+                lpsInd = true;
+                mpsCount = run_count[codeword >> (code_num ^ 0x07)];
             }
             else
-                MPScount = Convert.ToByte((1 << code_num) & 0xFF);
+            {
+                mpsCount = Convert.ToByte((1 << code_num) & 0xFF);
+            }
         }
     }
 }

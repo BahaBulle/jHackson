@@ -1,10 +1,14 @@
-﻿/************************************************************************
+﻿// <copyright file="SDD1_OL.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+/************************************************************************
 
 S-DD1'algorithm emulation code
 ------------------------------
 
-Author:	     Andreas Naive
-Date:        August 2003
+Author: Andreas Naive
+Date: August 2003
 Last update: October 2004
 
 This code is Public Domain. There is no copyright holded by the author.
@@ -28,26 +32,26 @@ understood.
 
 ************************************************************************/
 
-using jHackson.StarOcean.Extensions;
-using NLog;
-using System;
-using System.IO;
-
-namespace jHackson.StarOcean.SDD1Algorithm.Decompression
+namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
+    using System;
+    using System.IO;
+    using JHackson.StarOcean.Extensions;
+    using NLog;
+
     // Output Logic
     internal class SDD1_OL
     {
-        private static readonly Logger _logger = LogManager.GetLogger("PluginSO");
+        private static readonly Logger Logger = LogManager.GetLogger("PluginSO");
 
-        private readonly SDD1_CMD CM;
+        private readonly SDD1_CMD cm;
         private byte bitplanesInfo;
         private MemoryStream buffer;
         private ushort length;
 
         public SDD1_OL(SDD1_CMD associatedCM)
         {
-            this.CM = associatedCM;
+            this.cm = associatedCM;
         }
 
         public void Launch()
@@ -68,22 +72,29 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
                         if (i == 0)
                         {
                             this.buffer.WriteByte(register2);
-                            _logger.Debug("Write 1 : {0:X02}", register2);
+                            Logger.Debug("Write 1 : {0:X02}", register2);
                             i = Convert.ToByte(~i & 0xFF);
                         }
                         else
                         {
                             for (register1 = register2 = 0, i = 0x80; i > 0; i >>= 1)
                             {
-                                if (this.CM.GetBit() > 0)
+                                if (this.cm.GetBit() > 0)
+                                {
                                     register1 |= i;
-                                if (this.CM.GetBit() > 0)
+                                }
+
+                                if (this.cm.GetBit() > 0)
+                                {
                                     register2 |= i;
+                                }
                             }
+
                             this.buffer.WriteByte(register1);
-                            _logger.Debug("Write 2 : {0:X02}", register1);
+                            Logger.Debug("Write 2 : {0:X02}", register1);
                         }
-                    } while (--this.length > 0);
+                    }
+                    while (--this.length > 0);
                     break;
 
                 case 0xc0:
@@ -91,12 +102,16 @@ namespace jHackson.StarOcean.SDD1Algorithm.Decompression
                     {
                         for (register1 = 0, i = 0x01; i > 0; i <<= 1)
                         {
-                            if (this.CM.GetBit() > 0)
+                            if (this.cm.GetBit() > 0)
+                            {
                                 register1 |= i;
+                            }
                         }
+
                         this.buffer.WriteByte(register1);
-                        _logger.Debug("Write 3 : {0:X02}", register1);
-                    } while (--this.length > 0);
+                        Logger.Debug("Write 3 : {0:X02}", register1);
+                    }
+                    while (--this.length > 0);
                     break;
             }
         }

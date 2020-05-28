@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace jHackson.UI.Views
+namespace JHackson.UI.Views
 {
     /// <summary>
     /// Interaction logic for MainView.xaml

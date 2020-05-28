@@ -1,29 +1,33 @@
-﻿using jHackson.Core.Json.ContractResolver;
-using jHackson.Core.Projects;
-using Newtonsoft.Json;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
+﻿// <copyright file="SerializationService.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
 
-namespace jHackson.Core.Services
+namespace JHackson.Core.Services
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using JHackson.Core.Json.ContractResolver;
+    using JHackson.Core.Projects;
+    using Newtonsoft.Json;
+
     public class SerializationService : ISerializationService
     {
-        private readonly UnityContractResolver _contractResolver;
+        private readonly UnityContractResolver contractResolver;
 
         public SerializationService(UnityContractResolver unityContractResolver)
         {
-            this._contractResolver = unityContractResolver;
+            this.contractResolver = unityContractResolver;
         }
 
         public IProjectJson Deserialize(string filename)
         {
             IProjectJson pj;
 
-            using (StreamReader file = File.OpenText(filename))
+            using (var file = File.OpenText(filename))
             {
-                JsonSerializer serializer = new JsonSerializer()
+                var serializer = new JsonSerializer()
                 {
-                    ContractResolver = this._contractResolver
+                    ContractResolver = this.contractResolver,
                 };
 
                 pj = (IProjectJson)serializer.Deserialize(file, typeof(IProjectJson));
@@ -35,9 +39,9 @@ namespace jHackson.Core.Services
         [SuppressMessage("Style", "IDE0063:Utiliser une instruction 'using' simple", Justification = "I don't like the thing")]
         public void Serialize(IProjectJson project, string filename)
         {
-            using (StreamWriter file = File.CreateText(filename))
+            using (var file = File.CreateText(filename))
             {
-                JsonSerializer serializer = new JsonSerializer
+                var serializer = new JsonSerializer
                 {
                     Formatting = Formatting.Indented,
                 };
