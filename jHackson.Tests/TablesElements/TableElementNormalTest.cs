@@ -1,9 +1,9 @@
-using JHackson.Core.TableElements;
-using JHackson.Tables.TableElements;
-using NUnit.Framework;
-
 namespace JHackson.Tests.TableElements
 {
+    using JHackson.Core.TableElements;
+    using JHackson.Tables.TableElements;
+    using NUnit.Framework;
+
     public class TableElementNormalTest
     {
         private ITableElement element;
@@ -11,52 +11,52 @@ namespace JHackson.Tests.TableElements
         [SetUp]
         public void Setup()
         {
-            element = new TableElementNormal()
+            this.element = new TableElementNormal()
                 .WithLine("20= ");
 
-            element.Init();
+            this.element.Init();
         }
 
         [Test]
         public void ShouldGetKeyBytes()
         {
-            Assert.That(element.KeyBytes, Is.EqualTo(new byte[] { 0x20 }));
+            Assert.That(this.element.KeyBytes, Is.EqualTo(new byte[] { 0x20 }));
         }
 
         [Test]
         public void ShouldGetKeySize()
         {
-            Assert.That(element.KeySize, Is.EqualTo(1));
+            Assert.That(this.element.KeySize, Is.EqualTo(1));
         }
 
         [Test]
         public void ShouldGetKeyString()
         {
-            Assert.That(element.Key, Is.EqualTo("20"));
+            Assert.That(this.element.Key, Is.EqualTo("20"));
         }
 
         [Test]
         public void ShouldGetRegexValue()
         {
-            Assert.That(element.RegexValue, Is.EqualTo(" "));
+            Assert.That(this.element.RegexValue, Is.EqualTo(" "));
         }
 
         [Test]
         public void ShouldGetValueChars()
         {
-            Assert.That(element.ValueChars, Is.EqualTo(new char[] { ' ' }));
+            Assert.That(this.element.ValueChars, Is.EqualTo(new char[] { ' ' }));
         }
 
         [Test]
         public void ShouldGetValueSize()
         {
-            Assert.That(element.ValueSize, Is.EqualTo(1));
+            Assert.That(this.element.ValueSize, Is.EqualTo(1));
         }
 
         [Test]
         public void ShouldGetValueString()
         {
-            Assert.That(element.Value, Is.EqualTo(" "));
+            Assert.That(this.element.Value, Is.EqualTo(" "));
         }
     }
 }

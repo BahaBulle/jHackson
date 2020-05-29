@@ -1,10 +1,10 @@
-﻿using JHackson.Core.TableElements;
-using JHackson.Tables.TableElements;
-using NUnit.Framework;
-using System.Collections.Generic;
-
-namespace JHackson.Tests.TableElements
+﻿namespace JHackson.Tests.TableElements
 {
+    using System.Collections.Generic;
+    using JHackson.Core.TableElements;
+    using JHackson.Tables.TableElements;
+    using NUnit.Framework;
+
     public class TableElementWithParamTest
     {
         private const string IDENTIFIER = "%";
@@ -16,34 +16,34 @@ namespace JHackson.Tests.TableElements
         [SetUp]
         public void Setup()
         {
-            element = new TableElementWithParam()
+            this.element = new TableElementWithParam()
                 .WithLine($"{IDENTIFIER}{KEY}={VALUE}");
 
-            element.Init();
+            this.element.Init();
         }
 
         [Test]
         public void ShouldGetKeyBytes()
         {
-            Assert.That(element.KeyBytes, Is.EqualTo(new byte[] { 0x01, 0x02 }));
+            Assert.That(this.element.KeyBytes, Is.EqualTo(new byte[] { 0x01, 0x02 }));
         }
 
         [Test]
         public void ShouldGetKeySize()
         {
-            Assert.That(element.KeySize, Is.EqualTo(2));
+            Assert.That(this.element.KeySize, Is.EqualTo(2));
         }
 
         [Test]
         public void ShouldGetKeyString()
         {
-            Assert.That(element.Key, Is.EqualTo(KEY));
+            Assert.That(this.element.Key, Is.EqualTo(KEY));
         }
 
         [Test]
         public void ShouldGetListParam()
         {
-            List<ITableElementParam> result = new List<ITableElementParam>()
+            var result = new List<ITableElementParam>()
             {
                 new TableElementParam()
                 {
@@ -59,37 +59,37 @@ namespace JHackson.Tests.TableElements
                 },
             };
 
-            CollectionAssert.AreEqual(result, element.ListParam);
+            CollectionAssert.AreEqual(result, this.element.ListParam);
         }
 
         [Test]
         public void ShouldGetNbParam()
         {
-            Assert.That(element.NbParam, Is.EqualTo(2));
+            Assert.That(this.element.NbParam, Is.EqualTo(2));
         }
 
         [Test]
         public void ShouldGetRegexValue()
         {
-            Assert.That(element.RegexValue, Is.EqualTo("<Pause value='[0-9A-Fa-f]{2}' next='[0-9A-Fa-f]{2}'>"));
+            Assert.That(this.element.RegexValue, Is.EqualTo("<Pause value='[0-9A-Fa-f]{2}' next='[0-9A-Fa-f]{2}'>"));
         }
 
         [Test]
         public void ShouldGetValueChars()
         {
-            Assert.That(element.ValueChars, Is.EqualTo(VALUE.ToCharArray()));
+            Assert.That(this.element.ValueChars, Is.EqualTo(VALUE.ToCharArray()));
         }
 
         [Test]
         public void ShouldGetValueSize()
         {
-            Assert.That(element.ValueSize, Is.EqualTo(VALUE.Length - (1 + 1 + 1 + 1) + (1 * 2 + 1 * 2)));
+            Assert.That(this.element.ValueSize, Is.EqualTo(VALUE.Length - (1 + 1 + 1 + 1) + (1 * 2 + 1 * 2)));
         }
 
         [Test]
         public void ShouldGetValueString()
         {
-            Assert.That(element.Value, Is.EqualTo(VALUE));
+            Assert.That(this.element.Value, Is.EqualTo(VALUE));
         }
     }
 }

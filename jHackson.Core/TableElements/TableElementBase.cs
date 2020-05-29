@@ -2,15 +2,15 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace jHackson.Core.TableElements
+namespace JHackson.Core.TableElements
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Text.RegularExpressions;
-    using jHackson.Core.Exceptions;
-    using jHackson.Core.Localization;
-    using jHackson.Core.TableElements.Extensions;
+    using JHackson.Core.Exceptions;
+    using JHackson.Core.Localization;
+    using JHackson.Core.TableElements.Extensions;
 
     public abstract class TableElementBase : ITableElement
     {

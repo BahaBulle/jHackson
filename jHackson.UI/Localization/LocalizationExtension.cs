@@ -8,11 +8,6 @@
 
     public class LocalizationExtension : MarkupExtension
     {
-        protected DependencyObject targetObject;
-        protected DependencyProperty targetProperty;
-        protected Type targetType;
-        protected TypeConverter typeConverter;
-
         public LocalizationExtension()
         {
             LocalizationManager.CultureChanged += new EventHandler(this.LocalisationManager_CultureChanged);
@@ -32,24 +27,37 @@
         [ConstructorArgument("key")]
         public string Key { get; set; }
 
+        protected DependencyObject TargetObject { get; set; }
+
+        protected DependencyProperty TargetProperty { get; set; }
+
+        protected Type TargetType { get; set; }
+
+        protected TypeConverter TypeConverter { get; set; }
+
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (this.targetType == null)
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+
+            if (this.TargetType == null)
             {
                 var targetHelper = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
 
-                this.targetObject = targetHelper.TargetObject as DependencyObject;
-                this.targetProperty = targetHelper.TargetProperty as DependencyProperty;
+                this.TargetObject = targetHelper.TargetObject as DependencyObject;
+                this.TargetProperty = targetHelper.TargetProperty as DependencyProperty;
 
-                if (this.targetProperty != null)
+                if (this.TargetProperty != null)
                 {
-                    this.targetType = this.targetProperty.PropertyType;
-                    this.typeConverter = TypeDescriptor.GetConverter(this.targetType);
+                    this.TargetType = this.TargetProperty.PropertyType;
+                    this.TypeConverter = TypeDescriptor.GetConverter(this.TargetType);
                 }
                 else if (targetHelper.TargetProperty != null)
                 {
-                    this.targetType = targetHelper.TargetProperty.GetType();
-                    this.typeConverter = TypeDescriptor.GetConverter(this.targetType);
+                    this.TargetType = targetHelper.TargetProperty.GetType();
+                    this.TypeConverter = TypeDescriptor.GetConverter(this.TargetType);
                 }
             }
 
@@ -62,9 +70,9 @@
             object value = LocalizationManager.GetMessage(this.Key);
 
             // Automatically convert the type if a matching converter is available.
-            if (value != null && this.typeConverter != null && this.typeConverter.CanConvertFrom(value.GetType()))
+            if (value != null && this.TypeConverter != null && this.TypeConverter.CanConvertFrom(value.GetType()))
             {
-                value = this.typeConverter.ConvertFrom(value);
+                value = this.TypeConverter.ConvertFrom(value);
             }
 
             // If the value is null and we have a default value, use it.
@@ -76,19 +84,19 @@
             // If we have no fallback value, return the key.
             if (value == null)
             {
-                if (this.targetType == typeof(string))
+                if (this.TargetType == typeof(string))
                 {
                     value = string.Concat("?", this.Key, "?");
                 }
                 else
                 {
-                    return this.targetProperty != null ? DependencyProperty.UnsetValue : null;
+                    return this.TargetProperty != null ? DependencyProperty.UnsetValue : null;
                 }
             }
 
             if (this.Converter != null)
             {
-                value = this.Converter.Convert(value, this.targetType, null, LocalizationManager.CurrentCulture);
+                value = this.Converter.Convert(value, this.TargetType, null, LocalizationManager.CurrentCulture);
             }
 
             if (this.Format != null && value is IFormattable)
@@ -101,9 +109,9 @@
 
         protected virtual void UpdateTarget()
         {
-            if (this.targetObject != null && this.targetProperty != null)
+            if (this.TargetObject != null && this.TargetProperty != null)
             {
-                this.targetObject.SetValue(this.targetProperty, this.ProvideValueInternal());
+                this.TargetObject.SetValue(this.TargetProperty, this.ProvideValueInternal());
             }
         }
 

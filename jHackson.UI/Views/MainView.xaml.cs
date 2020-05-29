@@ -1,7 +1,7 @@
-﻿using System.Windows;
-
-namespace JHackson.UI.Views
+﻿namespace JHackson.UI.Views
 {
+    using System.Windows;
+
     /// <summary>
     /// Interaction logic for MainView.xaml
     /// </summary>
@@ -9,7 +9,7 @@ namespace JHackson.UI.Views
     {
         public MainView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

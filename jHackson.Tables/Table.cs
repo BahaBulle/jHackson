@@ -2,16 +2,16 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace jHackson.Tables
+namespace JHackson.Tables
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-    using jHackson.Core.Exceptions;
-    using jHackson.Core.Localization;
-    using jHackson.Core.Table;
-    using jHackson.Tables.Common;
+    using JHackson.Core.Exceptions;
+    using JHackson.Core.Localization;
+    using JHackson.Core.Table;
+    using JHackson.Tables.Common;
 
     public class Table : ITable
     {

@@ -1,11 +1,11 @@
-﻿using JHackson.Core.Common;
-using JHackson.Tables;
-using JHackson.Tables.TableElements;
-using NUnit.Framework;
-using System.Collections.Generic;
-
-namespace JHackson.Tests.Tables
+﻿namespace JHackson.Tests.Tables
 {
+    using System.Collections.Generic;
+    using JHackson.Core.Common;
+    using JHackson.Tables;
+    using JHackson.Tables.TableElements;
+    using NUnit.Framework;
+
     public class TableTest
     {
         [OneTimeSetUp]

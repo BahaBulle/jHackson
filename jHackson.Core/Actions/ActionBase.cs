@@ -2,11 +2,11 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace jHackson.Core.Actions
+namespace JHackson.Core.Actions
 {
     using System.Collections.Generic;
-    using jHackson.Core.Common;
-    using jHackson.Core.Projects;
+    using JHackson.Core.Common;
+    using JHackson.Core.Projects;
     using Newtonsoft.Json;
 
     public abstract class ActionBase : IActionJson
