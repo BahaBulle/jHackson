@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_IM.cs" company="BahaBulle">
+﻿// <copyright file="BitsGenerator.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -34,48 +34,58 @@ understood.
 
 namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
-    using System;
-    using System.IO;
-    using JHackson.StarOcean.Extensions;
-    using NLog;
-
-    // Input Manager
-    internal class SDD1_IM
+    internal class BitsGenerator
     {
-        private static readonly Logger Logger = LogManager.GetLogger("PluginSO");
-        private byte bitCount;
-        private BinaryReader bytePtr;
+        private readonly byte codeNum;
 
-        public byte GetCodeword(byte code_len)
+        private readonly GolombCodeDecoder gcd;
+
+        private bool lpsInd;
+
+        private byte mpsCount;
+
+        public BitsGenerator(GolombCodeDecoder associatedGCD, byte code)
         {
-            byte codeword;
-
-            codeword = Convert.ToByte((this.bytePtr.PeekByte() << this.bitCount) & 0xFF);
-            Logger.Debug("1 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte());
-
-            ++this.bitCount;
-
-            if ((codeword & 0x80) == 0x80)
-            {
-                codeword |= Convert.ToByte((this.bytePtr.PeekByte(1) >> (9 - this.bitCount)) & 0xFF);
-                Logger.Debug("2 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte(1));
-                this.bitCount += code_len;
-            }
-
-            if ((this.bitCount & 0x08) == 0x08)
-            {
-                this.bytePtr.ReadByte();
-                Logger.Debug("Position++ : {0}", this.bytePtr.BaseStream.Position);
-                this.bitCount &= 0x07;
-            }
-
-            return codeword;
+            this.gcd = associatedGCD;
+            this.codeNum = code;
         }
 
-        public void PrepareDecomp(BinaryReader buffer)
+        public byte GetBit(ref bool endOfRun)
         {
-            this.bytePtr = buffer;
-            this.bitCount = 4;
+            byte bit;
+
+            if (!(this.mpsCount > 0 || this.lpsInd))
+            {
+                this.gcd.GetRunCount(this.codeNum, ref this.mpsCount, ref this.lpsInd);
+            }
+
+            if (this.mpsCount > 0)
+            {
+                bit = 0;
+                this.mpsCount--;
+            }
+            else
+            {
+                bit = 1;
+                this.lpsInd = false;
+            }
+
+            if (this.mpsCount > 0 || this.lpsInd)
+            {
+                endOfRun = false;
+            }
+            else
+            {
+                endOfRun = true;
+            }
+
+            return bit;
+        }
+
+        public void PrepareDecomp()
+        {
+            this.mpsCount = 0;
+            this.lpsInd = false;
         }
     }
 }

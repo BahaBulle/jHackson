@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_CMD.cs" company="BahaBulle">
+﻿// <copyright file="ContextModelDecompression.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -38,17 +38,16 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
     using System.IO;
     using JHackson.StarOcean.Extensions;
 
-    // Context Model Decompression
-    internal class SDD1_CMD
+    internal class ContextModelDecompression
     {
-        private readonly SDD1_PEMD pem;
+        private readonly ProbabilityEstimationModuleDecompression pem;
         private readonly ushort[] prevBitplaneBits;
         private byte bitNumber;
         private byte bitplanesInfo;
         private byte contextBitsInfo;
         private byte currBitplane;
 
-        public SDD1_CMD(SDD1_PEMD associatedPEM)
+        public ContextModelDecompression(ProbabilityEstimationModuleDecompression associatedPEM)
         {
             this.prevBitplaneBits = new ushort[8];
             this.pem = associatedPEM;

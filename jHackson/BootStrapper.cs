@@ -14,7 +14,7 @@ namespace JHackson
     using JHackson.Core.Services;
     using Unity;
 
-    public class BootStrapper
+    public static class BootStrapper
     {
         private static IUnityContainer container;
 

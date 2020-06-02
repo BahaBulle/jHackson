@@ -17,7 +17,10 @@ namespace JHackson.Core.TableElements
         public const string CHARENDBLOCK = "/";
         public const string CHARPARAMINSERT = "@";
 
+        private byte[] keyBytes;
         private Regex rgxEndBlock;
+
+        private char[] valueChars;
 
         public TableElementBase()
         {
@@ -35,8 +38,6 @@ namespace JHackson.Core.TableElements
 
         public string Key { get; protected set; }
 
-        public byte[] KeyBytes { get; protected set; }
-
         public int KeySize { get; protected set; }
 
         public string Line { get; protected set; }
@@ -52,9 +53,6 @@ namespace JHackson.Core.TableElements
         public string RegexValue { get; protected set; }
 
         public string Value { get; protected set; }
-
-        public char[] ValueChars { get; protected set; }
-
         public int ValueSize { get; protected set; }
 
         public List<string> Warnings { get; }
@@ -75,6 +73,16 @@ namespace JHackson.Core.TableElements
         }
 
         protected Regex RgxParamInsert => new Regex(@"^@=(.+)$");
+
+        public byte[] GetKeyBytes()
+        {
+            return this.keyBytes;
+        }
+
+        public char[] GetValueChars()
+        {
+            return this.valueChars;
+        }
 
         public void Init()
         {
@@ -127,14 +135,14 @@ namespace JHackson.Core.TableElements
             }
 
             this.KeySize = this.Key.Length / 2;
-            this.KeyBytes = new byte[this.KeySize];
+            this.keyBytes = new byte[this.KeySize];
 
             var tab = this.Key.SplitByLength(2);
 
             int cpt = 0;
             foreach (string s in tab)
             {
-                bool result = byte.TryParse(s, NumberStyles.HexNumber, null as IFormatProvider, out this.KeyBytes[cpt++]);
+                bool result = byte.TryParse(s, NumberStyles.HexNumber, null as IFormatProvider, out this.keyBytes[cpt++]);
 
                 if (!result)
                 {
@@ -161,11 +169,22 @@ namespace JHackson.Core.TableElements
 
         protected virtual void SetValue(string value)
         {
-            this.Value = value;
+            if (value == null)
+            {
+                this.Value = value;
+                this.valueChars = Array.Empty<char>();
+                this.ValueSize = 0;
+            }
+            else
+            {
+                this.Value = value
+                    .Replace("\\n", "\n", StringComparison.InvariantCulture)
+                    .Replace("\\r", "\r", StringComparison.InvariantCulture)
+                    .Replace("\\t", "\t", StringComparison.InvariantCulture);
 
-            this.Value = this.Value.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\t", "\t");
-            this.ValueChars = this.Value.ToCharArray();
-            this.ValueSize = this.ValueChars.Length;
+                this.valueChars = this.Value.ToCharArray();
+                this.ValueSize = this.valueChars.Length;
+            }
         }
 
         protected abstract void Split();

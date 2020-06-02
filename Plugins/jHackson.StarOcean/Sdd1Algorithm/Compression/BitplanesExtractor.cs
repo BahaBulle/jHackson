@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_BE.cs" company="BahaBulle">
+﻿// <copyright file="BitplanesExtractor.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -39,8 +39,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
     using System.IO;
     using JHackson.StarOcean.Extensions;
 
-    // Bitplanes Extractor
-    public class SDD1_BE
+    public class BitplanesExtractor
     {
         private readonly List<byte>[] bitplaneBuffer;
         private readonly byte[] bpBitInd;
@@ -51,7 +50,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
         private BinaryReader inputBuffer;
         private ushort inputLength;
 
-        public SDD1_BE(
+        public BitplanesExtractor(
             List<byte> associatedBBuf0,
             List<byte> associatedBBuf1,
             List<byte> associatedBBuf2,
@@ -145,10 +144,15 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
             while (counter++ < this.inputLength);
         }
 
-        public void PrepareComp(BinaryReader in_buf, byte header)
+        public void PrepareComp(BinaryReader bufferIn, byte header)
         {
-            this.inputLength = (ushort)in_buf.BaseStream.Length;
-            this.inputBuffer = in_buf;
+            if (bufferIn == null)
+            {
+                throw new ArgumentNullException(nameof(bufferIn));
+            }
+
+            this.inputLength = (ushort)bufferIn.BaseStream.Length;
+            this.inputBuffer = bufferIn;
             this.bitplanesInfo = Convert.ToByte((header & 0x0C) & 0xFF);
         }
 

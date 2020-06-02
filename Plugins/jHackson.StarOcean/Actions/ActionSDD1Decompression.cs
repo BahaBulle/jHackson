@@ -62,7 +62,7 @@ namespace JHackson.StarOcean.Actions
 
             var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
 
-            ISDD1Decomp sdd1 = new SDD1();
+            ISdd1Decomp sdd1 = new Sdd1();
 
             var msDestination = sdd1.Decompress(msSource, this.SizeOut.Value);
 

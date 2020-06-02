@@ -6,10 +6,10 @@ namespace JHackson.Core.TableElements
 {
     public enum EnumTypeElement
     {
-        NOT_FOUND,
+        NOTFOUND,
         NORMAL,
         PARAM,
-        PARAM_INSERT,
+        PARAMINSERT,
         ENDBLOCK,
     }
 }

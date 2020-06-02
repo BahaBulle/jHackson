@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_I.cs" company="BahaBulle">
+﻿// <copyright file="Interleaver.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -39,8 +39,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
     using System.Text;
     using NLog;
 
-    // Interleaver
-    public class SDD1_I
+    public class Interleaver
     {
         private static readonly Logger Logger = LogManager.GetLogger("PluginSO");
 
@@ -51,7 +50,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
         private readonly StringBuilder logMessage = new StringBuilder();
         private byte oBitInd;
 
-        public SDD1_I(
+        public Interleaver(
             List<byte> associatedCWSeq,
             List<byte> associatedCWBuf0,
             List<byte> associatedCWBuf1,
@@ -93,14 +92,14 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
 
             if (this.oBitInd > 0)
             {
-                ++SDD1.OutBufferLength;
+                ++Sdd1.OutBufferLength;
             }
         }
 
         public void PrepareComp(byte header)
         {
-            SDD1.OutBufferLength = 0;
-            SDD1.OutBuffer[SDD1.OutBufferPosition] = Convert.ToByte((header << 4) & 0xFF);
+            Sdd1.OutBufferLength = 0;
+            Sdd1.OutBuffer[Sdd1.OutBufferPosition] = Convert.ToByte((header << 4) & 0xFF);
 
             this.oBitInd = 4;
 
@@ -115,12 +114,12 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
         {
             if (this.oBitInd == 0)
             {
-                SDD1.OutBuffer[SDD1.OutBufferPosition] = 0;
+                Sdd1.OutBuffer[Sdd1.OutBufferPosition] = 0;
             }
 
             byte bit = Convert.ToByte(((this.codewBuffer[code_num][this.bytePtr[code_num]] & (0x80 >> this.bitInd[code_num])) << this.bitInd[code_num]) & 0xFF);
 
-            SDD1.OutBuffer[SDD1.OutBufferPosition] |= Convert.ToByte((bit >> this.oBitInd) & 0xFF);
+            Sdd1.OutBuffer[Sdd1.OutBufferPosition] |= Convert.ToByte((bit >> this.oBitInd) & 0xFF);
             this.logMessage.Append(string.Format("{0:X02} ", Convert.ToByte((bit >> this.oBitInd) & 0xFF)));
 
             if ((++this.bitInd[code_num] & 0x08) > 0)
@@ -131,12 +130,12 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
 
             if ((++this.oBitInd & 0x08) > 0)
             {
-                this.logMessage.Append(string.Format("-> {0:X02}", SDD1.OutBuffer[SDD1.OutBufferPosition]));
+                this.logMessage.Append(string.Format("-> {0:X02}", Sdd1.OutBuffer[Sdd1.OutBufferPosition]));
                 Logger.Debug(this.logMessage.ToString());
                 this.logMessage.Clear();
                 this.oBitInd = 0;
-                SDD1.OutBufferPosition++;
-                ++SDD1.OutBufferLength;
+                Sdd1.OutBufferPosition++;
+                ++Sdd1.OutBufferLength;
             }
 
             return bit;

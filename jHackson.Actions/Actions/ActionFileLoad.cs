@@ -4,6 +4,8 @@
 
 namespace JHackson.Actions
 {
+    using System;
+    using System.Globalization;
     using System.IO;
     using JHackson.Core.Actions;
     using JHackson.Core.Common;
@@ -38,7 +40,7 @@ namespace JHackson.Actions
 
             if (!this.To.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
         }
 
@@ -49,12 +51,19 @@ namespace JHackson.Actions
                 Logger.Info(this.Title);
             }
 
+#pragma warning disable CA2000 // Supprimer les objets avant la mise hors de portée
             var ms = new MemoryStream(File.ReadAllBytes(this.FileName));
+#pragma warning restore CA2000 // Supprimer les objets avant la mise hors de portée
             this.Context.AddBuffer(this.To.Value, ms);
         }
 
         public override void Init(IProjectContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             this.FileName = Helper.ReplaceVariables(context.GetVariables(), this.FileName);
 
             base.Init(context);

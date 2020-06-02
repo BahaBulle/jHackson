@@ -4,7 +4,9 @@
 
 namespace JHackson.Core.Common
 {
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using System.Text.RegularExpressions;
@@ -35,19 +37,37 @@ namespace JHackson.Core.Common
                         {
                             if (t.GetInterface("IActionJson", true) != null)
                             {
-                                var action = (IActionJson)t.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                var action = (IActionJson)t.InvokeMember(
+                                    null,
+                                    BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
+                                    null,
+                                    null,
+                                    null,
+                                    CultureInfo.InvariantCulture);
 
                                 DataContext.AddAction(action.Name, t);
                             }
                             else if (t.GetInterface("IFileFormat", true) != null)
                             {
-                                var format = (IFileFormat)t.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                var format = (IFileFormat)t.InvokeMember(
+                                    null,
+                                    BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
+                                    null,
+                                    null,
+                                    null,
+                                    CultureInfo.InvariantCulture);
 
                                 DataContext.AddFormat(format.Name, t);
                             }
                             else if (t.GetInterface("ITableElement", true) != null && !t.IsAbstract)
                             {
-                                var element = (ITableElement)t.InvokeMember(null, BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, null, null);
+                                var element = (ITableElement)t.InvokeMember(
+                                    null,
+                                    BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
+                                    null,
+                                    null,
+                                    null,
+                                    CultureInfo.InvariantCulture);
 
                                 DataContext.AddTableElement(element.Name, t);
                             }
@@ -65,7 +85,7 @@ namespace JHackson.Core.Common
         /// <returns>Return a string with all parameters replaced by their values.</returns>
         public static string ReplaceParameters(IActionJson action, string text)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (action == null || string.IsNullOrWhiteSpace(text))
             {
                 return text;
             }
@@ -82,7 +102,7 @@ namespace JHackson.Core.Common
 
                 if (obj.GetValue(action) != null)
                 {
-                    result = result.Replace(m.Groups[0].Value, obj.GetValue(action).ToString());
+                    result = result.Replace(m.Groups[0].Value, obj.GetValue(action).ToString(), StringComparison.InvariantCulture);
                 }
             }
 
@@ -97,7 +117,7 @@ namespace JHackson.Core.Common
         /// <returns>Return string with all variables replaced by their values.</returns>
         public static string ReplaceVariables(Dictionary<string, string> variablesList, string text)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (variablesList == null || string.IsNullOrWhiteSpace(text))
             {
                 return text;
             }
@@ -106,9 +126,9 @@ namespace JHackson.Core.Common
 
             foreach (var variable in variablesList)
             {
-                if (result.Contains(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE))
+                if (result.Contains(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE, StringComparison.InvariantCulture))
                 {
-                    result = result.Replace(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE, variable.Value);
+                    result = result.Replace(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE, variable.Value, StringComparison.InvariantCulture);
                 }
             }
 

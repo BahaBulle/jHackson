@@ -8,6 +8,8 @@ namespace JHackson.Core.Localization
     using System.Collections.Generic;
     using System.Globalization;
     using System.Threading;
+    using jHackson.Core.Localization.Resources;
+    using NLog.LayoutRenderers;
 
     public static class LocalizationManager
     {
@@ -28,14 +30,14 @@ namespace JHackson.Core.Localization
                 {
                     if (value == null)
                     {
-                        throw new ArgumentNullException("value", "Current culture cannot be null.");
+                        throw new ArgumentNullException(nameof(value), CoreResource.LocalizationCultureNotNull);
                     }
 
                     if (!IsSupported(value))
                     {
                         throw new ArgumentException(
                             $"The culture {value.DisplayName} is not supported.",
-                            "value");
+                            nameof(value));
                     }
 
                     if (LocalisationProvider != null)
@@ -54,7 +56,7 @@ namespace JHackson.Core.Localization
                     }
                     else
                     {
-                        throw new ArgumentException($"No provider has been provided for culture {value.DisplayName}.", "value");
+                        throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, CoreResource.LocalizationNoProvider, value.DisplayName), nameof(value));
                     }
                 }
             }
@@ -70,7 +72,7 @@ namespace JHackson.Core.Localization
             {
                 var message = LocalisationProvider.GetValue(key);
 
-                return message == null ? $"?[{key}]?" : string.Format((string)message, parameters);
+                return message == null ? $"?[{key}]?" : string.Format(CultureInfo.InvariantCulture, (string)message, parameters);
             }
 
             return $"?[{key}]?";

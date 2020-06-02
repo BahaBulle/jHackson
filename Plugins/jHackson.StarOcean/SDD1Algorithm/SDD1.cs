@@ -1,39 +1,40 @@
-﻿// <copyright file="SDD1.cs" company="BahaBulle">
+﻿// <copyright file="Sdd1.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
 namespace JHackson.StarOcean.SDD1Algorithm
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using JHackson.StarOcean.SDD1Algorithm.Compression;
     using JHackson.StarOcean.SDD1Algorithm.Decompression;
 
-    public class SDD1 : ISDD1Comp, ISDD1Decomp
+    public class Sdd1 : ISdd1Comp, ISdd1Decomp
     {
-        private SDD1_BE be;
-        private SDD1_BG bg0;
-        private SDD1_BG bg1;
-        private SDD1_BG bg2;
-        private SDD1_BG bg3;
-        private SDD1_BG bg4;
-        private SDD1_BG bg5;
-        private SDD1_BG bg6;
-        private SDD1_BG bg7;
+        private BitplanesExtractor be;
+        private BitsGenerator bg0;
+        private BitsGenerator bg1;
+        private BitsGenerator bg2;
+        private BitsGenerator bg3;
+        private BitsGenerator bg4;
+        private BitsGenerator bg5;
+        private BitsGenerator bg6;
+        private BitsGenerator bg7;
         private List<byte>[] bitplaneBuffer;
-        private SDD1_CMC cmc;
-        private SDD1_CMD cmd;
+        private ContextModelCompression cmc;
+        private ContextModelDecompression cmd;
         private List<byte>[] codewordBuffer;
         private List<byte> codewordsSequence;
-        private SDD1_GCD gcd;
-        private SDD1_GCE gce;
-        private SDD1_I il;
-        private SDD1_IM im;
-        private SDD1_OL ol;
-        private SDD1_PEMC pemc;
-        private SDD1_PEMD pemd;
+        private GolombCodeDecoder gcd;
+        private GolombCodeEncoder gce;
+        private Interleaver il;
+        private InputManager im;
+        private OutputLogic ol;
+        private ProbabilityEstimationModuleCompression pemc;
+        private ProbabilityEstimationModuleDecompression pemd;
 
-        public SDD1()
+        public Sdd1()
         {
         }
 
@@ -45,6 +46,11 @@ namespace JHackson.StarOcean.SDD1Algorithm
 
         public MemoryStream Compress(MemoryStream in_buf)
         {
+            if (in_buf == null)
+            {
+                throw new ArgumentNullException(nameof(in_buf));
+            }
+
             this.InitCompression();
 
             OutBuffer = new byte[in_buf.Length];
@@ -169,28 +175,28 @@ namespace JHackson.StarOcean.SDD1Algorithm
                 this.codewordBuffer[i] = new List<byte>();
             }
 
-            this.be = new SDD1_BE(this.bitplaneBuffer[0], this.bitplaneBuffer[1], this.bitplaneBuffer[2], this.bitplaneBuffer[3], this.bitplaneBuffer[4], this.bitplaneBuffer[5], this.bitplaneBuffer[6], this.bitplaneBuffer[7]);
-            this.cmc = new SDD1_CMC(this.bitplaneBuffer[0], this.bitplaneBuffer[1], this.bitplaneBuffer[2], this.bitplaneBuffer[3], this.bitplaneBuffer[4], this.bitplaneBuffer[5], this.bitplaneBuffer[6], this.bitplaneBuffer[7]);
-            this.gce = new SDD1_GCE(this.codewordsSequence, this.codewordBuffer[0], this.codewordBuffer[1], this.codewordBuffer[2], this.codewordBuffer[3], this.codewordBuffer[4], this.codewordBuffer[5], this.codewordBuffer[6], this.codewordBuffer[7]);
-            this.pemc = new SDD1_PEMC(this.cmc, this.gce);
-            this.il = new SDD1_I(this.codewordsSequence, this.codewordBuffer[0], this.codewordBuffer[1], this.codewordBuffer[2], this.codewordBuffer[3], this.codewordBuffer[4], this.codewordBuffer[5], this.codewordBuffer[6], this.codewordBuffer[7]);
+            this.be = new BitplanesExtractor(this.bitplaneBuffer[0], this.bitplaneBuffer[1], this.bitplaneBuffer[2], this.bitplaneBuffer[3], this.bitplaneBuffer[4], this.bitplaneBuffer[5], this.bitplaneBuffer[6], this.bitplaneBuffer[7]);
+            this.cmc = new ContextModelCompression(this.bitplaneBuffer[0], this.bitplaneBuffer[1], this.bitplaneBuffer[2], this.bitplaneBuffer[3], this.bitplaneBuffer[4], this.bitplaneBuffer[5], this.bitplaneBuffer[6], this.bitplaneBuffer[7]);
+            this.gce = new GolombCodeEncoder(this.codewordsSequence, this.codewordBuffer[0], this.codewordBuffer[1], this.codewordBuffer[2], this.codewordBuffer[3], this.codewordBuffer[4], this.codewordBuffer[5], this.codewordBuffer[6], this.codewordBuffer[7]);
+            this.pemc = new ProbabilityEstimationModuleCompression(this.cmc, this.gce);
+            this.il = new Interleaver(this.codewordsSequence, this.codewordBuffer[0], this.codewordBuffer[1], this.codewordBuffer[2], this.codewordBuffer[3], this.codewordBuffer[4], this.codewordBuffer[5], this.codewordBuffer[6], this.codewordBuffer[7]);
         }
 
         private void InitDecompression()
         {
-            this.im = new SDD1_IM();
-            this.gcd = new SDD1_GCD(this.im);
-            this.bg0 = new SDD1_BG(this.gcd, 0);
-            this.bg1 = new SDD1_BG(this.gcd, 1);
-            this.bg2 = new SDD1_BG(this.gcd, 2);
-            this.bg3 = new SDD1_BG(this.gcd, 3);
-            this.bg4 = new SDD1_BG(this.gcd, 4);
-            this.bg5 = new SDD1_BG(this.gcd, 5);
-            this.bg6 = new SDD1_BG(this.gcd, 6);
-            this.bg7 = new SDD1_BG(this.gcd, 7);
-            this.pemd = new SDD1_PEMD(this.bg0, this.bg1, this.bg2, this.bg3, this.bg4, this.bg5, this.bg6, this.bg7);
-            this.cmd = new SDD1_CMD(this.pemd);
-            this.ol = new SDD1_OL(this.cmd);
+            this.im = new InputManager();
+            this.gcd = new GolombCodeDecoder(this.im);
+            this.bg0 = new BitsGenerator(this.gcd, 0);
+            this.bg1 = new BitsGenerator(this.gcd, 1);
+            this.bg2 = new BitsGenerator(this.gcd, 2);
+            this.bg3 = new BitsGenerator(this.gcd, 3);
+            this.bg4 = new BitsGenerator(this.gcd, 4);
+            this.bg5 = new BitsGenerator(this.gcd, 5);
+            this.bg6 = new BitsGenerator(this.gcd, 6);
+            this.bg7 = new BitsGenerator(this.gcd, 7);
+            this.pemd = new ProbabilityEstimationModuleDecompression(this.bg0, this.bg1, this.bg2, this.bg3, this.bg4, this.bg5, this.bg6, this.bg7);
+            this.cmd = new ContextModelDecompression(this.pemd);
+            this.ol = new OutputLogic(this.cmd);
         }
     }
 }

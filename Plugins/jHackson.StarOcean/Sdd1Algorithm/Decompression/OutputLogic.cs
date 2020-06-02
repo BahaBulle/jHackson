@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_OL.cs" company="BahaBulle">
+﻿// <copyright file="OutputLogic.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -39,17 +39,16 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
     using JHackson.StarOcean.Extensions;
     using NLog;
 
-    // Output Logic
-    internal class SDD1_OL
+    internal class OutputLogic
     {
         private static readonly Logger Logger = LogManager.GetLogger("PluginSO");
 
-        private readonly SDD1_CMD cm;
+        private readonly ContextModelDecompression cm;
         private byte bitplanesInfo;
         private MemoryStream buffer;
         private ushort length;
 
-        public SDD1_OL(SDD1_CMD associatedCM)
+        public OutputLogic(ContextModelDecompression associatedCM)
         {
             this.cm = associatedCM;
         }

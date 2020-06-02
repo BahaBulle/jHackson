@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_CMC.cs" company="BahaBulle">
+﻿// <copyright file="ContextModelCompression.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -37,8 +37,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
     using System;
     using System.Collections.Generic;
 
-    // Context Model Compression
-    public class SDD1_CMC
+    public class ContextModelCompression
     {
         private readonly List<byte>[] bitplaneBuffer;
         private readonly byte[] bpBitInd;
@@ -49,7 +48,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
         private byte contextBitsInfo;
         private byte currBitplane;
 
-        public SDD1_CMC(
+        public ContextModelCompression(
             List<byte> associatedBBuf0,
             List<byte> associatedBBuf1,
             List<byte> associatedBBuf2,
@@ -74,7 +73,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
             this.bitplaneBuffer[7] = associatedBBuf7;
         }
 
-        public SDD1_PEMC ProbabilityEstimationModuleCompression { get; set; }
+        public ProbabilityEstimationModuleCompression ProbabilityEstimationModuleCompression { get; set; }
 
         public byte GetBit(ref byte context)
         {

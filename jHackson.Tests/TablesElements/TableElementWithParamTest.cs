@@ -25,7 +25,7 @@
         [Test]
         public void ShouldGetKeyBytes()
         {
-            Assert.That(this.element.KeyBytes, Is.EqualTo(new byte[] { 0x01, 0x02 }));
+            Assert.That(this.element.GetKeyBytes(), Is.EqualTo(new byte[] { 0x01, 0x02 }));
         }
 
         [Test]
@@ -77,7 +77,7 @@
         [Test]
         public void ShouldGetValueChars()
         {
-            Assert.That(this.element.ValueChars, Is.EqualTo(VALUE.ToCharArray()));
+            Assert.That(this.element.GetValueChars(), Is.EqualTo(VALUE.ToCharArray()));
         }
 
         [Test]

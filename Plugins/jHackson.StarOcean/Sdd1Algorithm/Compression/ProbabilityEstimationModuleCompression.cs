@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_PEMC.cs" company="BahaBulle">
+﻿// <copyright file="ProbabilityEstimationModuleCompression.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -34,27 +34,27 @@ understood.
 
 namespace JHackson.StarOcean.SDD1Algorithm.Compression
 {
+    using System;
     using System.Collections.Generic;
     using JHackson.StarOcean.SDD1Algorithm.Common;
 
-    // Probability Estimation Module Compression
-    public class SDD1_PEMC
+    public class ProbabilityEstimationModuleCompression
     {
-        private static readonly List<State> EvolutionTable = SDD1Helper.GetEvolutionTable();
+        private static readonly List<State> EvolutionTable = Sdd1Helper.GetEvolutionTable();
 
-        private readonly SDD1_CMC cm;
-        private readonly SDD1_ContextInfo[] contextInfo;
-        private readonly SDD1_GCE gce;
+        private readonly ContextModelCompression cm;
+        private readonly ContextInfo[] contextInfo;
+        private readonly GolombCodeEncoder gce;
         private uint inputLength;
 
-        public SDD1_PEMC(SDD1_CMC associatedCM, SDD1_GCE associatedGCE)
+        public ProbabilityEstimationModuleCompression(ContextModelCompression associatedCM, GolombCodeEncoder associatedGCE)
         {
-            this.cm = associatedCM;
+            this.cm = associatedCM ?? throw new ArgumentNullException(nameof(associatedCM));
             this.gce = associatedGCE;
 
             this.cm.ProbabilityEstimationModuleCompression = this;
 
-            this.contextInfo = new SDD1_ContextInfo[32];
+            this.contextInfo = new ContextInfo[32];
         }
 
         public byte GetMPS(byte context)

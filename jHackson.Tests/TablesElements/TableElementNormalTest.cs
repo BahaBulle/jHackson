@@ -20,7 +20,7 @@ namespace JHackson.Tests.TableElements
         [Test]
         public void ShouldGetKeyBytes()
         {
-            Assert.That(this.element.KeyBytes, Is.EqualTo(new byte[] { 0x20 }));
+            Assert.That(this.element.GetKeyBytes(), Is.EqualTo(new byte[] { 0x20 }));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace JHackson.Tests.TableElements
         [Test]
         public void ShouldGetValueChars()
         {
-            Assert.That(this.element.ValueChars, Is.EqualTo(new char[] { ' ' }));
+            Assert.That(this.element.GetValueChars(), Is.EqualTo(new char[] { ' ' }));
         }
 
         [Test]

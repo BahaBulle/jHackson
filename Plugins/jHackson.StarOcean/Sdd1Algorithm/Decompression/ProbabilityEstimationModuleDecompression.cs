@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_PEMD.cs" company="BahaBulle">
+﻿// <copyright file="ProbabilityEstimationModuleDecompression.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -38,19 +38,18 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
     using System.Collections.Generic;
     using JHackson.StarOcean.SDD1Algorithm.Common;
 
-    // Probability Estimation Module Decompression
-    internal class SDD1_PEMD
+    internal class ProbabilityEstimationModuleDecompression
     {
-        private static readonly List<State> EvolutionTable = SDD1Helper.GetEvolutionTable();
+        private static readonly List<State> EvolutionTable = Sdd1Helper.GetEvolutionTable();
 
-        private readonly SDD1_BG[] bg;
+        private readonly BitsGenerator[] bg;
 
-        private readonly SDD1_ContextInfo[] contextInfo;
+        private readonly ContextInfo[] contextInfo;
 
-        public SDD1_PEMD(SDD1_BG associatedBG0, SDD1_BG associatedBG1, SDD1_BG associatedBG2, SDD1_BG associatedBG3, SDD1_BG associatedBG4, SDD1_BG associatedBG5, SDD1_BG associatedBG6, SDD1_BG associatedBG7)
+        public ProbabilityEstimationModuleDecompression(BitsGenerator associatedBG0, BitsGenerator associatedBG1, BitsGenerator associatedBG2, BitsGenerator associatedBG3, BitsGenerator associatedBG4, BitsGenerator associatedBG5, BitsGenerator associatedBG6, BitsGenerator associatedBG7)
         {
-            this.bg = new SDD1_BG[8];
-            this.contextInfo = new SDD1_ContextInfo[32];
+            this.bg = new BitsGenerator[8];
+            this.contextInfo = new ContextInfo[32];
 
             this.bg[0] = associatedBG0;
             this.bg[1] = associatedBG1;

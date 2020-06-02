@@ -112,7 +112,7 @@ namespace JHackson.Core.Localization.Providers
                     int index = 0;
                     foreach (var value in token.Children())
                     {
-                        this.GenerateDictionary(dict, value, this.Join(prefix, index.ToString()));
+                        this.GenerateDictionary(dict, value, this.Join(prefix, index.ToString(CultureInfo.CurrentCulture)));
                         index++;
                     }
 

@@ -45,6 +45,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Localization\Resources\CoreResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CoreResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\Resources\CoreResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CoreResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Localization\Core_fr-FR.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

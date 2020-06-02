@@ -6,6 +6,7 @@ namespace JHackson.Core.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using JHackson.Core.Exceptions;
     using JHackson.Core.FileFormat;
     using JHackson.Core.Localization;
@@ -19,37 +20,57 @@ namespace JHackson.Core.Common
 
         public static void AddAction(string name, Type type)
         {
-            if (ListActions.ContainsKey(name.ToLower()))
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.actionNotSpecified"));
+            }
+
+            if (ListActions.ContainsKey(name.ToLower(CultureInfo.CurrentCulture)))
             {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.actionAlreadyExists", name));
             }
 
-            ListActions.Add(name.ToLower(), type);
+            ListActions.Add(name.ToLower(CultureInfo.CurrentCulture), type);
         }
 
         public static void AddFormat(string name, Type type)
         {
-            if (ListScriptFormats.ContainsKey(name.ToLower()))
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.formatNotSpecified"));
+            }
+
+            if (ListScriptFormats.ContainsKey(name.ToLower(CultureInfo.CurrentCulture)))
             {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.formatAlreadyExists", name));
             }
 
-            ListScriptFormats.Add(name.ToLower(), type);
+            ListScriptFormats.Add(name.ToLower(CultureInfo.CurrentCulture), type);
         }
 
         public static void AddTableElement(string identifier, Type type)
         {
-            if (ListTableElements.ContainsKey(identifier.ToUpper()))
+            if (string.IsNullOrWhiteSpace(identifier))
             {
-                throw new JHacksonException(LocalizationManager.GetMessage("core.tableElementAlreadyExists", identifier.ToUpper()));
+                throw new JHacksonException(LocalizationManager.GetMessage("core.tableElementNotSpecified"));
             }
 
-            ListTableElements.Add(identifier.ToUpper(), type);
+            if (ListTableElements.ContainsKey(identifier.ToUpper(CultureInfo.CurrentCulture)))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.tableElementAlreadyExists", identifier.ToUpper(CultureInfo.CurrentCulture)));
+            }
+
+            ListTableElements.Add(identifier.ToUpper(CultureInfo.CurrentCulture), type);
         }
 
         public static bool FormatExists(string key)
         {
-            return ListScriptFormats.ContainsKey(key.ToLower());
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.formatNotSpecified"));
+            }
+
+            return ListScriptFormats.ContainsKey(key.ToLower(CultureInfo.CurrentCulture));
         }
 
         public static Type GetAction(string key)
@@ -64,8 +85,13 @@ namespace JHackson.Core.Common
 
         public static IFileFormat GetFormat(string key)
         {
-            return ListScriptFormats.ContainsKey(key.ToLower())
-                ? Activator.CreateInstance(ListScriptFormats[key.ToLower()]) as IFileFormat
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.formatNotSpecified"));
+            }
+
+            return ListScriptFormats.ContainsKey(key.ToLower(CultureInfo.CurrentCulture))
+                ? Activator.CreateInstance(ListScriptFormats[key.ToLower(CultureInfo.CurrentCulture)]) as IFileFormat
                 : null;
         }
 
@@ -76,8 +102,13 @@ namespace JHackson.Core.Common
 
         public static ITableElement GetTableElement(string key)
         {
-            return ListTableElements.ContainsKey(key.ToUpper())
-                ? Activator.CreateInstance(ListTableElements[key.ToUpper()]) as ITableElement
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.tableElementNotSpecified"));
+            }
+
+            return ListTableElements.ContainsKey(key.ToUpper(CultureInfo.CurrentCulture))
+                ? Activator.CreateInstance(ListTableElements[key.ToUpper(CultureInfo.CurrentCulture)]) as ITableElement
                 : null;
         }
 

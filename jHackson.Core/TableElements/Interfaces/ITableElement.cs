@@ -19,8 +19,6 @@ namespace JHackson.Core.TableElements
 
         string Key { get; }
 
-        byte[] KeyBytes { get; }
-
         int KeySize { get; }
 
         string Line { get; }
@@ -37,13 +35,15 @@ namespace JHackson.Core.TableElements
 
         string Value { get; }
 
-        char[] ValueChars { get; }
-
         int ValueSize { get; }
 
         List<string> Warnings { get; }
 
         bool WarningsAsErrors { get; }
+
+        byte[] GetKeyBytes();
+
+        char[] GetValueChars();
 
         void Init();
 

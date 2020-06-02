@@ -14,9 +14,7 @@ namespace JHackson.Core.TableElements
 
         public override bool Equals(object obj)
         {
-            var param = (TableElementParam)obj;
-
-            return this.NbBytes == param.NbBytes && this.Position == param.Position && this.Value == param.Value;
+            return (obj is TableElementParam param) && this.NbBytes == param.NbBytes && this.Position == param.Position && this.Value == param.Value;
         }
 
         public override int GetHashCode()

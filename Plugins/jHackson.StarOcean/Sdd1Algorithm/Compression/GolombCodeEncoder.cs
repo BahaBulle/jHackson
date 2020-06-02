@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_GCE.cs" company="BahaBulle">
+﻿// <copyright file="GolombCodeEncoder.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -37,8 +37,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
     using System;
     using System.Collections.Generic;
 
-    // Golomb-Code Encoder
-    public class SDD1_GCE
+    public class GolombCodeEncoder
     {
         private readonly byte[] bitInd;
 
@@ -48,7 +47,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
 
         private readonly byte[] mPScount;
 
-        public SDD1_GCE(
+        public GolombCodeEncoder(
             List<byte> associatedCWSeq,
             List<byte> associatedCWBuf0,
             List<byte> associatedCWBuf1,
@@ -95,32 +94,32 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
             }
         }
 
-        public void PutBit(byte code_num, byte bit, ref bool endOfRun)
+        public void PutBit(byte codeNum, byte bit, ref bool endOfRun)
         {
-            if (this.mPScount[code_num] == 0)
+            if (this.mPScount[codeNum] == 0)
             {
-                this.codewSequence.Add(code_num);
+                this.codewSequence.Add(codeNum);
             }
 
             if (bit > 0)
             {
                 endOfRun = true;
-                this.OutputBit(code_num, true);
+                this.OutputBit(codeNum, true);
 
-                for (byte i = 0, aux = 0x01; i < code_num; i++, aux <<= 1)
+                for (byte i = 0, aux = 0x01; i < codeNum; i++, aux <<= 1)
                 {
-                    this.OutputBit(code_num, (this.mPScount[code_num] & aux) == 0);
+                    this.OutputBit(codeNum, (this.mPScount[codeNum] & aux) == 0);
                 }
 
-                this.mPScount[code_num] = 0;
+                this.mPScount[codeNum] = 0;
             }
             else
             {
-                if (++this.mPScount[code_num] == (1 << code_num))
+                if (++this.mPScount[codeNum] == (1 << codeNum))
                 {
                     endOfRun = true;
-                    this.OutputBit(code_num, false);
-                    this.mPScount[code_num] = 0;
+                    this.OutputBit(codeNum, false);
+                    this.mPScount[codeNum] = 0;
                 }
                 else
                 {

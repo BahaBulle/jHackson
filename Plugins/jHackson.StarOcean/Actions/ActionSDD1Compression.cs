@@ -4,6 +4,7 @@
 
 namespace JHackson.StarOcean.Actions
 {
+    using System.Globalization;
     using JHackson.Core.Actions;
     using JHackson.Core.Localization;
     using JHackson.StarOcean.SDD1Algorithm;
@@ -31,12 +32,12 @@ namespace JHackson.StarOcean.Actions
         {
             if (!this.From.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
 
             if (!this.To.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
         }
 
@@ -49,7 +50,7 @@ namespace JHackson.StarOcean.Actions
 
             var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
 
-            ISDD1Comp sdd1 = new SDD1();
+            ISdd1Comp sdd1 = new Sdd1();
 
             var msDestination = sdd1.Compress(msSource);
 

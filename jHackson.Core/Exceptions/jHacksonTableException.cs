@@ -1,4 +1,4 @@
-﻿// <copyright file="jHacksonTableException.cs" company="BahaBulle">
+﻿// <copyright file="JHacksonTableException.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 

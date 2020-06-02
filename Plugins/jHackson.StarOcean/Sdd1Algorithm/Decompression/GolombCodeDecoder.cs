@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1_GCD.cs" company="BahaBulle">
+﻿// <copyright file="GolombCodeDecoder.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -36,12 +36,11 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
     using System;
 
-    // Golomb-Code Decoder
-    internal class SDD1_GCD
+    internal class GolombCodeDecoder
     {
-        private readonly SDD1_IM inputManager;
+        private readonly InputManager inputManager;
 
-        public SDD1_GCD(SDD1_IM associatedIM)
+        public GolombCodeDecoder(InputManager associatedIM)
         {
             this.inputManager = associatedIM;
         }

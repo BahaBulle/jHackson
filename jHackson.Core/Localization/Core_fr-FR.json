@@ -1,13 +1,16 @@
 ﻿{
   "core": {
     "actionAlreadyExists": "L'action {0} existe déjà !",
+    "actionNotSpecified": "Le nom de l'action doit être renseigné !",
     "bufferNotMemoryStream": "Le buffer {0} n'est pas un fichier virtuel",
     "bufferUnknow": "Le buffer {0} n'existe pas !",
-    "formatUnknow": "Le format {0} n'existe pas !",
     "formatAlreadyExists": "Le format {0} existe déjà !",
+    "formatNotSpecified": "Le nom du format doit être renseigné !",
+    "formatUnknow": "Le format {0} n'existe pas !",
     "parameterNotFound": "La paramètre '{0}' n'est pas renseigné : {1}",
     "tableUnknow": "La table {0} n'existe pas !",
     "tableElementAlreadyExists": "Le TableElement {0} existe déjà !",
+    "tableElementNotSpecified": "Le nom du TableElement doit être renseigné !",
     "variableUnknow": "La variable {0} n'existe pas !",
     "project": {
       "incorrectProjectFile": "Le fichier projet n'est pas supporté",

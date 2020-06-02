@@ -1,4 +1,4 @@
-﻿// <copyright file="SDD1Helper.cs" company="BahaBulle">
+﻿// <copyright file="Sdd1Helper.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Common
 {
     using System.Collections.Generic;
 
-    public static class SDD1Helper
+    public static class Sdd1Helper
     {
         public static List<State> GetEvolutionTable()
         {
