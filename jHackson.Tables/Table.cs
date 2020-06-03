@@ -6,16 +6,17 @@ namespace JHackson.Tables
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Text;
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
-    using JHackson.Core.Table;
+    using JHackson.Core.Tables;
     using JHackson.Tables.Common;
 
     public class Table : ITable
     {
-        public const string LabelTableAscii = "ascii";
+        public const string LabelTableAscii = "ASCII";
 
         private readonly Encoding encode;
         private readonly TableValueCollection valueCollection;
@@ -28,7 +29,7 @@ namespace JHackson.Tables
                 encoding = string.Empty;
             }
 
-            switch (encoding.ToUpper())
+            switch (encoding.ToUpper(CultureInfo.InvariantCulture))
             {
                 case "ASCII":
                     this.encode = Encoding.ASCII;
@@ -72,14 +73,17 @@ namespace JHackson.Tables
 
         public void Load(List<string> list)
         {
-            foreach (var line in list)
+            if (list != null)
             {
-                if (string.IsNullOrWhiteSpace(line))
+                foreach (var line in list)
                 {
-                    continue;
-                }
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        continue;
+                    }
 
-                this.Add(line);
+                    this.Add(line);
+                }
             }
         }
 
@@ -108,6 +112,11 @@ namespace JHackson.Tables
         /// <param name="reader">Reader of the tbl file.</param>
         public void Load(StreamReader reader)
         {
+            if (reader == null)
+            {
+                throw new ArgumentNullException(nameof(reader));
+            }
+
             while (reader.Peek() >= 0)
             {
                 var line = reader.ReadLine();
@@ -129,14 +138,14 @@ namespace JHackson.Tables
 
             for (int i = 0x20; i < 0x80; i++)
             {
-                this.Add(i.ToString("X") + "=" + Convert.ToChar(i));
+                this.Add(i.ToString("X", CultureInfo.InvariantCulture) + "=" + Convert.ToChar(i));
             }
 
             if (extend.HasValue && extend.Value)
             {
                 for (int i = 0x80; i < 0x100; i++)
                 {
-                    this.Add(i.ToString("X") + "=" + Convert.ToChar(i));
+                    this.Add(i.ToString("X", CultureInfo.InvariantCulture) + "=" + Convert.ToChar(i));
                 }
             }
 

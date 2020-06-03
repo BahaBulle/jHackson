@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace jHackson.Core.Localization.Resources {
+namespace JHackson.Core.Localization.Resources {
     using System;
     
     
@@ -66,6 +66,15 @@ namespace jHackson.Core.Localization.Resources {
         internal static string LocalizationCultureNotNull {
             get {
                 return ResourceManager.GetString("LocalizationCultureNotNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The culture {0} is not supported..
+        /// </summary>
+        internal static string LocalizationCultureNotSupported {
+            get {
+                return ResourceManager.GetString("LocalizationCultureNotSupported", resourceCulture);
             }
         }
         

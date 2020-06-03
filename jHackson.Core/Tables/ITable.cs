@@ -2,7 +2,7 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Core.Table
+namespace JHackson.Core.Tables
 {
     using System.Collections.Generic;
     using System.IO;

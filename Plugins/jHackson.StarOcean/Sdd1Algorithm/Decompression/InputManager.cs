@@ -35,6 +35,7 @@ understood.
 namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using JHackson.StarOcean.Extensions;
     using NLog;
@@ -50,21 +51,23 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
             byte codeword;
 
             codeword = Convert.ToByte((this.bytePtr.PeekByte() << this.bitCount) & 0xFF);
-            Logger.Debug("1 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte());
+            Logger.Debug(CultureInfo.InvariantCulture, "1 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte());
 
             ++this.bitCount;
 
             if ((codeword & 0x80) == 0x80)
             {
                 codeword |= Convert.ToByte((this.bytePtr.PeekByte(1) >> (9 - this.bitCount)) & 0xFF);
-                Logger.Debug("2 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte(1));
+                Logger.Debug(CultureInfo.InvariantCulture, "2 - {0} : {1:X02}", this.bitCount, this.bytePtr.PeekByte(1));
                 this.bitCount += code_len;
             }
 
             if ((this.bitCount & 0x08) == 0x08)
             {
                 this.bytePtr.ReadByte();
-                Logger.Debug("Position++ : {0}", this.bytePtr.BaseStream.Position);
+#pragma warning disable CA1303 // Ne pas passer de littéraux en paramètres localisés
+                Logger.Debug(CultureInfo.InvariantCulture, "Position : {0}", this.bytePtr.BaseStream.Position);
+#pragma warning restore CA1303 // Ne pas passer de littéraux en paramètres localisés
                 this.bitCount &= 0x07;
             }
 

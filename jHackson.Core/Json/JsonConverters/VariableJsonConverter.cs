@@ -7,6 +7,7 @@ namespace JHackson.Core.Json.JsonConverters
     using System;
     using System.Collections;
     using JHackson.Core.Actions;
+    using JHackson.Core.Localization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
@@ -23,6 +24,11 @@ namespace JHackson.Core.Json.JsonConverters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (serializer == null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
             var jsonToken = JToken.Load(reader);
             var list = Activator.CreateInstance(objectType) as IList;
 
@@ -39,7 +45,7 @@ namespace JHackson.Core.Json.JsonConverters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new InvalidOperationException("Use default serialization.");
+            throw new InvalidOperationException(LocalizationManager.GetMessage("core.serialization.serializationError"));
         }
     }
 }

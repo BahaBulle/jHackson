@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <Authors>BahaBulle</Authors>
     <Copyright>BahaBulle © 2020</Copyright>
+    <NeutralLanguage>fr-FR</NeutralLanguage>
+    <Product>jHackson</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

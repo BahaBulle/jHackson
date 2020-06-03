@@ -53,11 +53,14 @@ namespace JHackson.Core.TableElements
         public string RegexValue { get; protected set; }
 
         public string Value { get; protected set; }
+
         public int ValueSize { get; protected set; }
 
         public List<string> Warnings { get; }
 
         public bool WarningsAsErrors { get; protected set; }
+
+        protected static Regex RgxParamInsert => new Regex(@"^@=(.+)$");
 
         protected Regex RgxEndBlock
         {
@@ -71,8 +74,6 @@ namespace JHackson.Core.TableElements
                 return this.rgxEndBlock;
             }
         }
-
-        protected Regex RgxParamInsert => new Regex(@"^@=(.+)$");
 
         public byte[] GetKeyBytes()
         {
@@ -127,7 +128,7 @@ namespace JHackson.Core.TableElements
 
         protected virtual void SetKey(string key)
         {
-            this.Key = key;
+            this.Key = key ?? throw new ArgumentNullException(nameof(key));
 
             if (this.Key != null && this.Key.Length % 2 != 0)
             {
@@ -163,7 +164,7 @@ namespace JHackson.Core.TableElements
             this.RegexValue = this.Value;
             for (int i = 0; i < badChars.Length; i++)
             {
-                this.RegexValue = this.RegexValue.Replace(badChars[i], goodChars[i]);
+                this.RegexValue = this.RegexValue.Replace(badChars[i], goodChars[i], StringComparison.InvariantCulture);
             }
         }
 

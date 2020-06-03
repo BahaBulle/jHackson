@@ -4,6 +4,8 @@
 
 namespace JHackson.Tables.Actions
 {
+    using System;
+    using System.Globalization;
     using System.IO;
     using JHackson.Core.Actions;
     using JHackson.Core.Common;
@@ -34,14 +36,14 @@ namespace JHackson.Tables.Actions
 
         public override void Check()
         {
-            if (string.IsNullOrWhiteSpace(this.FileName) || (this.FileName.ToLower() != Table.LabelTableAscii && !File.Exists(this.FileName)))
+            if (string.IsNullOrWhiteSpace(this.FileName) || (this.FileName.ToUpper(CultureInfo.InvariantCulture) != Table.LabelTableAscii && !File.Exists(this.FileName)))
             {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", this.FileName, this.FileName ?? "null"));
             }
 
             if (!this.Id.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
         }
 
@@ -54,7 +56,7 @@ namespace JHackson.Tables.Actions
 
             var tbl = new Table();
 
-            if (this.FileName.ToLower() == Table.LabelTableAscii)
+            if (this.FileName.ToUpper(CultureInfo.InvariantCulture) == Table.LabelTableAscii)
             {
                 tbl.LoadStdAscii(this.Extend);
             }
@@ -68,6 +70,11 @@ namespace JHackson.Tables.Actions
 
         public override void Init(IProjectContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             this.FileName = Helper.ReplaceVariables(context.GetVariables(), this.FileName);
 
             base.Init(context);

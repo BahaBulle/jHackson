@@ -36,6 +36,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
     using NLog;
 
@@ -99,7 +100,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
         public void PrepareComp(byte header)
         {
             Sdd1.OutBufferLength = 0;
-            Sdd1.OutBuffer[Sdd1.OutBufferPosition] = Convert.ToByte((header << 4) & 0xFF);
+            Sdd1.SetByte(Sdd1.OutBufferPosition, Convert.ToByte((header << 4) & 0xFF));
 
             this.oBitInd = 4;
 
@@ -114,13 +115,13 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
         {
             if (this.oBitInd == 0)
             {
-                Sdd1.OutBuffer[Sdd1.OutBufferPosition] = 0;
+                Sdd1.SetByte(Sdd1.OutBufferPosition, 0);
             }
 
             byte bit = Convert.ToByte(((this.codewBuffer[code_num][this.bytePtr[code_num]] & (0x80 >> this.bitInd[code_num])) << this.bitInd[code_num]) & 0xFF);
 
-            Sdd1.OutBuffer[Sdd1.OutBufferPosition] |= Convert.ToByte((bit >> this.oBitInd) & 0xFF);
-            this.logMessage.Append(string.Format("{0:X02} ", Convert.ToByte((bit >> this.oBitInd) & 0xFF)));
+            Sdd1.SetByteOr(Sdd1.OutBufferPosition, Convert.ToByte((bit >> this.oBitInd) & 0xFF));
+            this.logMessage.Append(string.Format(CultureInfo.InvariantCulture, "{0:X02} ", Convert.ToByte((bit >> this.oBitInd) & 0xFF)));
 
             if ((++this.bitInd[code_num] & 0x08) > 0)
             {
@@ -130,7 +131,7 @@ namespace JHackson.StarOcean.SDD1Algorithm.Compression
 
             if ((++this.oBitInd & 0x08) > 0)
             {
-                this.logMessage.Append(string.Format("-> {0:X02}", Sdd1.OutBuffer[Sdd1.OutBufferPosition]));
+                this.logMessage.Append(string.Format(CultureInfo.InvariantCulture, "-> {0:X02}", Sdd1.GetByte(Sdd1.OutBufferPosition)));
                 Logger.Debug(this.logMessage.ToString());
                 this.logMessage.Clear();
                 this.oBitInd = 0;

@@ -8,8 +8,7 @@ namespace JHackson.Core.Localization
     using System.Collections.Generic;
     using System.Globalization;
     using System.Threading;
-    using jHackson.Core.Localization.Resources;
-    using NLog.LayoutRenderers;
+    using JHackson.Core.Localization.Resources;
 
     public static class LocalizationManager
     {
@@ -36,7 +35,7 @@ namespace JHackson.Core.Localization
                     if (!IsSupported(value))
                     {
                         throw new ArgumentException(
-                            $"The culture {value.DisplayName} is not supported.",
+                            string.Format(CultureInfo.InvariantCulture, CoreResource.LocalizationCultureNotSupported, value.DisplayName),
                             nameof(value));
                     }
 

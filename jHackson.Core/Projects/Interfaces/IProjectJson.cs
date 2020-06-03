@@ -12,7 +12,7 @@ namespace JHackson.Core.Projects
     public interface IProjectJson
     {
         [JsonConverter(typeof(ActionJsonConverter))]
-        List<IActionJson> Actions { get; set; }
+        List<IActionJson> Actions { get; }
 
         string Application { get; set; }
 

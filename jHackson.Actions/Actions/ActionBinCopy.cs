@@ -4,6 +4,7 @@
 
 namespace JHackson.Actions
 {
+    using System.Globalization;
     using JHackson.Core.Actions;
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
@@ -38,12 +39,12 @@ namespace JHackson.Actions
         {
             if (!this.From.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
 
             if (!this.To.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.To), this.To.HasValue ? this.To.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
         }
 

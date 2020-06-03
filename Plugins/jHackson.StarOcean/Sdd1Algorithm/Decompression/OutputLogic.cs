@@ -35,6 +35,7 @@ understood.
 namespace JHackson.StarOcean.SDD1Algorithm.Decompression
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using JHackson.StarOcean.Extensions;
     using NLog;
@@ -71,7 +72,9 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
                         if (i == 0)
                         {
                             this.buffer.WriteByte(register2);
-                            Logger.Debug("Write 1 : {0:X02}", register2);
+#pragma warning disable CA1303 // Ne pas passer de littéraux en paramètres localisés
+                            Logger.Debug(CultureInfo.InvariantCulture, "Write 1 : {0:X02}", register2);
+#pragma warning restore CA1303 // Ne pas passer de littéraux en paramètres localisés
                             i = Convert.ToByte(~i & 0xFF);
                         }
                         else
@@ -90,7 +93,9 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
                             }
 
                             this.buffer.WriteByte(register1);
-                            Logger.Debug("Write 2 : {0:X02}", register1);
+#pragma warning disable CA1303 // Ne pas passer de littéraux en paramètres localisés
+                            Logger.Debug(CultureInfo.InvariantCulture, "Write 2 : {0:X02}", register1);
+#pragma warning restore CA1303 // Ne pas passer de littéraux en paramètres localisés
                         }
                     }
                     while (--this.length > 0);
@@ -108,7 +113,9 @@ namespace JHackson.StarOcean.SDD1Algorithm.Decompression
                         }
 
                         this.buffer.WriteByte(register1);
-                        Logger.Debug("Write 3 : {0:X02}", register1);
+#pragma warning disable CA1303 // Ne pas passer de littéraux en paramètres localisés
+                        Logger.Debug(CultureInfo.InvariantCulture, "Write 3 : {0:X02}", register1);
+#pragma warning restore CA1303 // Ne pas passer de littéraux en paramètres localisés
                     }
                     while (--this.length > 0);
                     break;

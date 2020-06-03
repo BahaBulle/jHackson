@@ -25,12 +25,12 @@ namespace JHackson.Core.Common
                 throw new JHacksonException(LocalizationManager.GetMessage("core.actionNotSpecified"));
             }
 
-            if (ListActions.ContainsKey(name.ToLower(CultureInfo.CurrentCulture)))
+            if (ListActions.ContainsKey(name.ToUpper(CultureInfo.CurrentCulture)))
             {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.actionAlreadyExists", name));
             }
 
-            ListActions.Add(name.ToLower(CultureInfo.CurrentCulture), type);
+            ListActions.Add(name.ToUpper(CultureInfo.CurrentCulture), type);
         }
 
         public static void AddFormat(string name, Type type)

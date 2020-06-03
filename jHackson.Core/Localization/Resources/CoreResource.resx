@@ -120,6 +120,9 @@
   <data name="LocalizationCultureNotNull" xml:space="preserve">
     <value>Current culture cannot be null.</value>
   </data>
+  <data name="LocalizationCultureNotSupported" xml:space="preserve">
+    <value>The culture {0} is not supported.</value>
+  </data>
   <data name="LocalizationNoProvider" xml:space="preserve">
     <value>No provider has been provided for culture {0}.</value>
   </data>

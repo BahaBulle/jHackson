@@ -4,6 +4,7 @@
 
 namespace JHackson.Core.Localization.Providers
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -36,7 +37,7 @@ namespace JHackson.Core.Localization.Providers
 
                     return message;
                 }
-                catch
+                catch (ArgumentNullException)
                 {
                     return null;
                 }
@@ -74,7 +75,7 @@ namespace JHackson.Core.Localization.Providers
                         this.CulturesList.Add(culture);
                     }
 
-                    var json = this.GetFileContent(fichier);
+                    var json = GetFileContent(fichier);
 
                     if (!this.files.ContainsKey(mr.Name))
                     {
@@ -96,6 +97,37 @@ namespace JHackson.Core.Localization.Providers
             this.messages = new Dictionary<string, string>();
         }
 
+        private static JToken GetFileContent(string fichier)
+        {
+            JToken token = null;
+            StreamReader file = null;
+
+            try
+            {
+                file = File.OpenText(fichier);
+
+                using (var reader = new JsonTextReader(file))
+                {
+                    file = null;
+                    token = JToken.ReadFrom(reader);
+                }
+            }
+            finally
+            {
+                if (file != null)
+                {
+                    file.Dispose();
+                }
+            }
+
+            return token;
+        }
+
+        private static string Join(string prefix, string name)
+        {
+            return string.IsNullOrEmpty(prefix) ? name : prefix + "." + name;
+        }
+
         private void GenerateDictionary(Dictionary<string, string> dict, JToken token, string prefix)
         {
             switch (token.Type)
@@ -103,7 +135,7 @@ namespace JHackson.Core.Localization.Providers
                 case JTokenType.Object:
                     foreach (var prop in token.Children<JProperty>())
                     {
-                        this.GenerateDictionary(dict, prop.Value, this.Join(prefix, prop.Name));
+                        this.GenerateDictionary(dict, prop.Value, Join(prefix, prop.Name));
                     }
 
                     break;
@@ -112,7 +144,7 @@ namespace JHackson.Core.Localization.Providers
                     int index = 0;
                     foreach (var value in token.Children())
                     {
-                        this.GenerateDictionary(dict, value, this.Join(prefix, index.ToString(CultureInfo.CurrentCulture)));
+                        this.GenerateDictionary(dict, value, Join(prefix, index.ToString(CultureInfo.CurrentCulture)));
                         index++;
                     }
 
@@ -145,38 +177,6 @@ namespace JHackson.Core.Localization.Providers
             }
 
             return dic;
-        }
-
-        [SuppressMessage("Style", "IDE0063:Utiliser une instruction 'using' simple", Justification = "I don't like the thing")]
-        private JToken GetFileContent(string fichier)
-        {
-            JToken token = null;
-            StreamReader file = null;
-
-            try
-            {
-                file = File.OpenText(fichier);
-
-                using (var reader = new JsonTextReader(file))
-                {
-                    file = null;
-                    token = JToken.ReadFrom(reader);
-                }
-            }
-            finally
-            {
-                if (file != null)
-                {
-                    file.Dispose();
-                }
-            }
-
-            return token;
-        }
-
-        private string Join(string prefix, string name)
-        {
-            return string.IsNullOrEmpty(prefix) ? name : prefix + "." + name;
         }
 
         private LocalizationFilesResources SplitFileName(string fichier)

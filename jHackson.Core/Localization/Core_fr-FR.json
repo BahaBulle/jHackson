@@ -19,7 +19,8 @@
     },
     "serialization": {
       "actionUnknow": "L'action {0} n'existe pas !",
-      "propertyNameUnknow": "La propriété 'Name' n'est pas renseignée dans {0}"
+      "propertyNameUnknow": "La propriété 'Name' n'est pas renseignée dans {0}",
+      "serializationError": "Utilisez la sérialisation par défaut."
     },
     "tableElement": {
       "incorrectKeyLength": "La longueur de la clé est incorrecte : {0}",

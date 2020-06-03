@@ -4,6 +4,8 @@
 
 namespace JHackson.Actions
 {
+    using System;
+    using System.Globalization;
     using System.IO;
     using JHackson.Core.Actions;
     using JHackson.Core.Common;
@@ -45,7 +47,7 @@ namespace JHackson.Actions
 
             if (!this.From.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.From), this.From.HasValue ? this.From.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
 
             if (string.IsNullOrWhiteSpace(this.Format))
@@ -84,20 +86,26 @@ namespace JHackson.Actions
                 this.Source.Size = msSource.Length - this.Source.AdressStart;
             }
 
-            var msDest = new MemoryStream();
+            using (var msDest = new MemoryStream())
+            {
+                var bytes = new byte[this.Source.Size.Value];
+                msSource.Position = this.Source.AdressStart.Value;
+                msSource.Read(bytes, 0, (int)this.Source.Size.Value);
+                msSource.Position = this.Source.AdressStart.Value;
 
-            var bytes = new byte[this.Source.Size.Value];
-            msSource.Position = this.Source.AdressStart.Value;
-            msSource.Read(bytes, 0, (int)this.Source.Size.Value);
-            msSource.Position = this.Source.AdressStart.Value;
+                msDest.Write(bytes, 0, (int)this.Source.Size.Value);
 
-            msDest.Write(bytes, 0, (int)this.Source.Size.Value);
-
-            format.Save(this.FileName, msDest);
+                format.Save(this.FileName, msDest);
+            }
         }
 
         public override void Init(IProjectContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             this.FileName = Helper.ReplaceVariables(context.GetVariables(), this.FileName);
 
             base.Init(context);

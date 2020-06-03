@@ -36,7 +36,6 @@ namespace JHackson.Core.Services
             return pj;
         }
 
-        [SuppressMessage("Style", "IDE0063:Utiliser une instruction 'using' simple", Justification = "I don't like the thing")]
         public void Serialize(IProjectJson project, string filename)
         {
             using (var file = File.CreateText(filename))

@@ -5,6 +5,10 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+    <NeutralLanguage>fr-FR</NeutralLanguage>
+    <Authors>BahaBulle</Authors>
+    <Product>jHackson</Product>
+    <Copyright>BahaBulle © 2020</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

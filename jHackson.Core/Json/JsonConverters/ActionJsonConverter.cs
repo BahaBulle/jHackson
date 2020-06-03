@@ -6,6 +6,7 @@ namespace JHackson.Core.Json.JsonConverters
 {
     using System;
     using System.Collections;
+    using System.Globalization;
     using JHackson.Core.Actions;
     using JHackson.Core.Common;
     using JHackson.Core.Exceptions;
@@ -26,6 +27,11 @@ namespace JHackson.Core.Json.JsonConverters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
+            if (serializer == null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
             var jsonToken = JToken.Load(reader);
             var list = Activator.CreateInstance(objectType) as IList;
 
@@ -49,9 +55,9 @@ namespace JHackson.Core.Json.JsonConverters
                 }
 
                 // Create Action object
-                if (DataContext.ListActions.ContainsKey(childToken.ToString().ToLower()))
+                if (DataContext.ListActions.ContainsKey(childToken.ToString().ToUpper(CultureInfo.InvariantCulture)))
                 {
-                    var newObject = Activator.CreateInstance(DataContext.GetAction(childToken.ToString().ToLower())) as IActionJson;
+                    var newObject = Activator.CreateInstance(DataContext.GetAction(childToken.ToString().ToUpper(CultureInfo.InvariantCulture))) as IActionJson;
                     serializer.Populate(jToken.CreateReader(), newObject);
 
                     list.Add(newObject);
@@ -67,7 +73,7 @@ namespace JHackson.Core.Json.JsonConverters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new InvalidOperationException("Use default serialization.");
+            throw new InvalidOperationException(LocalizationManager.GetMessage("core.serialization.serializationError"));
         }
     }
 }

@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+    <NeutralLanguage>fr-FR</NeutralLanguage>
+    <Authors>BahaBulle</Authors>
+    <Product>jHackson</Product>
+    <Copyright>BahaBulle © 2020</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

@@ -4,6 +4,8 @@
 
 namespace JHackson.Tables.Actions
 {
+    using System;
+    using System.Globalization;
     using JHackson.Core.Actions;
     using JHackson.Core.Common;
     using JHackson.Core.Localization;
@@ -29,7 +31,7 @@ namespace JHackson.Tables.Actions
         {
             if (!this.Id.HasValue)
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString() : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString(CultureInfo.InvariantCulture) : "null"));
             }
         }
 
@@ -47,6 +49,11 @@ namespace JHackson.Tables.Actions
 
         public override void Init(IProjectContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             this.FileName = Helper.ReplaceVariables(context.GetVariables(), this.FileName);
 
             base.Init(context);

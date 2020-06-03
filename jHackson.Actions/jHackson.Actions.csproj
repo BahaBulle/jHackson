@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <OutputType>Library</OutputType>
+    <NeutralLanguage>fr-FR</NeutralLanguage>
+    <Authors>BahaBulle</Authors>
+    <Product>jHackson</Product>
+    <Copyright>BahaBulle © 2020</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

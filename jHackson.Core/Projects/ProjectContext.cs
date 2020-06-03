@@ -8,7 +8,7 @@ namespace JHackson.Core.Projects
     using System.IO;
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
-    using JHackson.Core.Table;
+    using JHackson.Core.Tables;
 
     public class ProjectContext : IProjectContext
     {
