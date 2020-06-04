@@ -7,6 +7,8 @@
     <Authors>BahaBulle</Authors>
     <Product>jHackson</Product>
     <Copyright>BahaBulle © 2020</Copyright>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
