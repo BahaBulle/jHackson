@@ -4,7 +4,6 @@
 
 namespace JHackson.Tables.TableElements
 {
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Text.RegularExpressions;
     using JHackson.Core.Exceptions;
@@ -26,8 +25,6 @@ namespace JHackson.Tables.TableElements
             this.SetRegexValue();
 
             var rgxParam = new Regex($@"{this.Identifier}(\d+)");
-
-            this.ListParam = new List<ITableElementParam>();
 
             var matches = rgxParam.Matches(this.Value);
             this.NbParam = matches.Count;

@@ -42,7 +42,7 @@ namespace JHackson.Core.TableElements
 
         public string Line { get; protected set; }
 
-        public List<ITableElementParam> ListParam { get; protected set; }
+        public List<ITableElementParam> ListParam { get; } = new List<ITableElementParam>();
 
         public string Name { get; protected set; }
 

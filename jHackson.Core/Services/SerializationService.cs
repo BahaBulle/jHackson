@@ -4,7 +4,6 @@
 
 namespace JHackson.Core.Services
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using JHackson.Core.Json.ContractResolver;
     using JHackson.Core.Projects;
@@ -30,7 +29,7 @@ namespace JHackson.Core.Services
                     ContractResolver = this.contractResolver,
                 };
 
-                pj = (IProjectJson)serializer.Deserialize(file, typeof(IProjectJson));
+                pj = (IProjectJson)serializer.Deserialize(file, typeof(ProjectJson));
             }
 
             return pj;

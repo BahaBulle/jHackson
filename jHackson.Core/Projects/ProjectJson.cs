@@ -28,7 +28,8 @@ namespace JHackson.Core.Projects
         }
 
         [JsonConverter(typeof(ActionJsonConverter))]
-        public List<IActionJson> Actions { get; set; }
+        [JsonProperty]
+        public List<IActionJson> Actions { get; private set; }
 
         public string Application { get; set; }
 
@@ -39,7 +40,8 @@ namespace JHackson.Core.Projects
         public string Game { get; set; }
 
         [JsonConverter(typeof(VariableJsonConverter))]
-        public List<IActionVariable> Variables { get; set; }
+        [JsonProperty]
+        public List<IActionVariable> Variables { get; private set; }
 
         public string Version { get; set; }
 

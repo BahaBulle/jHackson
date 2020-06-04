@@ -23,7 +23,7 @@ namespace JHackson.Core.Projects
         string Game { get; set; }
 
         [JsonConverter(typeof(VariableJsonConverter))]
-        List<IActionVariable> Variables { get; set; }
+        List<IActionVariable> Variables { get; }
 
         string Version { get; set; }
 

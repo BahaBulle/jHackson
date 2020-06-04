@@ -7,12 +7,14 @@
     <Copyright>BahaBulle © 2020</Copyright>
     <NeutralLanguage>fr-FR</NeutralLanguage>
     <Product>jHackson</Product>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DocumentationFile>..\Build\bin\Debug\jHackson\jHackson.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

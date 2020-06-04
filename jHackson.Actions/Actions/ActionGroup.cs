@@ -24,7 +24,8 @@ namespace JHackson.Actions.Actions
         }
 
         [JsonConverter(typeof(ActionJsonConverter))]
-        public List<IActionJson> Actions { get; set; }
+        [JsonProperty]
+        public List<IActionJson> Actions { get; private set; }
 
         public override void Check()
         {
