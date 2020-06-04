@@ -8,6 +8,8 @@
     <Copyright>BahaBulle @ 2020</Copyright>
     <NeutralLanguage>fr-FR</NeutralLanguage>
     <Product>jHackson</Product>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
