@@ -41,18 +41,18 @@
         }
 
         [Test]
-        public void ShouldSerializeActionFileLoad()
+        public void ShouldSerializeActionBinLoad()
         {
             var expected = "{" +
                 "\"FileName\":\"fichier.txt\"," +
                 "\"To\":1," +
-                "\"Title\":\"Test ActionFileLoad\"," +
+                "\"Title\":\"Test ActionBinLoad\"," +
                 "\"Todo\":true}";
 
-            var action = new ActionFileLoad()
+            var action = new ActionBinLoad()
             {
                 FileName = "fichier.txt",
-                Title = "Test ActionFileLoad",
+                Title = "Test ActionBinLoad",
                 To = 1,
                 Todo = true,
             };

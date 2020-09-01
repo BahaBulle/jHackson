@@ -1,4 +1,4 @@
-﻿// <copyright file="ActionFileLoad.cs" company="BahaBulle">
+﻿// <copyright file="ActionBinLoad.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -13,13 +13,19 @@ namespace JHackson.Actions
     using JHackson.Core.Projects;
     using NLog;
 
-    public class ActionFileLoad : ActionBase
+    /// <summary>
+    /// Provides a class that allows loading a file in binary format.
+    /// </summary>
+    public class ActionBinLoad : ActionBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ActionFileLoad()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionBinLoad" /> class.
+        /// </summary>
+        public ActionBinLoad()
         {
-            this.Name = "FileLoad";
+            this.Name = "BinLoad";
             this.Title = null;
             this.Todo = true;
 
@@ -27,10 +33,19 @@ namespace JHackson.Actions
             this.To = null;
         }
 
+        /// <summary>
+        /// Gets or sets the file to load.
+        /// </summary>
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the identifier of the memorystream where load the file.
+        /// </summary>
         public int? To { get; set; }
 
+        /// <summary>
+        /// Check errors in parameters.
+        /// </summary>
         public override void Check()
         {
             if (string.IsNullOrWhiteSpace(this.FileName) || !File.Exists(this.FileName))
@@ -44,6 +59,9 @@ namespace JHackson.Actions
             }
         }
 
+        /// <summary>
+        /// Execute the process of this action.
+        /// </summary>
         public override void Execute()
         {
             if (this.Title != null)
@@ -57,6 +75,10 @@ namespace JHackson.Actions
             this.Context.AddBuffer(this.To.Value, ms);
         }
 
+        /// <summary>
+        /// Initialize this action.
+        /// </summary>
+        /// <param name="context">Context of the project.</param>
         public override void Init(IProjectContext context)
         {
             if (context == null)
