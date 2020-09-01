@@ -103,7 +103,7 @@ namespace JHackson.Actions.Actions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            this.FileName = Helper.ReplaceVariables(context.GetVariables(), this.FileName);
+            this.FileName = PluginsHelper.ReplaceVariables(context.GetVariables(), this.FileName);
 
             base.Init(context);
 

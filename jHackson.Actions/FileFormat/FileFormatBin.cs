@@ -33,7 +33,7 @@ namespace JHackson.Actions.FileFormat
             }
             else
             {
-                throw new JHacksonException(LocalizationManager.GetMessage("formats.incorrectFormat", this.Name));
+                throw new JHacksonException(LocalizationManager.GetMessage("formats.incorrectFileFormat", this.Name));
             }
         }
     }

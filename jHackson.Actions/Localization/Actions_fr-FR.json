@@ -3,6 +3,7 @@
     "notEnoughSpace": "Espace insuffisant dans le buffer de destination {0}/{1}"
   },
   "formats": {
-    "incorrectFormat": "The buffer is not in the correct format {0}"
+    "incorrectFileFormat": "Le buffer n'est pas dans le bon format de fichier {0}",
+    "incorrectImageFormat": "Le format d'image est inconnu !"
   }
 }

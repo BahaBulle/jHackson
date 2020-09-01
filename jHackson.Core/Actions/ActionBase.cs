@@ -56,7 +56,7 @@ namespace JHackson.Core.Actions
         {
             this.Context = context;
 
-            this.Title = Helper.ReplaceParameters(this, this.Title);
+            this.Title = PluginsHelper.ReplaceParameters(this, this.Title);
         }
     }
 }

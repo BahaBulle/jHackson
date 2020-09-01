@@ -32,7 +32,7 @@
         {
             InitCulture();
 
-            Helper.LoadPlugins();
+            PluginsHelper.LoadPlugins();
 
             base.OnStartup(e);
         }

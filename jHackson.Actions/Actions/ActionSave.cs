@@ -1,4 +1,4 @@
-﻿// <copyright file="ActionBinSave.cs" company="BahaBulle">
+﻿// <copyright file="ActionSave.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -14,13 +14,19 @@ namespace JHackson.Actions
     using JHackson.Core.Projects;
     using NLog;
 
-    public class ActionBinSave : ActionBase
+    /// <summary>
+    /// Provides a action which allows to save a MemoryStream in a file in different format.
+    /// </summary>
+    public class ActionSave : ActionBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ActionBinSave()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionSave" /> class.
+        /// </summary>
+        public ActionSave()
         {
-            this.Name = "BinSave";
+            this.Name = "Save";
             this.Title = null;
             this.Todo = true;
 
@@ -30,14 +36,34 @@ namespace JHackson.Actions
             this.Source = new BufferParameters();
         }
 
+        /// <summary>
+        /// Gets or sets the filename of the file.
+        /// </summary>
         public string FileName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the format.
+        /// </summary>
         public string Format { get; set; }
 
+        /// <summary>
+        /// Gets or sets the id of the MemoryStream to read.
+        /// </summary>
         public int? From { get; set; }
 
+        /// <summary>
+        /// Gets or sets the parameters of the image.
+        /// </summary>
+        public ImageParameters ImageParameters { get; set; }
+
+        /// <summary>
+        /// Gets or sets the MemoryStream source parameters.
+        /// </summary>
         public BufferParameters Source { get; set; }
 
+        /// <summary>
+        /// Check errors in parameters.
+        /// </summary>
         public override void Check()
         {
             if (string.IsNullOrWhiteSpace(this.FileName))
@@ -55,12 +81,15 @@ namespace JHackson.Actions
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Format), this.Format ?? "null"));
             }
 
-            if (!DataContext.FormatExists(this.Format))
+            if (!DataContext.FileFormatExists(this.Format))
             {
-                this.AddError(LocalizationManager.GetMessage("core.formatUnknow", this.Format));
+                this.AddError(LocalizationManager.GetMessage("core.fileFormatUnknow", this.Format));
             }
         }
 
+        /// <summary>
+        /// Execute the process of this action.
+        /// </summary>
         public override void Execute()
         {
             if (this.Title != null)
@@ -74,7 +103,7 @@ namespace JHackson.Actions
             }
 
             var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
-            var format = DataContext.GetFormat(this.Format);
+            var format = DataContext.GetFileFormat(this.Format);
 
             if (!this.Source.AdressStart.HasValue)
             {
@@ -88,17 +117,37 @@ namespace JHackson.Actions
 
             using (var msDest = new MemoryStream())
             {
-                var bytes = new byte[this.Source.Size.Value];
+                byte[] bytes = new byte[this.Source.Size.Value];
                 msSource.Position = this.Source.AdressStart.Value;
                 msSource.Read(bytes, 0, (int)this.Source.Size.Value);
                 msSource.Position = this.Source.AdressStart.Value;
 
                 msDest.Write(bytes, 0, (int)this.Source.Size.Value);
 
-                format.Save(this.FileName, msDest);
+                if (this.ImageParameters != null)
+                {
+                    var imageFormat = DataContext.GetImageFormat(this.ImageParameters.Format);
+
+                    if (imageFormat == null)
+                    {
+                        throw new JHacksonException(LocalizationManager.GetMessage("formats.incorrectImageFormat"));
+                    }
+
+                    var image = imageFormat.Convert(msDest, this.ImageParameters);
+
+                    format.Save(this.FileName, image);
+                }
+                else
+                {
+                    format.Save(this.FileName, msDest);
+                }
             }
         }
 
+        /// <summary>
+        /// Initialize this action.
+        /// </summary>
+        /// <param name="context">Context of the project.</param>
         public override void Init(IProjectContext context)
         {
             if (context == null)
@@ -106,7 +155,7 @@ namespace JHackson.Actions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            this.FileName = Helper.ReplaceVariables(context.GetVariables(), this.FileName);
+            this.FileName = PluginsHelper.ReplaceVariables(context.GetVariables(), this.FileName);
 
             base.Init(context);
 

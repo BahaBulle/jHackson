@@ -28,7 +28,7 @@ namespace JHackson
             InitCulture();
 
             // Load plugins
-            Helper.LoadPlugins();
+            PluginsHelper.LoadPlugins();
         }
 
         private static void InitCulture()
