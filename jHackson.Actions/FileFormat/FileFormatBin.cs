@@ -2,7 +2,7 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Actions.FileFormat
+namespace JHackson.Actions.Binary.FileFormat
 {
     using System.IO;
     using JHackson.Core.Exceptions;

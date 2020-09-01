@@ -2,7 +2,7 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Actions.ImageFormat
+namespace JHackson.Actions.Image.ImageFormat
 {
     using System;
     using System.Collections.Generic;

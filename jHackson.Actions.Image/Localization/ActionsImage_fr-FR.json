@@ -1,0 +1,5 @@
+{
+  "formats": {
+    "incorrectFileFormat": "Le buffer n'est pas dans le bon format de fichier {0}"
+  }
+}

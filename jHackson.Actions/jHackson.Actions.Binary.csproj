@@ -9,13 +9,15 @@
     <Copyright>BahaBulle © 2020</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyName>jHackson.Actions.Binary</AssemblyName>
+    <RootNamespace>jHackson.Actions.Binary</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>..\Build\bin\Debug\jHackson.Actions\jHackson.Actions.xml</DocumentationFile>
+    <DocumentationFile>..\Build\bin\Debug\jHackson.Actions.Binary\jHackson.Actions.Binary.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -44,13 +46,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Localization\Actions_fr-FR.json">
+    <None Update="Localization\ActionsBinary_fr-FR.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)\Localization\Actions_fr-FR.json&quot; &quot;$(TargetDir)..\jHackson\Localization\Actions_fr-FR.json&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)\Localization\ActionsBinary_fr-FR.json&quot; &quot;$(TargetDir)..\jHackson\Localization\ActionsBinary_fr-FR.json&quot;" />
   </Target>
 
 </Project>

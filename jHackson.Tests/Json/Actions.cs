@@ -1,6 +1,6 @@
 ﻿namespace JHackson.Tests.Json
 {
-    using JHackson.Actions;
+    using JHackson.Actions.Binary;
     using JHackson.Core.Actions;
     using Newtonsoft.Json;
     using NUnit.Framework;

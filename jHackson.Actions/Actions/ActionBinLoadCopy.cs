@@ -2,7 +2,7 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Actions.Actions
+namespace JHackson.Actions.Binary
 {
     using System;
     using System.Globalization;
