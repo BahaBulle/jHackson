@@ -99,8 +99,6 @@
                 "\"TileWidth\":8," +
                 "\"Width\":128}";
 
-            //"{\"Format\":\"2BPP GB\",\"Height\":96,\"Palette\":[{\"Alpha\":255,\"Red\":0,\"Green\":0,\"Blue\":0,\"Hue\":0.0},{\"Alpha\":255,\"Red\":8,\"Green\":82,\"Blue\":66,\"Hue\":167.02704},{\"Alpha\":255,\"Red\":90,\"Green\":140,\"Blue\":255,\"Hue\":221.8182},{\"Alpha\":255,\"Red\":239,\"Green\":239,\"Blue\":239,\"Hue\":0.0}],\"TileHeight\":8,\"TileWidth\":8,\"Width\":128}"
-
             var parameters = new ImageParameters()
             {
                 Width = 128,

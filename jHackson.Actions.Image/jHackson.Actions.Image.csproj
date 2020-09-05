@@ -36,10 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Actions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
 

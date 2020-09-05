@@ -46,7 +46,7 @@ namespace JHackson.Actions.Image.FileFormat
 
                 using (var image = SKImage.FromBitmap(bitmap))
                 using (var data = image.Encode(SKEncodedImageFormat.Png, 80))
-                using (var stream = File.OpenWrite(@"G:\Traductions\Dev\Projets\jHackson\Build\bin\Debug\jHackson\Extract\GFX\test.png"))
+                using (var stream = File.OpenWrite(filename))
                 {
                     data.SaveTo(stream);
                 }

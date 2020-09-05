@@ -25,5 +25,13 @@ namespace JHackson.Core.ImageFormat
         /// <param name="parameters">Parameters for the image.</param>
         /// <returns>Returns data converted into SKBitmap format.</returns>
         SKBitmap Convert(MemoryStream source, ImageParameters parameters);
+
+        /// <summary>
+        /// Convert image source into binary data.
+        /// </summary>
+        /// <param name="image">Image source to convert.</param>
+        /// <param name="parameters">Parameters for the image.</param>
+        /// <returns>Returns image converted in binary data.</returns>
+        MemoryStream ConvertBack(SKBitmap image, ImageParameters parameters);
     }
 }

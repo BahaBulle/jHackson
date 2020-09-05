@@ -42,19 +42,19 @@ namespace JHackson.Actions.Image.ImageFormat
         /// <summary>
         /// Convert binary data into an image in 2BPP planar (Gameboy).
         /// </summary>
-        /// <param name="ms">MemoryStream which contains data.</param>
+        /// <param name="stream">MemoryStream which contains data.</param>
         /// <param name="parameters">Parameters for the image.</param>
         /// <returns>Return the data converted into a SKBitmap.</returns>
-        public SKBitmap Convert(MemoryStream ms, ImageParameters parameters)
+        public SKBitmap Convert(MemoryStream stream, ImageParameters parameters)
         {
-            SKBitmap bitmap = null;
-
-            if (parameters == null)
+            if (stream == null || parameters == null)
             {
                 return null;
             }
 
-            using (var binaryReader = new BinaryReader(ms, Encoding.UTF8, true))
+            SKBitmap bitmap = null;
+
+            using (var binaryReader = new BinaryReader(stream, Encoding.UTF8, true))
             {
                 var imageInfo = new SKImageInfo(parameters.Width, parameters.Height, SKColorType.Rgba8888);
 
@@ -105,6 +105,63 @@ namespace JHackson.Actions.Image.ImageFormat
             }
 
             return bitmap;
+        }
+
+        /// <summary>
+        /// Convert an image in 2BPP planar (Gameboy) into binary data.
+        /// </summary>
+        /// <param name="image">Image source to convert.</param>
+        /// <param name="parameters">Parameters for the image.</param>
+        /// <returns>Returns image converted in binary data.</returns>
+        public MemoryStream ConvertBack(SKBitmap image, ImageParameters parameters)
+        {
+            if (image == null || parameters == null)
+            {
+                return null;
+            }
+
+            var stream = new MemoryStream();
+
+            int tileHeight = parameters.TileHeight;
+            int tileWidth = parameters.TileWidth;
+            int numberOfRowsOfTiles = parameters.Height / tileHeight;
+            int numberOfColsOfTiles = parameters.Width / tileWidth;
+
+            var pixels = image.Pixels;
+
+            for (var row = 0; row < numberOfRowsOfTiles; row++)
+            {
+                for (var column = 0; column < numberOfColsOfTiles; column++)
+                {
+                    for (var height = 0; height < tileHeight; height++)
+                    {
+                        var bytes = new int[2];
+
+                        for (var width = 0; width < tileWidth; width++)
+                        {
+                            var color = pixels[(height * parameters.Width) + width + (column * tileWidth) + (row * tileHeight * parameters.Width)];
+
+                            int bit;
+                            if (parameters.Palette.Count > 0)
+                            {
+                                bit = parameters.Palette.IndexOf(color);
+                            }
+                            else
+                            {
+                                bit = this.defaultPalette.IndexOf(color);
+                            }
+
+                            bytes[0] = bytes[0] | (((bit & 0x02) >> 1) << (tileWidth - 1 - width));
+                            bytes[1] = bytes[1] | ((bit & 0x01) << (tileWidth - 1 - width));
+                        }
+
+                        stream.WriteByte((byte)bytes[1]);
+                        stream.WriteByte((byte)bytes[0]);
+                    }
+                }
+            }
+
+            return stream;
         }
     }
 }
