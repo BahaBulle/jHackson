@@ -123,6 +123,7 @@ namespace JHackson.Actions.Binary
                 msSource.Position = this.Source.AdressStart.Value;
 
                 msDest.Write(bytes, 0, (int)this.Source.Size.Value);
+                msDest.Position = 0;
 
                 if (this.ImageParameters != null)
                 {
