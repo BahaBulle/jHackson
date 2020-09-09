@@ -1,5 +1,6 @@
 {
   "formats": {
+    "incorrectBitsPerImage": "Format de BMP non supporté : {0}",
     "incorrectFileFormat": "Le buffer n'est pas dans le bon format de fichier {0}"
   }
 }
