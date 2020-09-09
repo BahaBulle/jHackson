@@ -5,6 +5,8 @@
 namespace JHackson.Core.Actions
 {
     using System.Collections.Generic;
+    using JHackson.Core.Json.JsonConverters;
+    using Newtonsoft.Json;
     using SkiaSharp;
 
     /// <summary>
@@ -33,7 +35,9 @@ namespace JHackson.Core.Actions
         /// <summary>
         /// Gets the palette to use.
         /// </summary>
-        public List<SKColor> Palette { get; }
+        [JsonConverter(typeof(SKColorJsonConverter))]
+        [JsonProperty]
+        public List<SKColor> Palette { get; private set; }
 
         /// <summary>
         /// Gets or sets the height of a tile (in pixels).
