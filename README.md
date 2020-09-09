@@ -8,3 +8,4 @@ In progress...
 - Copy binary data from buffer to another buffer
 - Load a table (tbl) file
 - Save a table (tbl) file in file
+- Save a binary file in PNG or BMP format
