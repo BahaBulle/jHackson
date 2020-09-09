@@ -6,8 +6,26 @@
     using NUnit.Framework;
     using SkiaSharp;
 
-    public class Actions
+    public class ActionsTest
     {
+        [Test]
+        public void ShouldDeserializeImageParametersPalette()
+        {
+            var json = "{\"Palette\":[{\"Alpha\":255,\"Red\":0,\"Green\":0,\"Blue\":0},{\"Alpha\":255,\"Red\":8,\"Green\":82,\"Blue\":66},{\"Alpha\":255,\"Red\":90,\"Green\":140,\"Blue\":255},{\"Alpha\":255,\"Red\":239,\"Green\":239,\"Blue\":239}]}";
+
+            //ITraceWriter traceWriter = new MemoryTraceWriter();
+
+            var result = JsonConvert.DeserializeObject<ImageParameters>(json);
+            //var result = JsonConvert.DeserializeObject<ImageParameters>(json, new JsonSerializerSettings { TraceWriter = traceWriter });
+
+            //Console.WriteLine(traceWriter);
+
+            Assert.That(result.Palette[0], Is.EqualTo(new SKColor(0x00, 0x00, 0x00, 0xFF)));
+            Assert.That(result.Palette[1], Is.EqualTo(new SKColor(0x08, 0x52, 0x42, 0xFF)));
+            Assert.That(result.Palette[2], Is.EqualTo(new SKColor(0x5A, 0x8C, 0xFF, 0xFF)));
+            Assert.That(result.Palette[3], Is.EqualTo(new SKColor(0xEF, 0xEF, 0xEF, 0xFF)));
+        }
+
         [Test]
         public void ShouldSerializeActionBinCopy()
         {
