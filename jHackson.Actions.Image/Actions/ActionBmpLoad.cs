@@ -41,11 +41,6 @@ namespace JHackson.Actions.Image.Actions
         public string FileName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the format.
-        /// </summary>
-        public string Format { get; set; }
-
-        /// <summary>
         /// Gets or sets the parameters of the image.
         /// </summary>
         public ImageParameters ImageParameters { get; set; }
@@ -73,11 +68,6 @@ namespace JHackson.Actions.Image.Actions
             if (this.ImageParameters == null)
             {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.ImageParameters), "null"));
-            }
-
-            if (string.IsNullOrWhiteSpace(this.Format))
-            {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Format), this.Format ?? "null"));
             }
         }
 

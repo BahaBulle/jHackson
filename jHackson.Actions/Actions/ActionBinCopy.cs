@@ -11,6 +11,9 @@ namespace JHackson.Actions.Binary
     using JHackson.Core.Projects;
     using NLog;
 
+    /// <summary>
+    /// Provides a class that allows copy binary data from stream to another
+    /// </summary>
     public class ActionBinCopy : ActionBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

@@ -1,4 +1,4 @@
-﻿namespace jHackson.Tests.Images
+﻿namespace JHackson.Tests.Images
 {
     using System.IO;
     using JHackson.Actions.Image.ImageFormat;

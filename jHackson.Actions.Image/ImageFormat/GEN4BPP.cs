@@ -1,37 +1,47 @@
-﻿// <copyright file="GB2BPP.cs" company="BahaBulle">
+﻿// <copyright file="GEN4BPP.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
 namespace JHackson.Actions.Image.ImageFormat
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Text;
     using JHackson.Core.Actions;
     using JHackson.Core.ImageFormat;
     using SkiaSharp;
 
     /// <summary>
-    /// Provides a class which convert binary data into image in 2BPP planar (Gameboy).
+    /// Provides a class which convert binary data into image in 4BPP (Gameboy).
     /// </summary>
-    public class GB2BPP : IImageFormat
+    public class GEN4BPP : IImageFormat
     {
         private readonly List<SKColor> defaultPalette = new List<SKColor>()
         {
-            new SKColor(0x00, 0x00, 0x00, 0xFF),
+            new SKColor(0x6B, 0x6B, 0x6B, 0xFF),
+            new SKColor(0x00, 0x10, 0x84, 0xFF),
+            new SKColor(0x08, 0x00, 0x8C, 0xFF),
+            new SKColor(0x42, 0x00, 0x7B, 0xFF),
+            new SKColor(0x63, 0x00, 0x5A, 0xFF),
+            new SKColor(0x6B, 0x00, 0x10, 0xFF),
+            new SKColor(0x63, 0x00, 0x00, 0xFF),
+            new SKColor(0x4A, 0x31, 0x00, 0xFF),
+            new SKColor(0x31, 0x4A, 0x18, 0xFF),
+            new SKColor(0x00, 0x5A, 0x21, 0xFF),
+            new SKColor(0x21, 0x5A, 0x10, 0xFF),
             new SKColor(0x08, 0x52, 0x42, 0xFF),
-            new SKColor(0x5A, 0x8C, 0xFF, 0xFF),
-            new SKColor(0xEF, 0xEF, 0xEF, 0xFF),
+            new SKColor(0x00, 0x39, 0x73, 0xFF),
+            new SKColor(0x00, 0x00, 0x00, 0xFF),
+            new SKColor(0x00, 0x00, 0x00, 0xFF),
+            new SKColor(0x00, 0x00, 0x00, 0xFF),
         };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GB2BPP" /> class.
+        /// Initializes a new instance of the <see cref="GEN4BPP"/> class.
         /// </summary>
-        public GB2BPP()
+        public GEN4BPP()
         {
-            this.Name = "GB-2BPP";
+            this.Name = "GEN-4BPP";
         }
 
         /// <summary>
@@ -40,7 +50,7 @@ namespace JHackson.Actions.Image.ImageFormat
         public string Name { get; }
 
         /// <summary>
-        /// Convert binary data into an image in 2BPP planar (Gameboy).
+        /// Convert binary data into an image in 4BPP (Genesis).
         /// </summary>
         /// <param name="stream">MemoryStream which contains data.</param>
         /// <param name="parameters">Parameters for the image.</param>
@@ -73,29 +83,28 @@ namespace JHackson.Actions.Image.ImageFormat
                     {
                         for (var height = 0; height < tileHeight; height++)
                         {
-                            var bytes = binaryReader
-                                .ReadBytes(2)
-                                .Reverse()
-                                .ToArray();
-
-                            for (var width = 0; width < tileWidth; width++)
+                            for (var width = 0; width < tileWidth; width += 2)
                             {
-                                var bit1 = (bytes[0] >> (tileWidth - 1 - width)) & 0x01;
-                                var bit2 = (bytes[1] >> (tileWidth - 1 - width)) & 0x01;
+                                var byteRead = binaryReader.ReadByte();
 
-                                int bitColor = (bit1 << 1) | bit2;
+                                var indexColor1 = (byteRead >> 4) & 0x0F;
+                                var indexColor2 = byteRead & 0x0F;
 
-                                SKColor color;
+                                SKColor color1;
+                                SKColor color2;
                                 if (parameters.Palette.Count > 0)
                                 {
-                                    color = parameters.Palette[bitColor];
+                                    color1 = parameters.Palette[indexColor1];
+                                    color2 = parameters.Palette[indexColor2];
                                 }
                                 else
                                 {
-                                    color = this.defaultPalette[bitColor];
+                                    color1 = this.defaultPalette[indexColor1];
+                                    color2 = this.defaultPalette[indexColor2];
                                 }
 
-                                pixels[(height * parameters.Width) + width + (column * tileWidth) + (row * tileHeight * parameters.Width)] = color;
+                                pixels[(height * parameters.Width) + width + (column * tileWidth) + (row * tileHeight * parameters.Width)] = color1;
+                                pixels[(height * parameters.Width) + width + 1 + (column * tileWidth) + (row * tileHeight * parameters.Width)] = color2;
                             }
                         }
                     }
@@ -108,7 +117,7 @@ namespace JHackson.Actions.Image.ImageFormat
         }
 
         /// <summary>
-        /// Convert an image in 2BPP planar (Gameboy) into binary data.
+        /// Convert an image in 4BPP (Genesis) into binary data.
         /// </summary>
         /// <param name="image">Image source to convert.</param>
         /// <param name="parameters">Parameters for the image.</param>
@@ -135,28 +144,28 @@ namespace JHackson.Actions.Image.ImageFormat
                 {
                     for (var height = 0; height < tileHeight; height++)
                     {
-                        var bytes = new int[2];
-
-                        for (var width = 0; width < tileWidth; width++)
+                        for (var width = 0; width < tileWidth; width += 2)
                         {
-                            var color = pixels[(height * parameters.Width) + width + (column * tileWidth) + (row * tileHeight * parameters.Width)];
+                            var color1 = pixels[(height * parameters.Width) + width + (column * tileWidth) + (row * tileHeight * parameters.Width)];
+                            var color2 = pixels[(height * parameters.Width) + width + 1 + (column * tileWidth) + (row * tileHeight * parameters.Width)];
 
-                            int bit;
+                            int bit1;
+                            int bit2;
                             if (parameters.Palette.Count > 0)
                             {
-                                bit = parameters.Palette.IndexOf(color);
+                                bit1 = parameters.Palette.IndexOf(color1);
+                                bit2 = parameters.Palette.IndexOf(color2);
                             }
                             else
                             {
-                                bit = this.defaultPalette.IndexOf(color);
+                                bit1 = this.defaultPalette.IndexOf(color1);
+                                bit2 = this.defaultPalette.IndexOf(color2);
                             }
 
-                            bytes[0] = bytes[0] | (((bit & 0x02) >> 1) << (tileWidth - 1 - width));
-                            bytes[1] = bytes[1] | ((bit & 0x01) << (tileWidth - 1 - width));
-                        }
+                            var byteToWrite = (bit1 << 4) | bit2;
 
-                        stream.WriteByte((byte)bytes[1]);
-                        stream.WriteByte((byte)bytes[0]);
+                            stream.WriteByte((byte)byteToWrite);
+                        }
                     }
                 }
             }
