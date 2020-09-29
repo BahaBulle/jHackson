@@ -10,13 +10,19 @@ namespace JHackson.StarOcean.Actions
     using JHackson.StarOcean.SDD1Algorithm;
     using NLog;
 
+    /// <summary>
+    /// Provides a action which allows to compress data using SDD1 compression like Star Ocean on Super Famicom.
+    /// </summary>
     public class ActionSDD1Compression : ActionBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionSDD1Compression"/> class.
+        /// </summary>
         public ActionSDD1Compression()
         {
-            this.Name = "SOSDD1Compression";
+            this.Name = "SNES-SO-SDD1-C";
             this.Title = null;
             this.Todo = true;
 
@@ -24,10 +30,19 @@ namespace JHackson.StarOcean.Actions
             this.To = null;
         }
 
+        /// <summary>
+        /// Gets or sets the id of the MemoryStream to read.
+        /// </summary>
         public int? From { get; set; }
 
+        /// <summary>
+        /// Gets or sets the identifier of the memorystream where load the file.
+        /// </summary>
         public int? To { get; set; }
 
+        /// <summary>
+        /// Check errors in parameters.
+        /// </summary>
         public override void Check()
         {
             if (!this.From.HasValue)
@@ -41,6 +56,9 @@ namespace JHackson.StarOcean.Actions
             }
         }
 
+        /// <summary>
+        /// Execute the process of this action.
+        /// </summary>
         public override void Execute()
         {
             if (this.Title != null)

@@ -11,16 +11,27 @@ namespace JHackson
     using JHackson.Core.Services;
     using NLog;
 
+    /// <summary>
+    /// Provides a class which allows to run the process.
+    /// </summary>
     public class Batch
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly ISerializationService serializationService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Batch"/> class.
+        /// </summary>
         public Batch(ISerializationService serializationService)
         {
             this.serializationService = serializationService;
         }
 
+        /// <summary>
+        /// Run the process on the file given in arguments.
+        /// </summary>
+        /// <param name="arguments">Arguments of command line.</param>
         public void Run(List<string> arguments)
         {
             if (arguments == null || arguments.Count < 1)
