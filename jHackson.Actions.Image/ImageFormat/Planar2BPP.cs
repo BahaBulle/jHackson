@@ -1,4 +1,4 @@
-﻿// <copyright file="GB2BPP.cs" company="BahaBulle">
+﻿// <copyright file="Planar2BPP.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace JHackson.Actions.Image.ImageFormat
     /// <summary>
     /// Provides a class which convert binary data into image in 2BPP planar (Gameboy).
     /// </summary>
-    public class GB2BPP : IImageFormat
+    public class Planar2BPP : IImageFormat
     {
         private readonly List<SKColor> defaultPalette = new List<SKColor>()
         {
@@ -27,11 +27,11 @@ namespace JHackson.Actions.Image.ImageFormat
         };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GB2BPP" /> class.
+        /// Initializes a new instance of the <see cref="Planar2BPP" /> class.
         /// </summary>
-        public GB2BPP()
+        public Planar2BPP()
         {
-            this.Name = "GB-2BPP";
+            this.Name = "Planar-2BPP";
         }
 
         /// <summary>

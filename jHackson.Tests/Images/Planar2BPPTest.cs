@@ -7,9 +7,9 @@
     using SkiaSharp;
 
     /// <summary>
-    /// Class to test GB2BPP methods
+    /// Class to test Planar2BPP methods
     /// </summary>
-    public class G2BPPTest
+    public class Planar2BPPTest
     {
         private readonly byte[] hexData = new byte[] { 0x18, 0x10, 0x38, 0x30, 0x38, 0x30, 0x38, 0x30, 0x38, 0x20, 0x30, 0x00, 0x38, 0x30, 0x38, 0x00 };
 
@@ -85,7 +85,7 @@
         /// Test the conversion of a data into a SKBitmap
         /// </summary>
         [Test]
-        public void ShouldConvertDataToGB2BPPImage()
+        public void ShouldConvertDataToPlanar2BPPImage()
         {
             byte[] data = new byte[] { 0x18, 0x10, 0x38, 0x30, 0x38, 0x30, 0x38, 0x30, 0x38, 0x20, 0x30, 0x00, 0x38, 0x30, 0x38, 0x00 };
 
@@ -93,14 +93,14 @@
             {
                 var parameters = new ImageParameters()
                 {
-                    Format = "2BPP GB",
+                    Format = "Planar-2BPP",
                     Height = 8,
                     TileHeight = 8,
                     TileWidth = 8,
                     Width = 8,
                 };
 
-                var converter = new GB2BPP();
+                var converter = new Planar2BPP();
 
                 var bitmap = converter.Convert(stream, parameters);
 
@@ -112,11 +112,11 @@
         /// Test the conversion of a data into a SKBitmap
         /// </summary>
         [Test]
-        public void ShouldConvertGB2BPPImageToData()
+        public void ShouldConvertPlanar2BPPImageToData()
         {
             var parameters = new ImageParameters()
             {
-                Format = "2BPP GB",
+                Format = "Planar-2BPP",
                 Height = 8,
                 TileHeight = 8,
                 TileWidth = 8,
@@ -137,7 +137,7 @@
 
             bitmap.Pixels = pixels;
 
-            var converter = new GB2BPP();
+            var converter = new Planar2BPP();
 
             var dataStream = converter.ConvertBack(bitmap, parameters);
 

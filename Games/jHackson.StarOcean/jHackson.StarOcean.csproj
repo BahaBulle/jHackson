@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <None Remove=".stylecop.json" />
+    <None Remove="Actions\ActionSDD1Decompression.cs~RFa46eb.TMP" />
   </ItemGroup>
 
   <ItemGroup>

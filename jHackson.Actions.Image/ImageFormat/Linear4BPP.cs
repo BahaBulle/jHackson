@@ -1,4 +1,4 @@
-﻿// <copyright file="GEN4BPP.cs" company="BahaBulle">
+﻿// <copyright file="Linear4BPP.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -12,9 +12,9 @@ namespace JHackson.Actions.Image.ImageFormat
     using SkiaSharp;
 
     /// <summary>
-    /// Provides a class which convert binary data into image in 4BPP (Gameboy).
+    /// Provides a class which convert binary data into image in 4BPP linear.
     /// </summary>
-    public class GEN4BPP : IImageFormat
+    public class Linear4BPP : IImageFormat
     {
         private readonly List<SKColor> defaultPalette = new List<SKColor>()
         {
@@ -37,11 +37,11 @@ namespace JHackson.Actions.Image.ImageFormat
         };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GEN4BPP"/> class.
+        /// Initializes a new instance of the <see cref="Linear4BPP"/> class.
         /// </summary>
-        public GEN4BPP()
+        public Linear4BPP()
         {
-            this.Name = "GEN-4BPP";
+            this.Name = "Linear-4BPP";
         }
 
         /// <summary>
