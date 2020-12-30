@@ -9,11 +9,16 @@ namespace JHackson.Core.TableElements.Extensions
 
     public static class TableElementsExtensions
     {
-        public static IEnumerable<string> SplitByLength(this string str, int maxLength)
+        public static IEnumerable<string> SplitByLength(this string value, int maxLength)
         {
-            for (int index = 0; index < str.Length; index += maxLength)
+            if (value == null)
             {
-                yield return str.Substring(index, Math.Min(maxLength, str.Length - index));
+                yield break;
+            }
+
+            for (int index = 0; index < value.Length; index += maxLength)
+            {
+                yield return value.Substring(index, Math.Min(maxLength, value.Length - index));
             }
         }
     }

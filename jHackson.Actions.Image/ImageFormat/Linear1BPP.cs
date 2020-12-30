@@ -41,7 +41,7 @@ namespace JHackson.Actions.Image.ImageFormat
         /// <param name="stream">MemoryStream which contains data.</param>
         /// <param name="parameters">Parameters for the image.</param>
         /// <returns>Return the data converted into a SKBitmap.</returns>
-        public SKBitmap Convert(MemoryStream stream, ImageParameters parameters)
+        public SKBitmap Convert(MemoryStream stream, ImagePattern parameters)
         {
             if (stream == null || parameters == null)
             {
@@ -56,8 +56,8 @@ namespace JHackson.Actions.Image.ImageFormat
 
                 bitmap = new SKBitmap(imageInfo);
 
-                int tileHeight = parameters.TileHeight;
-                int tileWidth = parameters.TileWidth;
+                int tileHeight = parameters.TilePattern.Height;
+                int tileWidth = parameters.TilePattern.Width;
                 int numberOfRowsOfTiles = parameters.Height / tileHeight;
                 int numberOfColsOfTiles = parameters.Width / tileWidth;
 
@@ -103,7 +103,7 @@ namespace JHackson.Actions.Image.ImageFormat
         /// <param name="image">Image source to convert.</param>
         /// <param name="parameters">Parameters for the image.</param>
         /// <returns>Returns image converted in binary data.</returns>
-        public MemoryStream ConvertBack(SKBitmap image, ImageParameters parameters)
+        public MemoryStream ConvertBack(SKBitmap image, ImagePattern parameters)
         {
             if (image == null || parameters == null)
             {
@@ -112,8 +112,8 @@ namespace JHackson.Actions.Image.ImageFormat
 
             var stream = new MemoryStream();
 
-            int tileHeight = parameters.TileHeight;
-            int tileWidth = parameters.TileWidth;
+            int tileHeight = parameters.TilePattern.Height;
+            int tileWidth = parameters.TilePattern.Width;
             int numberOfRowsOfTiles = parameters.Height / tileHeight;
             int numberOfColsOfTiles = parameters.Width / tileWidth;
 

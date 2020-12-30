@@ -12,12 +12,12 @@ namespace JHackson.Core.Actions
     /// <summary>
     /// Provides parameters for an image in ordre to load/save it in a file.
     /// </summary>
-    public class ImageParameters
+    public class ImagePattern
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ImageParameters" /> class.
+        /// Initializes a new instance of the <see cref="ImagePattern" /> class.
         /// </summary>
-        public ImageParameters()
+        public ImagePattern()
         {
             this.Palette = new List<SKColor>();
         }
@@ -42,12 +42,17 @@ namespace JHackson.Core.Actions
         /// <summary>
         /// Gets or sets the height of a tile (in pixels).
         /// </summary>
-        public int TileHeight { get; set; }
+        //public int TileHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pattern of a tile in the image.
+        /// </summary>
+        public TilePattern TilePattern { get; set; }
 
         /// <summary>
         /// Gets or sets the width of a tile (in pixels).
         /// </summary>
-        public int TileWidth { get; set; }
+        //public int TileWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the image (in pixels).

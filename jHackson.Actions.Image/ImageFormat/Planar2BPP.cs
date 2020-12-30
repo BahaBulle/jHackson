@@ -4,13 +4,15 @@
 
 namespace JHackson.Actions.Image.ImageFormat
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Text;
+    using JHackson.Actions.Image.Common;
     using JHackson.Core.Actions;
+    using JHackson.Core.Exceptions;
     using JHackson.Core.ImageFormat;
+    using JHackson.Core.Localization;
+    using JHackson.Core.TableElements.Extensions;
     using SkiaSharp;
 
     /// <summary>
@@ -45,7 +47,7 @@ namespace JHackson.Actions.Image.ImageFormat
         /// <param name="stream">MemoryStream which contains data.</param>
         /// <param name="parameters">Parameters for the image.</param>
         /// <returns>Return the data converted into a SKBitmap.</returns>
-        public SKBitmap Convert(MemoryStream stream, ImageParameters parameters)
+        public SKBitmap Convert(MemoryStream stream, ImagePattern parameters)
         {
             if (stream == null || parameters == null)
             {
@@ -60,30 +62,39 @@ namespace JHackson.Actions.Image.ImageFormat
 
                 bitmap = new SKBitmap(imageInfo);
 
-                int tileHeight = parameters.TileHeight;
-                int tileWidth = parameters.TileWidth;
+                int tileHeight = parameters.TilePattern.Height;
+                int tileWidth = parameters.TilePattern.Width;
                 int numberOfRowsOfTiles = parameters.Height / tileHeight;
                 int numberOfColsOfTiles = parameters.Width / tileWidth;
 
                 var pixels = bitmap.Pixels;
 
+                int numberOfTiles = numberOfRowsOfTiles * numberOfColsOfTiles;
+                int numberTotalOfBit = numberOfTiles * parameters.TilePattern.Size * 8;
+
+                var imageBits = new BitList(numberTotalOfBit, false);
+
+                var imageTiles = new BitList();
+                for (int i = 0; i < numberOfTiles; i++)
+                {
+                    var tileBytes = binaryReader.ReadBytes(parameters.TilePattern.Size);
+                    var tileBits = new BitList(tileBytes);
+
+                    var tile = tileBits.RearrangeBitsWith2Planes(parameters.TilePattern);
+
+                    imageTiles.AddBitList(tile);
+                }
+
+                int index = 0;
                 for (var row = 0; row < numberOfRowsOfTiles; row++)
                 {
                     for (var column = 0; column < numberOfColsOfTiles; column++)
                     {
                         for (var height = 0; height < tileHeight; height++)
                         {
-                            var bytes = binaryReader
-                                .ReadBytes(2)
-                                .Reverse()
-                                .ToArray();
-
                             for (var width = 0; width < tileWidth; width++)
                             {
-                                var bit1 = (bytes[0] >> (tileWidth - 1 - width)) & 0x01;
-                                var bit2 = (bytes[1] >> (tileWidth - 1 - width)) & 0x01;
-
-                                int bitColor = (bit1 << 1) | bit2;
+                                var bitColor = System.Convert.ToInt32(imageTiles.GetBinaryString(index++) + imageTiles.GetBinaryString(index++), 2);
 
                                 SKColor color;
                                 if (parameters.Palette.Count > 0)
@@ -113,7 +124,7 @@ namespace JHackson.Actions.Image.ImageFormat
         /// <param name="image">Image source to convert.</param>
         /// <param name="parameters">Parameters for the image.</param>
         /// <returns>Returns image converted in binary data.</returns>
-        public MemoryStream ConvertBack(SKBitmap image, ImageParameters parameters)
+        public MemoryStream ConvertBack(SKBitmap image, ImagePattern parameters)
         {
             if (image == null || parameters == null)
             {
@@ -122,21 +133,25 @@ namespace JHackson.Actions.Image.ImageFormat
 
             var stream = new MemoryStream();
 
-            int tileHeight = parameters.TileHeight;
-            int tileWidth = parameters.TileWidth;
+            int tileHeight = parameters.TilePattern.Height;
+            int tileWidth = parameters.TilePattern.Width;
             int numberOfRowsOfTiles = parameters.Height / tileHeight;
             int numberOfColsOfTiles = parameters.Width / tileWidth;
 
             var pixels = image.Pixels;
 
+            int numberOfTiles = numberOfRowsOfTiles * numberOfColsOfTiles;
+            int numberTotalOfBit = numberOfTiles * parameters.TilePattern.Size * 8;
+
+            var imageBits = new BitList();
+
             for (var row = 0; row < numberOfRowsOfTiles; row++)
             {
                 for (var column = 0; column < numberOfColsOfTiles; column++)
                 {
+                    var tile = new BitList();
                     for (var height = 0; height < tileHeight; height++)
                     {
-                        var bytes = new int[2];
-
                         for (var width = 0; width < tileWidth; width++)
                         {
                             var color = pixels[(height * parameters.Width) + width + (column * tileWidth) + (row * tileHeight * parameters.Width)];
@@ -151,15 +166,33 @@ namespace JHackson.Actions.Image.ImageFormat
                                 bit = this.defaultPalette.IndexOf(color);
                             }
 
-                            bytes[0] = bytes[0] | (((bit & 0x02) >> 1) << (tileWidth - 1 - width));
-                            bytes[1] = bytes[1] | ((bit & 0x01) << (tileWidth - 1 - width));
-                        }
+                            var bitString = System.Convert.ToString(bit, 2).PadLeft(2, '0');
+                            var bits = bitString.SplitByLength(1);
 
-                        stream.WriteByte((byte)bytes[1]);
-                        stream.WriteByte((byte)bytes[0]);
+                            foreach (var b in bits)
+                            {
+                                tile.Add(b == "1" ? true : false);
+                            }
+                        }
                     }
+
+                    if (tile.Count != parameters.TilePattern.Size * 8)
+                    {
+                        throw new JHacksonException(LocalizationManager.GetMessage("image.tile.incorrectNumberOfBits", row, column, imageBits.Count, numberTotalOfBit));
+                    }
+
+                    imageBits.AddBitList(tile.RearrangeBitsWith2PlanesBack(parameters.TilePattern));
                 }
             }
+
+            if (imageBits.Count != numberTotalOfBit)
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("image.incorrectBitsImageSize", imageBits.Count, numberTotalOfBit));
+            }
+
+            var bytes = imageBits.ToBytes();
+
+            stream.Write(bytes, 0, bytes.Length);
 
             return stream;
         }

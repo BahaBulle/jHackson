@@ -1,4 +1,15 @@
 {
+  "image": {
+    "incorrectBitsImageSize": "L'image ne contient pas le bon nombre de bits : {0} au lieu de {1}",
+    "incorrectMapSize": "La carte ne contient pas le bon nombre de valeurs",
+    "incorrectNumberOfBits": "Nombre de bits insuffisant pour convertir en octets",
+    "incorrectNumberPlan": "La carte ne contient pas le bon nombre de plans",
+    "incorrectPlanSize": "Les plans de la carte ne font pas la même taille",
+    "tile": {
+      "differentSize": "Le tile courant et la valeur n'ont pas le même nombre d'éléments",
+      "incorrectNumberOfBits": "Le tile {0}-{1} ne contient pas le bon nombre de bits : {2} au lieu de {3}"
+    }
+  },
   "formats": {
     "incorrectBitsPerImage": "Format de BMP non supporté : {0}",
     "incorrectFileFormat": "Le buffer n'est pas dans le bon format de fichier {0}"

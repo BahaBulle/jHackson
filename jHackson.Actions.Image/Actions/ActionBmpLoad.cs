@@ -43,7 +43,7 @@ namespace JHackson.Actions.Image.Actions
         /// <summary>
         /// Gets or sets the parameters of the image.
         /// </summary>
-        public ImageParameters ImageParameters { get; set; }
+        public ImagePattern ImageParameters { get; set; }
 
         /// <summary>
         /// Gets or sets the identifier of the memorystream where load the file.
