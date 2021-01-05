@@ -12,7 +12,7 @@ namespace JHackson.Actions.Image.ImageFormat
     using SkiaSharp;
 
     /// <summary>
-    /// Provides a class which convert binary data into image in 1BPP
+    /// Provides a class which convert binary data into image in 1BPP.
     /// </summary>
     public class Linear1BPP : IImageFormat
     {

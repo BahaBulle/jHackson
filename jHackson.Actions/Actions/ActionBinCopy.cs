@@ -12,7 +12,7 @@ namespace JHackson.Actions.Binary
     using NLog;
 
     /// <summary>
-    /// Provides a class that allows copy binary data from stream to another
+    /// Provides a class that allows copy binary data from stream to another.
     /// </summary>
     public class ActionBinCopy : ActionBase
     {

@@ -1,4 +1,4 @@
-﻿// <copyright file="ImageParameters.cs" company="BahaBulle">
+﻿// <copyright file="ImagePattern.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,7 @@ namespace JHackson.Core.Actions
     using SkiaSharp;
 
     /// <summary>
-    /// Provides parameters for an image in ordre to load/save it in a file.
+    /// Provides parameters for an image in order to load/save it in a file.
     /// </summary>
     public class ImagePattern
     {
@@ -40,19 +40,9 @@ namespace JHackson.Core.Actions
         public List<SKColor> Palette { get; private set; }
 
         /// <summary>
-        /// Gets or sets the height of a tile (in pixels).
-        /// </summary>
-        //public int TileHeight { get; set; }
-
-        /// <summary>
         /// Gets or sets the pattern of a tile in the image.
         /// </summary>
         public TilePattern TilePattern { get; set; }
-
-        /// <summary>
-        /// Gets or sets the width of a tile (in pixels).
-        /// </summary>
-        //public int TileWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the image (in pixels).

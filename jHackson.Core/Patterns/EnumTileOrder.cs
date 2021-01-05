@@ -5,7 +5,7 @@
 namespace JHackson.Core.Actions
 {
     /// <summary>
-    /// Enum to indicate the ordre of a tile.
+    /// Enum to indicate the order of a tile.
     /// </summary>
     public enum EnumTileOrder
     {
