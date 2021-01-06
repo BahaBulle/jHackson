@@ -14,6 +14,7 @@ namespace JHackson.Actions.Binary
     using JHackson.Core.Actions;
     using JHackson.Core.Localization;
     using JHackson.Core.Projects;
+    using Newtonsoft.Json.Linq;
     using NLog;
 
     /// <summary>
@@ -33,7 +34,6 @@ namespace JHackson.Actions.Binary
             this.Todo = true;
 
             this.To = null;
-
             this.DataParameters = new List<DataParameters>();
         }
 
@@ -95,6 +95,47 @@ namespace JHackson.Actions.Binary
 
                     switch (data.Type)
                     {
+                        case EnumDataType.Array8:
+                            byte[] byteArray = ((JArray)data.Value).ToObject<byte[]>();
+                            binaryWriter.Write(byteArray);
+                            break;
+
+                        case EnumDataType.Array16:
+                            ushort[] ushortArray = ((JArray)data.Value).ToObject<ushort[]>();
+                            foreach (ushort value in ushortArray)
+                            {
+                                foreach (byte b in BinHelper.GetBytes(value, data.Endian))
+                                {
+                                    binaryWriter.Write(b);
+                                }
+                            }
+
+                            break;
+
+                        case EnumDataType.Array32:
+                            uint[] uintArray = ((JArray)data.Value).ToObject<uint[]>();
+                            foreach (uint value in uintArray)
+                            {
+                                foreach (byte b in BinHelper.GetBytes(value, data.Endian))
+                                {
+                                    binaryWriter.Write(b);
+                                }
+                            }
+
+                            break;
+
+                        case EnumDataType.Array64:
+                            ulong[] ulongArray = ((JArray)data.Value).ToObject<ulong[]>();
+                            foreach (ulong value in ulongArray)
+                            {
+                                foreach (byte b in BinHelper.GetBytes(value, data.Endian))
+                                {
+                                    binaryWriter.Write(b);
+                                }
+                            }
+
+                            break;
+
                         case EnumDataType.U8:
                             byte byteValue = Convert.ToByte(data.Value, CultureInfo.CurrentCulture);
                             binaryWriter.Write(byteValue);

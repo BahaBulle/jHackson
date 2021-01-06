@@ -8,6 +8,7 @@ namespace JHackson.Core.Actions
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Provides parameters to modify binary data in a file.
@@ -46,6 +47,25 @@ namespace JHackson.Core.Actions
             {
                 switch (this.Type)
                 {
+                    case EnumDataType.Array8:
+                    case EnumDataType.Array16:
+                    case EnumDataType.Array32:
+                    case EnumDataType.Array64:
+                        if (!(this.Value is JArray))
+                        {
+                            return false;
+                        }
+
+                        foreach (var value in (JArray)this.Value)
+                        {
+                            if (value.Type != JTokenType.Integer)
+                            {
+                                return false;
+                            }
+                        }
+
+                        break;
+
                     case EnumDataType.U8:
                         _ = Convert.ToByte(this.Value, CultureInfo.CurrentCulture);
                         break;
