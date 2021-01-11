@@ -6,6 +6,8 @@ In progress...
 Binary :
 - Load a file in memory stream.
 - Copy binary data from memory stream to another.
+- Modify values in memory stream.
+- Insert values in memory stream.
 - Save a memory stream in a binary file.
 
 Image :
