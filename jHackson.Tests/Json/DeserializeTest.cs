@@ -1,8 +1,9 @@
 ﻿namespace JHackson.Tests.Json
 {
     using System.Collections.Generic;
-    using JHackson.Actions.Binary;
-    using JHackson.Core.Actions;
+    using JHackson.Binary;
+    using JHackson.Binary.Actions;
+    using JHackson.Image;
     using Newtonsoft.Json;
     using NUnit.Framework;
     using SkiaSharp;

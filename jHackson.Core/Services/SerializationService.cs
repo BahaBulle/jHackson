@@ -29,13 +29,12 @@ namespace JHackson.Core.Services
                     ContractResolver = this.contractResolver,
                 };
 
-                //ITraceWriter traceWriter = new MemoryTraceWriter();
-
+                // ITraceWriter traceWriter = new MemoryTraceWriter();
                 pj = (IProjectJson)serializer.Deserialize(file, typeof(ProjectJson));
 
-                //file.BaseStream.Position = 0;
-                //_ = JsonConvert.DeserializeObject<ProjectJson>(file.ReadToEnd(), new JsonSerializerSettings { TraceWriter = traceWriter });
-                //Console.WriteLine(traceWriter);
+                // file.BaseStream.Position = 0;
+                // _ = JsonConvert.DeserializeObject<ProjectJson>(file.ReadToEnd(), new JsonSerializerSettings { TraceWriter = traceWriter });
+                // Console.WriteLine(traceWriter);
             }
 
             return pj;

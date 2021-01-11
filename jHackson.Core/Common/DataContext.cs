@@ -9,7 +9,6 @@ namespace JHackson.Core.Common
     using System.Globalization;
     using JHackson.Core.Exceptions;
     using JHackson.Core.FileFormat;
-    using JHackson.Core.ImageFormat;
     using JHackson.Core.Localization;
     using JHackson.Core.TableElements;
 
@@ -161,11 +160,11 @@ namespace JHackson.Core.Common
         }
 
         /// <summary>
-        /// Get an instance of a ImageFormat.
+        /// Get the type of an ImageFormat.
         /// </summary>
         /// <param name="name">Name of the ImageFormat.</param>
-        /// <returns>Returns an instance of the ImageFormat.</returns>
-        public static IImageFormat GetImageFormat(string name)
+        /// <returns>Returns the type of the ImageFormat.</returns>
+        public static Type GetImageFormat(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -173,7 +172,7 @@ namespace JHackson.Core.Common
             }
 
             return ListImageFormats.ContainsKey(name.ToLower(CultureInfo.CurrentCulture))
-                ? Activator.CreateInstance(ListImageFormats[name.ToLower(CultureInfo.CurrentCulture)]) as IImageFormat
+                ? ListImageFormats[name.ToLower(CultureInfo.CurrentCulture)]
                 : null;
         }
 

@@ -7,11 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Core", "jHackson.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson", "jHackson\jHackson.csproj", "{AAC803A7-0FE6-4FB7-ACF7-C24D4FD2456F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Actions.Binary", "jHackson.Actions\jHackson.Actions.Binary.csproj", "{5A990E8F-5D30-4F5A-BC10-3EB86C3F1C1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Binary", "jHackson.Binary\jHackson.Binary.csproj", "{5A990E8F-5D30-4F5A-BC10-3EB86C3F1C1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Tables", "jHackson.Tables\jHackson.Tables.csproj", "{B29475EA-A7D5-4A5D-A00D-2BF10F861320}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Tables.Elements", "jHackson.Tables.Elements\jHackson.Tables.Elements.csproj", "{873CF5DB-D12A-4858-931F-59A97A94E032}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Scripts.Tables", "jHackson.Scripts.Tables\jHackson.Scripts.Tables.csproj", "{B29475EA-A7D5-4A5D-A00D-2BF10F861320}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Tests", "jHackson.Tests\jHackson.Tests.csproj", "{E7768D5C-7EE3-4C11-8E38-24635A423BC4}"
 EndProject
@@ -27,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.stylecop.json = .stylecop.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Actions.Image", "jHackson.Actions.Image\jHackson.Actions.Image.csproj", "{A0BD361B-4EAF-44EA-B6BE-78B8BDCEE9AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Image", "jHackson.Image\jHackson.Image.csproj", "{A0BD361B-4EAF-44EA-B6BE-78B8BDCEE9AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.PhantasyStar2", "Games\jHackson.PhantasyStar2\jHackson.PhantasyStar2.csproj", "{FB9C3F16-E08E-4172-97D1-EB1B83BD7CFE}"
 EndProject
@@ -125,26 +123,6 @@ Global
 		{B29475EA-A7D5-4A5D-A00D-2BF10F861320}.Release|x64.Build.0 = Release|Any CPU
 		{B29475EA-A7D5-4A5D-A00D-2BF10F861320}.Release|x86.ActiveCfg = Release|Any CPU
 		{B29475EA-A7D5-4A5D-A00D-2BF10F861320}.Release|x86.Build.0 = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|ARM.Build.0 = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|x64.Build.0 = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Debug|x86.Build.0 = Debug|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|Any CPU.Build.0 = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|ARM.ActiveCfg = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|ARM.Build.0 = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|ARM64.Build.0 = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|x64.ActiveCfg = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|x64.Build.0 = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|x86.ActiveCfg = Release|Any CPU
-		{873CF5DB-D12A-4858-931F-59A97A94E032}.Release|x86.Build.0 = Release|Any CPU
 		{E7768D5C-7EE3-4C11-8E38-24635A423BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7768D5C-7EE3-4C11-8E38-24635A423BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7768D5C-7EE3-4C11-8E38-24635A423BC4}.Debug|ARM.ActiveCfg = Debug|Any CPU

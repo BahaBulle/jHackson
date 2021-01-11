@@ -1,8 +1,9 @@
 ﻿namespace JHackson.Tests.Json
 {
     using System.Collections.Generic;
-    using JHackson.Actions.Binary;
-    using JHackson.Core.Actions;
+    using JHackson.Binary;
+    using JHackson.Binary.Actions;
+    using JHackson.Image;
     using Newtonsoft.Json;
     using NUnit.Framework;
     using SkiaSharp;
@@ -108,12 +109,11 @@
                 "\"FileName\":\"fichier.txt\"," +
                 "\"Format\":\"Bin\"," +
                 "\"From\":1," +
-                "\"ImageParameters\":null," +
                 "\"Source\":{\"AdressEnd\":null,\"AdressStart\":null,\"Size\":null}," +
                 "\"Title\":\"Test ActionBinSave\"," +
                 "\"Todo\":true}";
 
-            var action = new ActionSave()
+            var action = new ActionBinSave()
             {
                 FileName = "fichier.txt",
                 Format = "Bin",

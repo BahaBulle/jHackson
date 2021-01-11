@@ -1,8 +1,7 @@
 ﻿namespace JHackson.Tests.Images
 {
     using System.Collections.Generic;
-    using JHackson.Actions.Image.Common;
-    using JHackson.Core.Actions;
+    using JHackson.Image;
     using NUnit.Framework;
 
     internal class BitListTest

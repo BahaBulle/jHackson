@@ -7,12 +7,10 @@ namespace JHackson.Core.Common
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO;
     using System.Reflection;
     using System.Text.RegularExpressions;
     using JHackson.Core.Actions;
     using JHackson.Core.FileFormat;
-    using JHackson.Core.ImageFormat;
     using JHackson.Core.TableElements;
 
     /// <summary>
@@ -20,47 +18,67 @@ namespace JHackson.Core.Common
     /// </summary>
     public static class PluginsHelper
     {
+        public const string INIT_MODULE_METHOD_NAME = "Init";
+
         private const string CHARACTERVARIABLE = "$";
 
-        private const string PLUGINSDIRECTORY = "Plugins";
-
         private static readonly Regex RegexParameter = new Regex("#([a-zA-Z0-9]+)#");
+
+        public static void LoadAction(Type elementType)
+        {
+            var action = (IActionJson)elementType.InvokeMember(
+                null,
+                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
+                null,
+                null,
+                null,
+                CultureInfo.InvariantCulture);
+
+            if (action != null)
+            {
+                DataContext.AddAction(action.Name, elementType);
+            }
+        }
+
+        public static void LoadFileFormat(Type elementType)
+        {
+            var format = (IFileFormat)elementType.InvokeMember(
+                null,
+                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
+                null,
+                null,
+                null,
+                CultureInfo.InvariantCulture);
+
+            if (format != null)
+            {
+                DataContext.AddFileFormat(format.Name, elementType);
+            }
+        }
 
         /// <summary>
         /// Load plugins in "Plugins" directory.
         /// </summary>
         public static void LoadPlugins()
         {
-            if (Directory.Exists(PLUGINSDIRECTORY))
+            foreach (var t in Assembly.GetExecutingAssembly().GetExportedTypes())
             {
-                string[] filesList = Directory.GetFiles(PLUGINSDIRECTORY, "*.dll");
-
-                if (filesList.Length > 0)
+                if (t.Attributes.HasFlag(TypeAttributes.Abstract))
                 {
-                    foreach (string fileName in filesList)
-                    {
-                        var assembly = Assembly.LoadFrom(fileName);
+                    continue;
+                }
 
-                        foreach (var t in assembly.GetExportedTypes())
-                        {
-                            if (t.GetInterface("IActionJson", true) != null)
-                            {
-                                LoadAction(t);
-                            }
-                            else if (t.GetInterface("IFileFormat", true) != null)
-                            {
-                                LoadFileFormat(t);
-                            }
-                            else if (t.GetInterface("ITableElement", true) != null && !t.IsAbstract)
-                            {
-                                LoadTableElement(t);
-                            }
-                            else if (t.GetInterface("IImageFormat", true) != null)
-                            {
-                                LoadImageFormat(t);
-                            }
-                        }
-                    }
+                if (t.GetInterface("IActionJson", true) != null)
+                {
+                    LoadAction(t);
+                }
+                else if (t.GetInterface("IFileFormat", true) != null)
+                {
+                    LoadFileFormat(t);
+                }
+                else if (t.GetInterface("ITableElement", true) != null && !t.IsAbstract)
+                {
+                    LoadTableElement(t);
                 }
             }
         }
@@ -121,54 +139,6 @@ namespace JHackson.Core.Common
             }
 
             return result;
-        }
-
-        private static void LoadAction(Type elementType)
-        {
-            var action = (IActionJson)elementType.InvokeMember(
-                null,
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
-                null,
-                null,
-                null,
-                CultureInfo.InvariantCulture);
-
-            if (action != null)
-            {
-                DataContext.AddAction(action.Name, elementType);
-            }
-        }
-
-        private static void LoadFileFormat(Type elementType)
-        {
-            var format = (IFileFormat)elementType.InvokeMember(
-                null,
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
-                null,
-                null,
-                null,
-                CultureInfo.InvariantCulture);
-
-            if (format != null)
-            {
-                DataContext.AddFileFormat(format.Name, elementType);
-            }
-        }
-
-        private static void LoadImageFormat(Type elementType)
-        {
-            var format = (IImageFormat)elementType.InvokeMember(
-                null,
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
-                null,
-                null,
-                null,
-                CultureInfo.InvariantCulture);
-
-            if (format != null)
-            {
-                DataContext.AddImageFormat(format.Name, elementType);
-            }
         }
 
         private static void LoadTableElement(Type elementType)

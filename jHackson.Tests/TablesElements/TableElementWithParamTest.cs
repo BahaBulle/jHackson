@@ -2,13 +2,15 @@
 {
     using System.Collections.Generic;
     using JHackson.Core.TableElements;
-    using JHackson.Tables.TableElements;
+    using JHackson.Scripts.Tables.Elements;
     using NUnit.Framework;
 
     public class TableElementWithParamTest
     {
         private const string IDENTIFIER = "%";
+
         private const string KEY = "0102";
+
         private const string VALUE = "<Pause value='%1' next='%1'>";
 
         private ITableElement element;

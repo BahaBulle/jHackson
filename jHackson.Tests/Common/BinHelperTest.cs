@@ -1,8 +1,7 @@
 ﻿namespace JHackson.Tests.Common
 {
     using System.Collections.Generic;
-    using JHackson.Actions.Binary.Common;
-    using JHackson.Core.Actions;
+    using JHackson.Binary;
     using NUnit.Framework;
 
     /// <summary>

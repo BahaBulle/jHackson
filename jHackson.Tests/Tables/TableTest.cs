@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using JHackson.Core.Common;
-    using JHackson.Tables;
-    using JHackson.Tables.TableElements;
+    using JHackson.Scripts.Tables;
+    using JHackson.Scripts.Tables.Elements;
     using NUnit.Framework;
 
     public class TableTest

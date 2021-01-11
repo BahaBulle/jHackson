@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using JHackson.Actions.Image.ImageFormat;
-    using JHackson.Core.Actions;
+    using JHackson.Image;
+    using JHackson.Image.ImageFormat;
     using NUnit.Framework;
     using SkiaSharp;
 

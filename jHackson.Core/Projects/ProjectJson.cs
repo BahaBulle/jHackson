@@ -19,7 +19,9 @@ namespace JHackson.Core.Projects
         private const string VERSION = "0.9";
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly IProjectContext context;
+
         private readonly Regex regex = new Regex(@"^jHackson v(\d{1,2}\.\d{1,2}) ©BahaBulle$");
 
         public ProjectJson()
@@ -38,6 +40,13 @@ namespace JHackson.Core.Projects
         public string Description { get; set; }
 
         public string Game { get; set; }
+
+        /// <summary>
+        /// Gets the list of plugins to load.
+        /// </summary>
+        [JsonConverter(typeof(PluginJsonConverter))]
+        [JsonProperty]
+        public List<string> Plugins { get; private set; }
 
         [JsonConverter(typeof(VariableJsonConverter))]
         [JsonProperty]

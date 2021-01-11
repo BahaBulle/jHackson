@@ -8,12 +8,14 @@ namespace JHackson.Core.Projects
     using System.IO;
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
-    using JHackson.Core.Tables;
+    using JHackson.Scripts.Tables;
 
     public class ProjectContext : IProjectContext
     {
         private readonly Dictionary<int, object> listBuffers = new Dictionary<int, object>();
+
         private readonly Dictionary<int, ITable> listTables = new Dictionary<int, ITable>();
+
         private readonly Dictionary<string, string> listVariables = new Dictionary<string, string>();
 
         public void AddBuffer(int id, object obj)
