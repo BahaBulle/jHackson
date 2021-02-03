@@ -1,4 +1,8 @@
-﻿namespace JHackson.Tests.Images
+﻿// <copyright file="Planar2BPPTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Tests.Images
 {
     using System.Collections.Generic;
     using System.IO;
@@ -8,7 +12,7 @@
     using SkiaSharp;
 
     /// <summary>
-    /// Provide a class to test Planar2BPP methods
+    /// Provide a class to test Planar2BPP methods.
     /// </summary>
     public class Planar2BPPTest
     {
@@ -83,7 +87,7 @@
         };
 
         /// <summary>
-        /// Test the conversion of a data into a SKBitmap
+        /// Test the conversion of a data into a SKBitmap.
         /// </summary>
         [Test]
         public void ShouldConvertDataToPlanar2BPPImage()
@@ -128,7 +132,7 @@
                         Order = EnumTileOrder.Planar,
                         Size = 16,
                         Width = 8,
-                    }
+                    },
                 };
 
                 var converter = new Planar2BPP();
@@ -140,7 +144,7 @@
         }
 
         /// <summary>
-        /// Test the conversion of a data into a SKBitmap
+        /// Test the conversion of a data into a SKBitmap.
         /// </summary>
         [Test]
         public void ShouldConvertPlanar2BPPImageToData()
@@ -183,7 +187,7 @@
                     Order = EnumTileOrder.Planar,
                     Size = 16,
                     Width = 8,
-                }
+                },
             };
 
             var imageInfo = new SKImageInfo(parameters.Width, parameters.Height, SKColorType.Rgba8888);

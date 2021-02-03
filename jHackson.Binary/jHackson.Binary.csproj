@@ -47,13 +47,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Localization\ActionsBinary_fr-FR.json">
+    <None Update="Localization\Binary_fr-FR.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)\Localization\ActionsBinary_fr-FR.json&quot; &quot;$(TargetDir)..\jHackson\Localization\ActionsBinary_fr-FR.json&quot;" />
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)\Localization\Binary_fr-FR.json&quot; &quot;$(TargetDir)..\jHackson\Localization\Binary_fr-FR.json&quot;" />
   </Target>
 
 </Project>

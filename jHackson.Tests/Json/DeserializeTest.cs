@@ -1,6 +1,11 @@
-﻿namespace JHackson.Tests.Json
+﻿// <copyright file="DeserializeTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Tests.Json
 {
     using System.Collections.Generic;
+    using System.IO;
     using JHackson.Binary;
     using JHackson.Binary.Actions;
     using JHackson.Image;
@@ -20,7 +25,7 @@
         public void ShouldDeserializeActionBinModify()
         {
             var json = "{" +
-                "\"DataParameters\":[{\"Adress\":100,\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0}]," +
+                "\"DataParameters\":[{\"Adress\":\"100\",\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0}]," +
                 "\"To\":1," +
                 "\"Title\":\"Test ActionBinModify\"," +
                 "\"Todo\":true}";
@@ -31,6 +36,7 @@
             Assert.That(result.To, Is.EqualTo(1));
             Assert.That(result.Todo, Is.EqualTo(true));
             Assert.That(result.DataParameters[0].Adress, Is.EqualTo(100));
+            Assert.That(result.DataParameters[0].Origin, Is.EqualTo(SeekOrigin.Begin));
             Assert.That(result.DataParameters[0].Endian, Is.EqualTo(EnumEndianType.BigEndian));
             Assert.That(result.DataParameters[0].Type, Is.EqualTo(EnumDataType.U16));
             Assert.That(result.DataParameters[0].Value, Is.EqualTo(0));
@@ -43,7 +49,7 @@
         public void ShouldDeserializeDataParameters()
         {
             var json = "{" +
-                "\"Adress\":100," +
+                "\"Adress\":\"100\"," +
                 "\"Endian\":\"BigEndian\"," +
                 "\"Type\":\"U16\"," +
                 "\"Value\":0}";
@@ -51,6 +57,7 @@
             var result = JsonConvert.DeserializeObject<DataParameters>(json);
 
             Assert.That(result.Adress, Is.EqualTo(100));
+            Assert.That(result.Origin, Is.EqualTo(SeekOrigin.Begin));
             Assert.That(result.Endian, Is.EqualTo(EnumEndianType.BigEndian));
             Assert.That(result.Type, Is.EqualTo(EnumDataType.U16));
             Assert.That(result.Value, Is.EqualTo(0));
@@ -82,13 +89,11 @@
         {
             var json = "{\"Palette\":[{\"Alpha\":255,\"Red\":0,\"Green\":0,\"Blue\":0},{\"Alpha\":255,\"Red\":8,\"Green\":82,\"Blue\":66},{\"Alpha\":255,\"Red\":90,\"Green\":140,\"Blue\":255},{\"Alpha\":255,\"Red\":239,\"Green\":239,\"Blue\":239}]}";
 
-            //ITraceWriter traceWriter = new MemoryTraceWriter();
-
+            // ITraceWriter traceWriter = new MemoryTraceWriter();
             var result = JsonConvert.DeserializeObject<ImagePattern>(json);
-            //var result = JsonConvert.DeserializeObject<ImageParameters>(json, new JsonSerializerSettings { TraceWriter = traceWriter });
 
-            //Console.WriteLine(traceWriter);
-
+            // var result = JsonConvert.DeserializeObject<ImageParameters>(json, new JsonSerializerSettings { TraceWriter = traceWriter });
+            // Console.WriteLine(traceWriter);
             Assert.That(result.Palette[0], Is.EqualTo(new SKColor(0x00, 0x00, 0x00, 0xFF)));
             Assert.That(result.Palette[1], Is.EqualTo(new SKColor(0x08, 0x52, 0x42, 0xFF)));
             Assert.That(result.Palette[2], Is.EqualTo(new SKColor(0x5A, 0x8C, 0xFF, 0xFF)));

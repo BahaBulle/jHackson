@@ -1,3 +1,7 @@
+// <copyright file="TableElementNormalTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
 namespace JHackson.Tests.TableElements
 {
     using JHackson.Core.TableElements;

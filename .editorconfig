@@ -196,3 +196,6 @@ dotnet_naming_style.commence_par_i.required_prefix = I
 dotnet_naming_style.commence_par_i.required_suffix = 
 dotnet_naming_style.commence_par_i.word_separator = 
 dotnet_naming_style.commence_par_i.capitalization = pascal_case
+
+dotnet_diagnostic.SA1310.severity = none
+dotnet_diagnostic.CA1707.severity = none

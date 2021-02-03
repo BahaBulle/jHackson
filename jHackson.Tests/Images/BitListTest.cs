@@ -1,4 +1,8 @@
-﻿namespace JHackson.Tests.Images
+﻿// <copyright file="BitListTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Tests.Images
 {
     using System.Collections.Generic;
     using JHackson.Image;
@@ -64,7 +68,7 @@
         }
 
         /// <summary>
-        /// Test to convert a BitList into bytes array
+        /// Test to convert a BitList into bytes array.
         /// </summary>
         [Test]
         public void ShouldConvertBitsIntoBytes()

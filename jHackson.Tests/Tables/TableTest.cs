@@ -1,4 +1,8 @@
-﻿namespace JHackson.Tests.Tables
+﻿// <copyright file="TableTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Tests.Tables
 {
     using System.Collections.Generic;
     using JHackson.Core.Common;
@@ -40,7 +44,7 @@
         {
             var list = new List<string>()
             {
-                "20= "
+                "20= ",
             };
 
             var tbl = new Table();
@@ -55,7 +59,7 @@
         {
             var list = new List<string>()
             {
-                "%0102=<Pause value='%1' next='%1'>"
+                "%0102=<Pause value='%1' next='%1'>",
             };
 
             var tbl = new Table();

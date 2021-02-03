@@ -1,4 +1,8 @@
-﻿namespace JHackson.Tests.Common
+﻿// <copyright file="BinHelperTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Tests.Binary
 {
     using System.Collections.Generic;
     using JHackson.Binary;

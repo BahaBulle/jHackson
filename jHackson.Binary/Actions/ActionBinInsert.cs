@@ -58,7 +58,7 @@ namespace JHackson.Binary.Actions
 
             foreach (var data in this.DataParameters)
             {
-                if (!data.Check())
+                if (!data.CheckType())
                 {
                     this.AddError(LocalizationManager.GetMessage("actions.incorrectFormat", nameof(this.DataParameters), data.Value, data.Type));
                 }

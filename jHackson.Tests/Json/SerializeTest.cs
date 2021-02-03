@@ -1,4 +1,8 @@
-﻿namespace JHackson.Tests.Json
+﻿// <copyright file="SerializeTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Tests.Json
 {
     using System.Collections.Generic;
     using JHackson.Binary;
@@ -92,7 +96,7 @@
                 Todo = true,
             };
 
-            action.DataParameters.Add(new DataParameters() { Adress = 100, Endian = EnumEndianType.BigEndian, Type = EnumDataType.U16, Value = 0, });
+            action.DataParameters.Add(new DataParameters("100") { Endian = EnumEndianType.BigEndian, Type = EnumDataType.U16, Value = 0, });
 
             var result = JsonConvert.SerializeObject(action);
 
@@ -139,9 +143,8 @@
                 "\"Type\":\"U16\"," +
                 "\"Value\":0}";
 
-            var parameters = new DataParameters()
+            var parameters = new DataParameters("100")
             {
-                Adress = 100,
                 Endian = EnumEndianType.BigEndian,
                 Type = EnumDataType.U16,
                 Value = 0,

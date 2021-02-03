@@ -58,9 +58,14 @@ namespace JHackson.Binary.Actions
 
             foreach (var data in this.DataParameters)
             {
-                if (!data.Check())
+                if (!data.CheckType())
                 {
-                    this.AddError(LocalizationManager.GetMessage("actions.incorrectFormat", nameof(this.DataParameters), data.Value, data.Type));
+                    this.AddError(LocalizationManager.GetMessage("actions.incorrectTypeFormat", nameof(this.DataParameters), data.Value, data.Type));
+                }
+
+                if (!data.CheckAdress())
+                {
+                    this.AddError(LocalizationManager.GetMessage("actions.incorrectAdressFormat", nameof(this.DataParameters), nameof(data.Adress), data.Adress));
                 }
             }
         }
@@ -81,7 +86,7 @@ namespace JHackson.Binary.Actions
             {
                 foreach (var data in this.DataParameters)
                 {
-                    binaryWriter.BaseStream.Position = data.Adress;
+                    binaryWriter.Seek((int)data.Adress, data.Origin);
 
                     switch (data.Type)
                     {

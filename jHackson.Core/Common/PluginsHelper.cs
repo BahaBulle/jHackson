@@ -26,6 +26,11 @@ namespace JHackson.Core.Common
 
         public static void LoadAction(Type elementType)
         {
+            if (elementType == null)
+            {
+                throw new ArgumentNullException(nameof(elementType));
+            }
+
             var action = (IActionJson)elementType.InvokeMember(
                 null,
                 BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
@@ -42,6 +47,11 @@ namespace JHackson.Core.Common
 
         public static void LoadFileFormat(Type elementType)
         {
+            if (elementType == null)
+            {
+                throw new ArgumentNullException(nameof(elementType));
+            }
+
             var format = (IFileFormat)elementType.InvokeMember(
                 null,
                 BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,

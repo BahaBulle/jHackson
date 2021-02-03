@@ -1,4 +1,8 @@
-﻿namespace JHackson.Tests.TableElements
+﻿// <copyright file="TableElementWithParamTest.cs" company="BahaBulle">
+// Copyright (c) BahaBulle. All rights reserved.
+// </copyright>
+
+namespace JHackson.Tests.TableElements
 {
     using System.Collections.Generic;
     using JHackson.Core.TableElements;
@@ -51,13 +55,13 @@
                 {
                     NbBytes = 1,
                     Position = 14,
-                    Value = "%1"
+                    Value = "%1",
                 },
                 new TableElementParam()
                 {
                     NbBytes = 1,
                     Position = 24,
-                    Value = "%1"
+                    Value = "%1",
                 },
             };
 
@@ -85,7 +89,7 @@
         [Test]
         public void ShouldGetValueSize()
         {
-            Assert.That(this.element.ValueSize, Is.EqualTo(VALUE.Length - (1 + 1 + 1 + 1) + (1 * 2 + 1 * 2)));
+            Assert.That(this.element.ValueSize, Is.EqualTo(VALUE.Length - (1 + 1 + 1 + 1) + (1 * 2) + (1 * 2)));
         }
 
         [Test]
