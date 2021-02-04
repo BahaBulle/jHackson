@@ -84,7 +84,7 @@ namespace JHackson.Tests.Json
         public void ShouldSerializeActionBinModify()
         {
             var expected = "{" +
-                "\"DataParameters\":[{\"Adress\":100,\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0}]," +
+                "\"DataParameters\":[{\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0,\"Adress\":\"100\"}]," +
                 "\"To\":1," +
                 "\"Title\":\"Test ActionBinModify\"," +
                 "\"Todo\":true}";
@@ -138,10 +138,10 @@ namespace JHackson.Tests.Json
         public void ShouldSerializeDataParameters()
         {
             var expected = "{" +
-                "\"Adress\":100," +
                 "\"Endian\":\"BigEndian\"," +
                 "\"Type\":\"U16\"," +
-                "\"Value\":0}";
+                "\"Value\":0," +
+                "\"Adress\":\"100\"}";
 
             var parameters = new DataParameters("100")
             {

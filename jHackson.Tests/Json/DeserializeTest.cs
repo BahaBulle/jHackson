@@ -32,6 +32,8 @@ namespace JHackson.Tests.Json
 
             var result = JsonConvert.DeserializeObject<ActionBinModify>(json);
 
+            result.DataParameters.ForEach(x => x.CheckAdress());
+
             Assert.That(result.Title, Is.EqualTo("Test ActionBinModify"));
             Assert.That(result.To, Is.EqualTo(1));
             Assert.That(result.Todo, Is.EqualTo(true));
@@ -55,6 +57,8 @@ namespace JHackson.Tests.Json
                 "\"Value\":0}";
 
             var result = JsonConvert.DeserializeObject<DataParameters>(json);
+
+            _ = result.CheckAdress();
 
             Assert.That(result.Adress, Is.EqualTo(100));
             Assert.That(result.Origin, Is.EqualTo(SeekOrigin.Begin));

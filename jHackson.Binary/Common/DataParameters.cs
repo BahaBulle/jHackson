@@ -42,6 +42,9 @@ namespace JHackson.Binary
         [JsonConverter(typeof(StringEnumConverter))]
         public EnumEndianType Endian { get; set; }
 
+        /// <summary>
+        /// Gets the origin of the seek.
+        /// </summary>
         [JsonIgnore]
         public SeekOrigin Origin { get; private set; }
 
