@@ -9,17 +9,18 @@
     <Copyright>BahaBulle © 2020</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
+    <RootNamespace>JHackson.Scripts</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
+    <OutputPath>..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>..\..\Build\bin\Debug\jHackson.StarOcean\jHackson.PhantasyStar2.xml</DocumentationFile>
+    <DocumentationFile>..\Build\bin\Debug\jHackson.Scripts\jHackson.Scripts.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\..\Build\bin\Release\$(MSBuildProjectName)\</OutputPath>
+    <OutputPath>..\Build\bin\Release\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
@@ -28,7 +29,7 @@
   </Target>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\\..\\.stylecop.json" Link="Properties\.stylecop.json" />
+    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\jHackson.Core\jHackson.Core.csproj" />
+    <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
 
 </Project>

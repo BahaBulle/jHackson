@@ -9,13 +9,14 @@
     <Copyright>BahaBulle © 2020</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
+    <RootNamespace>JHackson.DragonQuest12</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>..\..\Build\bin\Debug\jHackson.StarOcean\jHackson.PhantasyStar2.xml</DocumentationFile>
+    <DocumentationFile>..\..\Build\bin\Debug\jHackson.DragonQuest12\jHackson.DragonQuest12.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
