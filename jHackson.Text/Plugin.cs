@@ -2,7 +2,7 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Scripts.Tables
+namespace JHackson.Text
 {
     using JHackson.Core.Common;
 
@@ -16,8 +16,6 @@ namespace JHackson.Scripts.Tables
         /// </summary>
         public void Init()
         {
-            PluginsHelper.LoadAction(typeof(ActionTableLoad));
-            PluginsHelper.LoadAction(typeof(ActionTableSave));
         }
     }
 }

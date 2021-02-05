@@ -1,27 +1,34 @@
-﻿// <copyright file="ActionTableSave.cs" company="BahaBulle">
+﻿// <copyright file="ActionTableLoad.cs" company="BahaBulle">
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Scripts.Tables
+namespace JHackson.Text.Tables
 {
     using System;
     using System.Globalization;
+    using System.IO;
     using JHackson.Core.Actions;
     using JHackson.Core.Common;
     using JHackson.Core.Localization;
     using JHackson.Core.Projects;
     using NLog;
 
-    public class ActionTableSave : ActionBase
+    public class ActionTableLoad : ActionBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ActionTableSave()
+        public ActionTableLoad()
         {
-            this.Name = "TableSave";
+            this.Name = "TableLoad";
             this.Title = null;
             this.Todo = true;
+
+            this.FileName = null;
+            this.Id = null;
+            this.Extend = null;
         }
+
+        public bool? Extend { get; set; }
 
         public string FileName { get; set; }
 
@@ -29,6 +36,11 @@ namespace JHackson.Scripts.Tables
 
         public override void Check()
         {
+            if (string.IsNullOrWhiteSpace(this.FileName) || (this.FileName.ToUpper(CultureInfo.InvariantCulture) != Table.LabelTableAscii && !File.Exists(this.FileName)))
+            {
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", this.FileName, this.FileName ?? "null"));
+            }
+
             if (!this.Id.HasValue)
             {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString(CultureInfo.InvariantCulture) : "null"));
@@ -42,9 +54,18 @@ namespace JHackson.Scripts.Tables
                 Logger.Info(this.Title);
             }
 
-            var tbl = this.Context.GetTable(this.Id.Value);
+            var tbl = new Table();
 
-            tbl.Save(this.FileName);
+            if (this.FileName.ToUpper(CultureInfo.InvariantCulture) == Table.LabelTableAscii)
+            {
+                tbl.LoadStdAscii(this.Extend);
+            }
+            else
+            {
+                tbl.Load(this.FileName);
+            }
+
+            this.Context.AddTable(this.Id.Value, tbl);
         }
 
         public override void Init(IProjectContext context)

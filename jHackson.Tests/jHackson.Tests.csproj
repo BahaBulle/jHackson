@@ -42,7 +42,7 @@
     <ProjectReference Include="..\jHackson.Image\jHackson.Image.csproj" />
     <ProjectReference Include="..\jHackson.Binary\jHackson.Binary.csproj" />
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
-    <ProjectReference Include="..\jHackson.Scripts.Tables\jHackson.Scripts.Tables.csproj" />
+    <ProjectReference Include="..\jHackson.Text.Tables\jHackson.Text.Tables.csproj" />
   </ItemGroup>
 
 </Project>

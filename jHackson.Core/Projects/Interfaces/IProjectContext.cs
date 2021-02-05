@@ -6,7 +6,7 @@ namespace JHackson.Core.Projects
 {
     using System.Collections.Generic;
     using System.IO;
-    using JHackson.Scripts.Tables;
+    using JHackson.Text.Tables;
 
     public interface IProjectContext
     {

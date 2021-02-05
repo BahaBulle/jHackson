@@ -2,7 +2,7 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Scripts.Tables.Elements
+namespace JHackson.Text.Tables.Elements
 {
     using System.Text.RegularExpressions;
     using JHackson.Core.Exceptions;

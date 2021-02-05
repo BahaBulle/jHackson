@@ -1,36 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon />
     <OutputType>Library</OutputType>
+    <StartupObject />
     <NeutralLanguage>fr-FR</NeutralLanguage>
     <Authors>BahaBulle</Authors>
     <Product>jHackson</Product>
     <Copyright>BahaBulle © 2020</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
-    <RootNamespace>JHackson.Scripts</RootNamespace>
+    <RootNamespace>JHackson.Text.Tables</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>..\Build\bin\Debug\jHackson.Scripts\jHackson.Scripts.xml</DocumentationFile>
+    <DocumentationFile>..\Build\bin\Debug\jHackson.Text.Tables\jHackson.Text.Tables.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Build\bin\Release\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;" />
-  </Target>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
@@ -47,5 +41,19 @@
   <ItemGroup>
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Localization\Tables_fr-FR.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)\Localization\Tables_fr-FR.json&quot; &quot;$(TargetDir)..\jHackson\Localization\Tables_fr-FR.json&quot;" />
+  </Target>
 
 </Project>

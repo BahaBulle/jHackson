@@ -6,8 +6,8 @@ namespace JHackson.Tests.Tables
 {
     using System.Collections.Generic;
     using JHackson.Core.Common;
-    using JHackson.Scripts.Tables;
-    using JHackson.Scripts.Tables.Elements;
+    using JHackson.Text.Tables;
+    using JHackson.Text.Tables.Elements;
     using NUnit.Framework;
 
     public class TableTest

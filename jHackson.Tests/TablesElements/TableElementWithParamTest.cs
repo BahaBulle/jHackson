@@ -6,7 +6,7 @@ namespace JHackson.Tests.TableElements
 {
     using System.Collections.Generic;
     using JHackson.Core.TableElements;
-    using JHackson.Scripts.Tables.Elements;
+    using JHackson.Text.Tables.Elements;
     using NUnit.Framework;
 
     public class TableElementWithParamTest

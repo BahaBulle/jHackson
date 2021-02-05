@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Core", "jHackson.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Image", "jHackson.Image\jHackson.Image.csproj", "{A0BD361B-4EAF-44EA-B6BE-78B8BDCEE9AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Scripts.Tables", "jHackson.Scripts.Tables\jHackson.Scripts.Tables.csproj", "{B29475EA-A7D5-4A5D-A00D-2BF10F861320}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Text.Tables", "jHackson.Text.Tables\jHackson.Text.Tables.csproj", "{B29475EA-A7D5-4A5D-A00D-2BF10F861320}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Tests", "jHackson.Tests\jHackson.Tests.csproj", "{E7768D5C-7EE3-4C11-8E38-24635A423BC4}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.PhantasyStar2", "G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.DragonQuest12", "Games\jHackson.DragonQuest12\jHackson.DragonQuest12.csproj", "{152890FA-67A4-4844-8EE7-A235FFBA0D8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jHackson.Scripts", "jHackson.Scripts\jHackson.Scripts.csproj", "{619303F8-36F3-4093-A743-68141E8C7076}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Text", "jHackson.Text\jHackson.Text.csproj", "{619303F8-36F3-4093-A743-68141E8C7076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

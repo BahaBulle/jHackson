@@ -5,7 +5,7 @@
 namespace JHackson.Tests.TableElements
 {
     using JHackson.Core.TableElements;
-    using JHackson.Scripts.Tables.Elements;
+    using JHackson.Text.Tables.Elements;
     using NUnit.Framework;
 
     public class TableElementNormalTest
