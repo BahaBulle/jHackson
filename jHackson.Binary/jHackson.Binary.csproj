@@ -10,7 +10,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
     <AssemblyName>jHackson.Binary</AssemblyName>
-    <RootNamespace>jHackson.Binary</RootNamespace>
+    <RootNamespace>JHackson.Binary</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

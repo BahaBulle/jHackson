@@ -9,6 +9,7 @@
     <Product>jHackson</Product>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
+    <RootNamespace>JHackson</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

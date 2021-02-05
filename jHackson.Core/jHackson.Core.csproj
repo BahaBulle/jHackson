@@ -11,6 +11,7 @@
     <Copyright>BahaBulle © 2020</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
+    <RootNamespace>JHackson.Core</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
