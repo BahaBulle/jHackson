@@ -36,61 +36,36 @@ namespace JHackson.Core.Projects
             this.context = new ProjectContext();
         }
 
-        /// <summary>
-        /// Gets the list of actions to execute.
-        /// </summary>
+        /// <inheritdoc/>
         [JsonConverter(typeof(ActionJsonConverter))]
-        [JsonProperty(Order = 4)]
+        [JsonProperty(Order = 3)]
         public List<IActionJson> Actions { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the version of the application.
-        /// </summary>
+        /// <inheritdoc/>
         public string Application { get; set; }
 
-        /// <summary>
-        /// Gets or sets the console of the project.
-        /// </summary>
+        /// <inheritdoc/>
         public string Console { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description of the project.
-        /// </summary>
+        /// <inheritdoc/>
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the game of the project.
-        /// </summary>
+        /// <inheritdoc/>
         public string Game { get; set; }
 
-        /// <summary>
-        /// Gets the list of plugins to load.
-        /// </summary>
+        /// <inheritdoc/>
         [JsonConverter(typeof(PluginJsonConverter))]
         [JsonProperty(Order = 1)]
         public List<string> Plugins { get; private set; }
 
-        /// <summary>
-        /// Gets the list of tables to load.
-        /// </summary>
-        [JsonConverter(typeof(TableJsonConverter))]
-        [JsonProperty(Order = 3)]
-        public List<IActionTable> Tables { get; private set; }
-
-        /// <summary>
-        /// Gets the list of variables to load.
-        /// </summary>
+        /// <inheritdoc/>
         [JsonProperty(Order = 2)]
         public List<Variable> Variables { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the version of the project.
-        /// </summary>
+        /// <inheritdoc/>
         public string Version { get; set; }
 
-        /// <summary>
-        /// Check all possible errors.
-        /// </summary>
+        /// <inheritdoc/>
         public void Check()
         {
             var hasErrors = false;
@@ -117,9 +92,7 @@ namespace JHackson.Core.Projects
             }
         }
 
-        /// <summary>
-        /// Execute all actions of the project.
-        /// </summary>
+        /// <inheritdoc/>
         public void Execute()
         {
             foreach (var action in this.Actions.Where(x => x.Todo == true))
@@ -138,9 +111,7 @@ namespace JHackson.Core.Projects
             }
         }
 
-        /// <summary>
-        /// Initialise the project.
-        /// </summary>
+        /// <inheritdoc/>
         public void Init()
         {
             foreach (var variable in this.Variables)

@@ -44,11 +44,6 @@ namespace JHackson.Core.Projects
         List<string> Plugins { get; }
 
         /// <summary>
-        /// Gets the list of tables to load.
-        /// </summary>
-        List<IActionTable> Tables { get; }
-
-        /// <summary>
         /// Gets the list of variables to load.
         /// </summary>
         List<Variable> Variables { get; }

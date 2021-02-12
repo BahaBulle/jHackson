@@ -5,9 +5,7 @@
 namespace JHackson.Text.Tables
 {
     using System;
-    using System.Globalization;
     using JHackson.Core.Actions;
-    using JHackson.Core.Common;
     using JHackson.Core.Localization;
     using JHackson.Core.Projects;
     using NLog;
@@ -16,25 +14,40 @@ namespace JHackson.Text.Tables
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionTableSave"/> class.
+        /// </summary>
         public ActionTableSave()
         {
-            this.Name = "TableSave";
+            this.Alias = "TableSave";
             this.Title = null;
             this.Todo = true;
         }
 
+        /// <summary>
+        /// Gets or sets the alias (name) of the table.
+        /// </summary>
+        public string Alias { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file to load.
+        /// </summary>
         public string FileName { get; set; }
 
-        public int? Id { get; set; }
-
+        /// <summary>
+        /// Check errors in parameters.
+        /// </summary>
         public override void Check()
         {
-            if (!this.Id.HasValue)
+            if (string.IsNullOrWhiteSpace(this.Alias))
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString(CultureInfo.InvariantCulture) : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Alias), this.Alias ?? "null"));
             }
         }
 
+        /// <summary>
+        /// Execute the process of this action.
+        /// </summary>
         public override void Execute()
         {
             if (this.Title != null)
@@ -42,11 +55,15 @@ namespace JHackson.Text.Tables
                 Logger.Info(this.Title);
             }
 
-            var tbl = this.Context.GetTable(this.Id.Value);
+            var tbl = this.Context.Tables[this.Alias];
 
             tbl.Save(this.FileName);
         }
 
+        /// <summary>
+        /// Initialize this action.
+        /// </summary>
+        /// <param name="context">Context of the project.</param>
         public override void Init(IProjectContext context)
         {
             if (context == null)
@@ -54,7 +71,7 @@ namespace JHackson.Text.Tables
                 throw new ArgumentNullException(nameof(context));
             }
 
-            this.FileName = PluginsHelper.ReplaceVariables(context.GetVariables(), this.FileName);
+            this.FileName = context.Variables.Replace(this.FileName);
 
             base.Init(context);
         }

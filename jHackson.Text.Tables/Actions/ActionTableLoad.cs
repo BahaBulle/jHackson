@@ -8,7 +8,6 @@ namespace JHackson.Text.Tables
     using System.Globalization;
     using System.IO;
     using JHackson.Core.Actions;
-    using JHackson.Core.Common;
     using JHackson.Core.Localization;
     using JHackson.Core.Projects;
     using NLog;
@@ -17,23 +16,35 @@ namespace JHackson.Text.Tables
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionTableLoad"/> class.
+        /// </summary>
         public ActionTableLoad()
         {
-            this.Name = "TableLoad";
+            this.Alias = "TableLoad";
             this.Title = null;
             this.Todo = true;
 
             this.FileName = null;
-            this.Id = null;
+            this.Alias = string.Empty;
             this.Extend = null;
         }
 
+        /// <summary>
+        /// Gets or sets the alias (name) of the table.
+        /// </summary>
+        public string Alias { get; set; }
+
         public bool? Extend { get; set; }
 
+        /// <summary>
+        /// Gets or sets the file to load.
+        /// </summary>
         public string FileName { get; set; }
 
-        public int? Id { get; set; }
-
+        /// <summary>
+        /// Check errors in parameters.
+        /// </summary>
         public override void Check()
         {
             if (string.IsNullOrWhiteSpace(this.FileName) || (this.FileName.ToUpper(CultureInfo.InvariantCulture) != Table.LabelTableAscii && !File.Exists(this.FileName)))
@@ -41,12 +52,15 @@ namespace JHackson.Text.Tables
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", this.FileName, this.FileName ?? "null"));
             }
 
-            if (!this.Id.HasValue)
+            if (string.IsNullOrWhiteSpace(this.Alias))
             {
-                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Id), this.Id.HasValue ? this.Id.Value.ToString(CultureInfo.InvariantCulture) : "null"));
+                this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", nameof(this.Alias), this.Alias ?? "null"));
             }
         }
 
+        /// <summary>
+        /// Execute the process of this action.
+        /// </summary>
         public override void Execute()
         {
             if (this.Title != null)
@@ -65,9 +79,13 @@ namespace JHackson.Text.Tables
                 tbl.Load(this.FileName);
             }
 
-            this.Context.AddTable(this.Id.Value, tbl);
+            this.Context.Tables.Add(this.Alias, tbl);
         }
 
+        /// <summary>
+        /// Initialize this action.
+        /// </summary>
+        /// <param name="context">Context of the project.</param>
         public override void Init(IProjectContext context)
         {
             if (context == null)
@@ -75,7 +93,7 @@ namespace JHackson.Text.Tables
                 throw new ArgumentNullException(nameof(context));
             }
 
-            this.FileName = PluginsHelper.ReplaceVariables(context.GetVariables(), this.FileName);
+            this.FileName = context.Variables.Replace(this.FileName);
 
             base.Init(context);
         }
