@@ -74,7 +74,7 @@ namespace JHackson.Binary.Actions
 
             using (var msSource = new MemoryStream(File.ReadAllBytes(this.FileName)))
             {
-                var msDest = this.Context.GetBufferMemoryStream(this.To.Value, true);
+                var msDest = this.Context.Buffers.Get<MemoryStream>(this.To.Value, true);
 
                 if (!this.Source.AdressStart.HasValue)
                 {

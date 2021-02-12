@@ -5,6 +5,7 @@
 namespace JHackson.StarOcean.Actions
 {
     using System.Globalization;
+    using System.IO;
     using JHackson.Core.Actions;
     using JHackson.Core.Localization;
     using JHackson.StarOcean.SDD1Algorithm;
@@ -66,13 +67,13 @@ namespace JHackson.StarOcean.Actions
                 Logger.Info(this.Title);
             }
 
-            var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
+            var msSource = this.Context.Buffers.Get<MemoryStream>(this.From.Value);
 
             ISdd1Comp sdd1 = new Sdd1();
 
             var msDestination = sdd1.Compress(msSource);
 
-            this.Context.AddBuffer(this.To.Value, msDestination);
+            this.Context.Buffers.Add(this.To.Value, msDestination);
         }
     }
 }

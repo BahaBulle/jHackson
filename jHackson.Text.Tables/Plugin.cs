@@ -5,6 +5,7 @@
 namespace JHackson.Text.Tables
 {
     using JHackson.Core.Common;
+    using JHackson.Text.Tables.Elements;
 
     /// <summary>
     /// Provides a class that to allow to load this library dynamically.
@@ -18,6 +19,9 @@ namespace JHackson.Text.Tables
         {
             PluginsHelper.LoadAction(typeof(ActionTableLoad));
             PluginsHelper.LoadAction(typeof(ActionTableSave));
+
+            PluginsHelper.LoadTableElement(typeof(TableElementNormal));
+            PluginsHelper.LoadTableElement(typeof(TableElementWithParam));
         }
     }
 }

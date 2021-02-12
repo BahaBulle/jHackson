@@ -80,7 +80,7 @@ namespace JHackson.Binary.Actions
                 Logger.Info(this.Title);
             }
 
-            var msDest = this.Context.GetBufferMemoryStream(this.To.Value, true);
+            var msDest = this.Context.Buffers.Get<MemoryStream>(this.To.Value, true);
 
             using (var binaryWriter = new BinaryWriter(msDest, Encoding.Default, true))
             {

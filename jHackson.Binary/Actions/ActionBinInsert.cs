@@ -75,7 +75,7 @@ namespace JHackson.Binary.Actions
                 Logger.Info(this.Title);
             }
 
-            var msSource = this.Context.GetBufferMemoryStream(this.To.Value, true);
+            var msSource = this.Context.Buffers.Get<MemoryStream>(this.To.Value, true);
             var msDest = new MemoryStream();
             msSource.Position = 0;
 
@@ -178,7 +178,7 @@ namespace JHackson.Binary.Actions
 
                 binaryWriter.Write(bytes, 0, size);
 
-                this.Context.AddBuffer(this.To.Value, msDest);
+                this.Context.Buffers.Add(this.To.Value, msDest);
             }
         }
 

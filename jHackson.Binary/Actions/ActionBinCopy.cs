@@ -5,6 +5,7 @@
 namespace JHackson.Binary.Actions
 {
     using System.Globalization;
+    using System.IO;
     using JHackson.Core.Actions;
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
@@ -38,6 +39,7 @@ namespace JHackson.Binary.Actions
 
         public int? To { get; set; }
 
+        /// <inheritdoc/>
         public override void Check()
         {
             if (!this.From.HasValue)
@@ -58,8 +60,8 @@ namespace JHackson.Binary.Actions
                 Logger.Info(this.Title);
             }
 
-            var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
-            var msDest = this.Context.GetBufferMemoryStream(this.To.Value, true);
+            var msSource = this.Context.Buffers.Get<MemoryStream>(this.From.Value);
+            var msDest = this.Context.Buffers.Get<MemoryStream>(this.To.Value, true);
 
             if (!this.Source.AdressStart.HasValue)
             {

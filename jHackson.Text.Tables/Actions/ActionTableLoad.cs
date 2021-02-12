@@ -21,7 +21,7 @@ namespace JHackson.Text.Tables
         /// </summary>
         public ActionTableLoad()
         {
-            this.Alias = "TableLoad";
+            this.Name = "TableLoad";
             this.Title = null;
             this.Todo = true;
 

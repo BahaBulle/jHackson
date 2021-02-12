@@ -90,6 +90,22 @@ namespace JHackson.Core.Common
             }
         }
 
+        public static void LoadTableElement(Type elementType)
+        {
+            var element = (ITableElement)elementType.InvokeMember(
+                null,
+                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
+                null,
+                null,
+                null,
+                CultureInfo.InvariantCulture);
+
+            if (element != null)
+            {
+                DataContext.AddTableElement(element.Name, elementType);
+            }
+        }
+
         /// <summary>
         /// Replace properties parameters with their values.
         /// </summary>
@@ -120,22 +136,6 @@ namespace JHackson.Core.Common
             }
 
             return result;
-        }
-
-        private static void LoadTableElement(Type elementType)
-        {
-            var element = (ITableElement)elementType.InvokeMember(
-                null,
-                BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance,
-                null,
-                null,
-                null,
-                CultureInfo.InvariantCulture);
-
-            if (element != null)
-            {
-                DataContext.AddTableElement(element.Name, elementType);
-            }
         }
     }
 }

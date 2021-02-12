@@ -27,12 +27,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Localization\Core_fr-FR.json~RF39ae4b.TMP" />
-    <None Remove="Localization\Providers\JsonLocalizationProvider.cs~RF143806.TMP" />
-    <None Remove="Projects\Interfaces\IProjectJson.cs~RF43394a.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
   </ItemGroup>
 

@@ -71,12 +71,12 @@ namespace JHackson.PhantasyStar2.Actions
                 Logger.Info(this.Title);
             }
 
-            var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
+            var msSource = this.Context.Buffers.Get<MemoryStream>(this.From.Value);
             msSource.Position = 0;
 
             var msDestination = Compress(msSource);
 
-            this.Context.AddBuffer(this.To.Value, msDestination);
+            this.Context.Buffers.Add(this.To.Value, msDestination);
         }
 
         private static MemoryStream Compress(MemoryStream source)

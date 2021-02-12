@@ -75,12 +75,12 @@ namespace JHackson.PhantasyStar2.Actions
                 Logger.Info(this.Title);
             }
 
-            var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
+            var msSource = this.Context.Buffers.Get<MemoryStream>(this.From.Value);
             msSource.Position = this.AdressStart.Value;
 
             var msDestination = Decompress(msSource);
 
-            this.Context.AddBuffer(this.To.Value, msDestination);
+            this.Context.Buffers.Add(this.To.Value, msDestination);
         }
 
         private static uint BytesToInt(byte[] bytes)

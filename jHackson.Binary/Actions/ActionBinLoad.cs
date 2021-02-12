@@ -73,7 +73,7 @@ namespace JHackson.Binary.Actions
                 Position = 0,
             };
 
-            this.Context.AddBuffer(this.To.Value, ms);
+            this.Context.Buffers.Add(this.To.Value, ms);
         }
 
         /// <summary>

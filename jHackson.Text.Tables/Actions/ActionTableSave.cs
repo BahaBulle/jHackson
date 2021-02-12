@@ -19,7 +19,7 @@ namespace JHackson.Text.Tables
         /// </summary>
         public ActionTableSave()
         {
-            this.Alias = "TableSave";
+            this.Name = "TableSave";
             this.Title = null;
             this.Todo = true;
         }

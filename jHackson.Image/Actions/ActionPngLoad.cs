@@ -96,7 +96,7 @@ namespace JHackson.Image.Actions
                 var binaryData = imageFormat.ConvertBack(image, this.ImageParameters);
 
                 binaryData.Position = 0;
-                this.Context.AddBuffer(this.To.Value, binaryData);
+                this.Context.Buffers.Add(this.To.Value, binaryData);
             }
         }
 

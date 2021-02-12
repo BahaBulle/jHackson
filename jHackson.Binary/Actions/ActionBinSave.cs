@@ -92,12 +92,12 @@ namespace JHackson.Binary.Actions
                 Logger.Info(this.Title);
             }
 
-            if (!this.Context.BufferExists(this.From.Value))
+            if (!this.Context.Buffers.ContainsKey(this.From.Value))
             {
                 throw new JHacksonException(LocalizationManager.GetMessage("core.bufferUnknow", this.From));
             }
 
-            var msSource = this.Context.GetBufferMemoryStream(this.From.Value);
+            var msSource = this.Context.Buffers.Get<MemoryStream>(this.From.Value);
             var format = DataContext.GetFileFormat(this.Format);
 
             if (!this.Source.AdressStart.HasValue)
