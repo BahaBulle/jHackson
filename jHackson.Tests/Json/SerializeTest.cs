@@ -5,8 +5,11 @@
 namespace JHackson.Tests.Json
 {
     using System.Collections.Generic;
+    using System.IO;
     using JHackson.Binary;
     using JHackson.Binary.Actions;
+    using JHackson.Core;
+    using JHackson.Core.Common;
     using JHackson.Image;
     using Newtonsoft.Json;
     using NUnit.Framework;
@@ -84,7 +87,7 @@ namespace JHackson.Tests.Json
         public void ShouldSerializeActionBinModify()
         {
             var expected = "{" +
-                "\"DataParameters\":[{\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0,\"Adress\":\"100\"}]," +
+                "\"DataParameters\":[{\"Adress\":{\"Origin\":\"Begin\",\"Value\":\"0x64\"},\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0}]," +
                 "\"To\":1," +
                 "\"Title\":\"Test ActionBinModify\"," +
                 "\"Todo\":true}";
@@ -96,7 +99,7 @@ namespace JHackson.Tests.Json
                 Todo = true,
             };
 
-            action.DataParameters.Add(new DataParameters("100") { Endian = EnumEndianType.BigEndian, Type = EnumDataType.U16, Value = 0, });
+            action.DataParameters.Add(new DataParameters() { Adress = new Adress() { Value = 100, Origin = SeekOrigin.Begin }, Endian = EnumEndianType.BigEndian, Type = EnumDataType.U16, Value = 0, });
 
             var result = JsonConvert.SerializeObject(action);
 
@@ -138,13 +141,18 @@ namespace JHackson.Tests.Json
         public void ShouldSerializeDataParameters()
         {
             var expected = "{" +
+                "\"Adress\":{\"Origin\":\"Begin\",\"Value\":\"0x64\"}," +
                 "\"Endian\":\"BigEndian\"," +
                 "\"Type\":\"U16\"," +
-                "\"Value\":0," +
-                "\"Adress\":\"100\"}";
+                "\"Value\":0}";
 
-            var parameters = new DataParameters("100")
+            var parameters = new DataParameters()
             {
+                Adress = new Adress()
+                {
+                    Origin = SeekOrigin.Begin,
+                    Value = 100,
+                },
                 Endian = EnumEndianType.BigEndian,
                 Type = EnumDataType.U16,
                 Value = 0,

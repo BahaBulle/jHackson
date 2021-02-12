@@ -1,6 +1,6 @@
 ﻿{
   "actions": {
-    "incorrectAdressFormat": "{0} : Le format de la propriété '{1}' est incorrecte {2}",
+    "incorrectAdressFormat": "{0} : Le format de la propriété '{1}' est incorrecte : {2}",
     "incorrectTypeFormat": "Le format ne correspond pas à la valeur dans {0} - Valeur : {1} / Type : {2}",
     "notEnoughSpace": "Espace insuffisant dans le buffer de destination {0}/{1}"
   },

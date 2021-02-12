@@ -63,9 +63,9 @@ namespace JHackson.Binary.Actions
                     this.AddError(LocalizationManager.GetMessage("actions.incorrectTypeFormat", nameof(this.DataParameters), data.Value, data.Type));
                 }
 
-                if (!data.CheckAdress())
+                if (data.Adress == null)
                 {
-                    this.AddError(LocalizationManager.GetMessage("actions.incorrectAdressFormat", nameof(this.DataParameters), nameof(data.Adress), data.Adress));
+                    this.AddError(LocalizationManager.GetMessage("actions.incorrectAdressFormat", nameof(this.DataParameters), nameof(data.Adress), "null"));
                 }
             }
         }
@@ -86,7 +86,7 @@ namespace JHackson.Binary.Actions
             {
                 foreach (var data in this.DataParameters)
                 {
-                    binaryWriter.Seek((int)data.Adress, data.Origin);
+                    binaryWriter.Seek((int)data.Adress.Value, data.Adress.Origin);
 
                     switch (data.Type)
                     {

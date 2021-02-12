@@ -2,7 +2,7 @@
 // Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.Binary
+namespace JHackson.Core
 {
     /// <summary>
     /// Enum to indicate type of endian.

@@ -8,7 +8,9 @@ namespace JHackson.Tests.Json
     using System.IO;
     using JHackson.Binary;
     using JHackson.Binary.Actions;
+    using JHackson.Core;
     using JHackson.Image;
+    using JHackson.Text.Pointers.Common;
     using Newtonsoft.Json;
     using NUnit.Framework;
     using SkiaSharp;
@@ -25,20 +27,20 @@ namespace JHackson.Tests.Json
         public void ShouldDeserializeActionBinModify()
         {
             var json = "{" +
-                "\"DataParameters\":[{\"Adress\":\"100\",\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0}]," +
+                "\"DataParameters\":[{\"Adress\":{\"Value\":\"100\",\"Origin\":\"Begin\"},\"Endian\":\"BigEndian\",\"Type\":\"U16\",\"Value\":0}]," +
                 "\"To\":1," +
                 "\"Title\":\"Test ActionBinModify\"," +
                 "\"Todo\":true}";
 
             var result = JsonConvert.DeserializeObject<ActionBinModify>(json);
 
-            result.DataParameters.ForEach(x => x.CheckAdress());
+            //result.DataParameters.ForEach(x => x.CheckAdress());
 
             Assert.That(result.Title, Is.EqualTo("Test ActionBinModify"));
             Assert.That(result.To, Is.EqualTo(1));
             Assert.That(result.Todo, Is.EqualTo(true));
-            Assert.That(result.DataParameters[0].Adress, Is.EqualTo(100));
-            Assert.That(result.DataParameters[0].Origin, Is.EqualTo(SeekOrigin.Begin));
+            Assert.That(result.DataParameters[0].Adress.Value, Is.EqualTo(100));
+            Assert.That(result.DataParameters[0].Adress.Origin, Is.EqualTo(SeekOrigin.Begin));
             Assert.That(result.DataParameters[0].Endian, Is.EqualTo(EnumEndianType.BigEndian));
             Assert.That(result.DataParameters[0].Type, Is.EqualTo(EnumDataType.U16));
             Assert.That(result.DataParameters[0].Value, Is.EqualTo(0));
@@ -51,17 +53,17 @@ namespace JHackson.Tests.Json
         public void ShouldDeserializeDataParameters()
         {
             var json = "{" +
-                "\"Adress\":\"100\"," +
+                "\"Adress\":{\"Value\":\"100\",\"Origin\":\"Begin\"}," +
                 "\"Endian\":\"BigEndian\"," +
                 "\"Type\":\"U16\"," +
                 "\"Value\":0}";
 
             var result = JsonConvert.DeserializeObject<DataParameters>(json);
 
-            _ = result.CheckAdress();
+            //_ = result.CheckAdress();
 
-            Assert.That(result.Adress, Is.EqualTo(100));
-            Assert.That(result.Origin, Is.EqualTo(SeekOrigin.Begin));
+            Assert.That(result.Adress.Value, Is.EqualTo(100));
+            Assert.That(result.Adress.Origin, Is.EqualTo(SeekOrigin.Begin));
             Assert.That(result.Endian, Is.EqualTo(EnumEndianType.BigEndian));
             Assert.That(result.Type, Is.EqualTo(EnumDataType.U16));
             Assert.That(result.Value, Is.EqualTo(0));
@@ -102,6 +104,75 @@ namespace JHackson.Tests.Json
             Assert.That(result.Palette[1], Is.EqualTo(new SKColor(0x08, 0x52, 0x42, 0xFF)));
             Assert.That(result.Palette[2], Is.EqualTo(new SKColor(0x5A, 0x8C, 0xFF, 0xFF)));
             Assert.That(result.Palette[3], Is.EqualTo(new SKColor(0xEF, 0xEF, 0xEF, 0xFF)));
+        }
+
+        /// <summary>
+        /// Test the deserialization of a PointerParameters with an hex adress.
+        /// </summary>
+        [Test]
+        public void ShouldDeserializePointerParametersWithHexAdress()
+        {
+            var json = "{" +
+                "\"Adress\":{\"Value\":\"0xFF\", \"Origin\":\"Begin\" }," +
+                "\"Calcul\":\"X\"," +
+                "\"Endian\":\"LittleEndian\"," +
+                "\"Quantity\":2," +
+                "\"Size\":3}";
+
+            var result = JsonConvert.DeserializeObject<PointerParameters>(json);
+
+            Assert.That(result.Adress.Value, Is.EqualTo(255));
+            Assert.That(result.Adress.Origin, Is.EqualTo(SeekOrigin.Begin));
+            Assert.That(result.Calcul, Is.EqualTo("X"));
+            Assert.That(result.Endian, Is.EqualTo(EnumEndianType.LittleEndian));
+            Assert.That(result.Quantity, Is.EqualTo(2));
+            Assert.That(result.Size, Is.EqualTo(3));
+        }
+
+        /// <summary>
+        /// Test the deserialization of a PointerParameters with a long adress.
+        /// </summary>
+        [Test]
+        public void ShouldDeserializePointerParametersWithLongAdress()
+        {
+            var json = "{" +
+                "\"Adress\":{\"Value\":100, \"Origin\":\"Begin\" }," +
+                "\"Calcul\":\"X\"," +
+                "\"Endian\":\"LittleEndian\"," +
+                "\"Quantity\":2," +
+                "\"Size\":3}";
+
+            var result = JsonConvert.DeserializeObject<PointerParameters>(json);
+
+            Assert.That(result.Adress.Value, Is.EqualTo(100));
+            Assert.That(result.Adress.Origin, Is.EqualTo(SeekOrigin.Begin));
+            Assert.That(result.Calcul, Is.EqualTo("X"));
+            Assert.That(result.Endian, Is.EqualTo(EnumEndianType.LittleEndian));
+            Assert.That(result.Quantity, Is.EqualTo(2));
+            Assert.That(result.Size, Is.EqualTo(3));
+        }
+
+        /// <summary>
+        /// Test the deserialization of a PointerParameters with a string adress.
+        /// </summary>
+        [Test]
+        public void ShouldDeserializePointerParametersWithStringAdress()
+        {
+            var json = "{" +
+                "\"Adress\":{\"Value\":\"1\", \"Origin\":\"Begin\" }," +
+                "\"Calcul\":\"X\"," +
+                "\"Endian\":\"LittleEndian\"," +
+                "\"Quantity\":2," +
+                "\"Size\":3}";
+
+            var result = JsonConvert.DeserializeObject<PointerParameters>(json);
+
+            Assert.That(result.Adress.Value, Is.EqualTo(1));
+            Assert.That(result.Adress.Origin, Is.EqualTo(SeekOrigin.Begin));
+            Assert.That(result.Calcul, Is.EqualTo("X"));
+            Assert.That(result.Endian, Is.EqualTo(EnumEndianType.LittleEndian));
+            Assert.That(result.Quantity, Is.EqualTo(2));
+            Assert.That(result.Size, Is.EqualTo(3));
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ namespace JHackson.Tests.Binary
 {
     using System.Collections.Generic;
     using JHackson.Binary;
+    using JHackson.Core;
     using NUnit.Framework;
 
     /// <summary>

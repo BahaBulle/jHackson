@@ -7,6 +7,7 @@ namespace JHackson.Binary
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JHackson.Core;
 
     /// <summary>
     /// Provides a class to help to work with binary data.

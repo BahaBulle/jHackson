@@ -36,6 +36,9 @@ namespace JHackson.Binary.Actions
 
         public BufferParameters Source { get; set; }
 
+        /// <summary>
+        /// Gets or sets the identifier of the MemoryStream where save data.
+        /// </summary>
         public int? To { get; set; }
 
         public override void Check()

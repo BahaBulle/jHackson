@@ -87,10 +87,10 @@ namespace JHackson.Binary.Actions
 
                 foreach (var data in this.DataParameters.OrderBy(x => x.Adress))
                 {
-                    bytes = binaryReader.ReadBytes((int)data.Adress - (int)position);
-                    position = data.Adress;
+                    bytes = binaryReader.ReadBytes((int)data.Adress.Value - (int)position);
+                    position = data.Adress.Value;
 
-                    binaryWriter.Write(bytes, 0, (int)data.Adress);
+                    binaryWriter.Write(bytes, 0, (int)data.Adress.Value);
 
                     switch (data.Type)
                     {
