@@ -128,7 +128,7 @@ namespace JHackson.Image.Actions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            this.FileName = PluginsHelper.ReplaceVariables(context.GetVariables(), this.FileName);
+            this.FileName = context.Variables.Replace(this.FileName);
 
             base.Init(context);
         }

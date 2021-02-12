@@ -8,16 +8,33 @@ namespace JHackson.Core.Projects
     using System.IO;
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
+    using JHackson.Core.Variables;
     using JHackson.Text.Tables;
 
     public class ProjectContext : IProjectContext
     {
         private readonly Dictionary<int, object> listBuffers = new Dictionary<int, object>();
 
-        private readonly Dictionary<int, ITable> listTables = new Dictionary<int, ITable>();
+        private readonly Dictionary<string, ITable> listTables = new Dictionary<string, ITable>();
 
-        private readonly Dictionary<string, string> listVariables = new Dictionary<string, string>();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProjectContext"/> class.
+        /// </summary>
+        public ProjectContext()
+        {
+            this.Variables = new VariablesDictionary();
+        }
 
+        /// <summary>
+        /// Gets the list of variables of the project.
+        /// </summary>
+        public VariablesDictionary Variables { get; private set; }
+
+        /// <summary>
+        /// Add a buffer in the context.
+        /// </summary>
+        /// <param name="id">Id of the buffer.</param>
+        /// <param name="obj">Buffer.</param>
         public void AddBuffer(int id, object obj)
         {
             if (this.listBuffers.ContainsKey(id))
@@ -36,34 +53,38 @@ namespace JHackson.Core.Projects
             this.listBuffers.Add(id, obj);
         }
 
-        public void AddTable(int id, ITable value)
+        /// <summary>
+        /// Add a table in the context.
+        /// </summary>
+        /// <param name="name">Name of the table.</param>
+        /// <param name="value">Table.</param>
+        public void AddTable(string name, ITable value)
         {
-            if (this.listTables.ContainsKey(id))
+            if (this.listTables.ContainsKey(name))
             {
-                this.listTables[id] = null;
-                this.listTables.Remove(id);
+                this.listTables[name] = null;
+                this.listTables.Remove(name);
             }
 
-            this.listTables.Add(id, value);
+            this.listTables.Add(name, value);
         }
 
-        public void AddVariable(string name, string value)
-        {
-            if (this.listVariables.ContainsKey(name))
-            {
-                this.listVariables[name] = value;
-            }
-            else
-            {
-                this.listVariables.Add(name, value);
-            }
-        }
-
+        /// <summary>
+        /// Test existence of a buffer.
+        /// </summary>
+        /// <param name="id">Id of the buffer to test existence.</param>
+        /// <returns>True if the buffer exists, false otherwise.</returns>
         public bool BufferExists(int id)
         {
             return this.listBuffers.ContainsKey(id);
         }
 
+        /// <summary>
+        /// Get a specific buffer.
+        /// </summary>
+        /// <param name="id">Id of the buffer to get.</param>
+        /// <param name="forceCreation">Force creation of the buffer if not exists.</param>
+        /// <returns>The buffer.</returns>
         public object GetBuffer(int id, bool forceCreation = false)
         {
             if (!this.listBuffers.ContainsKey(id) && forceCreation)
@@ -78,6 +99,12 @@ namespace JHackson.Core.Projects
             return this.listBuffers[id];
         }
 
+        /// <summary>
+        /// Get a specific buffer as MemoryStream.
+        /// </summary>
+        /// <param name="id">Id of the buffer to get.</param>
+        /// <param name="forceCreation">Force creation of the buffer if not exists.</param>
+        /// <returns>The buffer as a MemoryStream.</returns>
         public MemoryStream GetBufferMemoryStream(int id, bool forceCreation = false)
         {
             if (!this.listBuffers.ContainsKey(id) && forceCreation)
@@ -98,34 +125,29 @@ namespace JHackson.Core.Projects
             return this.listBuffers[id] as MemoryStream;
         }
 
-        public ITable GetTable(int id)
+        /// <summary>
+        /// Get a specific ITable.
+        /// </summary>
+        /// <param name="name">Name of the table to get.</param>
+        /// <returns>The ITable.</returns>
+        public ITable GetTable(string name)
         {
-            if (!this.listTables.ContainsKey(id))
+            if (!this.listTables.ContainsKey(name))
             {
-                throw new JHacksonException(LocalizationManager.GetMessage("core.tableUnknow", id));
+                throw new JHacksonException(LocalizationManager.GetMessage("core.tableUnknow", name));
             }
 
-            return this.listTables[id];
+            return this.listTables[name];
         }
 
-        public string GetVariable(string name)
+        /// <summary>
+        /// Test existence of a ITable.
+        /// </summary>
+        /// <param name="name">Name of the ITable to test existence.</param>
+        /// <returns>True if the table exists, false otherwise.</returns>
+        public bool TableExists(string name)
         {
-            if (!this.listVariables.ContainsKey(name))
-            {
-                throw new JHacksonException(LocalizationManager.GetMessage("core.variableUnknow", name));
-            }
-
-            return this.listVariables[name];
-        }
-
-        public Dictionary<string, string> GetVariables()
-        {
-            return this.listVariables;
-        }
-
-        public bool TableExists(int id)
-        {
-            return this.listTables.ContainsKey(id);
+            return this.listTables.ContainsKey(name);
         }
     }
 }

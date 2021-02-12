@@ -5,7 +5,6 @@
 namespace JHackson.Core.Common
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
     using System.Text.RegularExpressions;
@@ -20,9 +19,7 @@ namespace JHackson.Core.Common
     {
         public const string INIT_MODULE_METHOD_NAME = "Init";
 
-        private const string CHARACTERVARIABLE = "$";
-
-        private static readonly Regex RegexParameter = new Regex("#([a-zA-Z0-9]+)#");
+        private static readonly Regex RegexParameter = new Regex(@"#\(([a-zA-Z0-9]+)\)");
 
         public static void LoadAction(Type elementType)
         {
@@ -119,32 +116,6 @@ namespace JHackson.Core.Common
                 if (obj.GetValue(action) != null)
                 {
                     result = result.Replace(m.Groups[0].Value, obj.GetValue(action).ToString(), StringComparison.InvariantCulture);
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Replace variables name by their values.
-        /// </summary>
-        /// <param name="variablesList">List of variables in the project.</param>
-        /// <param name="text">Text containing variables to replace.</param>
-        /// <returns>Return string with all variables replaced by their values.</returns>
-        public static string ReplaceVariables(Dictionary<string, string> variablesList, string text)
-        {
-            if (variablesList == null || string.IsNullOrWhiteSpace(text))
-            {
-                return text;
-            }
-
-            string result = text;
-
-            foreach (var variable in variablesList)
-            {
-                if (result.Contains(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE, StringComparison.InvariantCulture))
-                {
-                    result = result.Replace(CHARACTERVARIABLE + variable.Key + CHARACTERVARIABLE, variable.Value, StringComparison.InvariantCulture);
                 }
             }
 

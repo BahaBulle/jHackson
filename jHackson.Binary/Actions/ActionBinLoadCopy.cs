@@ -8,7 +8,6 @@ namespace JHackson.Binary.Actions
     using System.Globalization;
     using System.IO;
     using JHackson.Core.Actions;
-    using JHackson.Core.Common;
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
     using JHackson.Core.Projects;
@@ -18,6 +17,9 @@ namespace JHackson.Binary.Actions
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionBinLoadCopy"/> class.
+        /// </summary>
         public ActionBinLoadCopy()
         {
             this.Name = "BinLoadCopy";
@@ -32,6 +34,9 @@ namespace JHackson.Binary.Actions
 
         public BufferParameters Destination { get; set; }
 
+        /// <summary>
+        /// Gets or sets the file to load.
+        /// </summary>
         public string FileName { get; set; }
 
         public BufferParameters Source { get; set; }
@@ -41,6 +46,9 @@ namespace JHackson.Binary.Actions
         /// </summary>
         public int? To { get; set; }
 
+        /// <summary>
+        /// Check errors in parameters.
+        /// </summary>
         public override void Check()
         {
             if (string.IsNullOrWhiteSpace(this.FileName) || !File.Exists(this.FileName))
@@ -54,6 +62,9 @@ namespace JHackson.Binary.Actions
             }
         }
 
+        /// <summary>
+        /// Execute the process of this action.
+        /// </summary>
         public override void Execute()
         {
             if (this.Title != null)
@@ -99,6 +110,10 @@ namespace JHackson.Binary.Actions
             }
         }
 
+        /// <summary>
+        /// Initialize this action.
+        /// </summary>
+        /// <param name="context">Context of the project.</param>
         public override void Init(IProjectContext context)
         {
             if (context == null)
@@ -106,7 +121,7 @@ namespace JHackson.Binary.Actions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            this.FileName = PluginsHelper.ReplaceVariables(context.GetVariables(), this.FileName);
+            this.FileName = context.Variables.Replace(this.FileName);
 
             base.Init(context);
 

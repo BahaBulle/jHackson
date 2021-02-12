@@ -8,7 +8,6 @@ namespace JHackson.Binary.Actions
     using System.Globalization;
     using System.IO;
     using JHackson.Core.Actions;
-    using JHackson.Core.Common;
     using JHackson.Core.Localization;
     using JHackson.Core.Projects;
     using NLog;
@@ -90,7 +89,7 @@ namespace JHackson.Binary.Actions
                 throw new ArgumentNullException(nameof(context));
             }
 
-            this.FileName = PluginsHelper.ReplaceVariables(context.GetVariables(), this.FileName);
+            this.FileName = context.Variables.Replace(this.FileName);
 
             base.Init(context);
         }

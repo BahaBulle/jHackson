@@ -50,7 +50,6 @@ namespace JHackson
             container.RegisterType<ISerializationService, SerializationService>();
 
             container.RegisterType<ActionJsonConverter>();
-            container.RegisterType<VariableJsonConverter>();
             container.RegisterType<Batch>();
             container.RegisterType<UnityContractResolver>();
         }

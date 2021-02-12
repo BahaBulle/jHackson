@@ -43,7 +43,6 @@
             containerRegistry.Register<ISerializationService, SerializationService>();
 
             containerRegistry.Register<ActionJsonConverter>();
-            containerRegistry.Register<VariableJsonConverter>();
             containerRegistry.Register<UnityContractResolver>();
         }
 
