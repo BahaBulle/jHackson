@@ -68,12 +68,10 @@ namespace JHackson.Binary.Actions
                 Logger.Info(this.Title);
             }
 
-#pragma warning disable CA2000 // Supprimer les objets avant la mise hors de portée
             var ms = new MemoryStream(File.ReadAllBytes(this.FileName))
             {
                 Position = 0,
             };
-#pragma warning restore CA2000 // Supprimer les objets avant la mise hors de portée
 
             this.Context.AddBuffer(this.To.Value, ms);
         }

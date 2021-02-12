@@ -15,29 +15,26 @@ namespace JHackson.Core.Variables
 
         private readonly Dictionary<string, string> listVariables = new Dictionary<string, string>();
 
-        // Gets the number
+        /// <inheritdoc/>
         public int Count => this.listVariables.Count;
 
+        /// <inheritdoc/>
         public bool IsReadOnly => ((IDictionary<string, string>)this.listVariables).IsReadOnly;
 
+        /// <inheritdoc/>
         public ICollection<string> Keys => this.listVariables.Keys;
 
+        /// <inheritdoc/>
         public ICollection<string> Values => this.listVariables.Values;
 
+        /// <inheritdoc/>
         public string this[string key]
         {
             get => this.listVariables[key];
             set => this.listVariables[key] = value;
         }
 
-        /// <summary>
-        /// Adds an element with the provided key and value to the System.Collections.Generic.IDictionary`2.
-        /// </summary>
-        /// <param name="key">The object to use as the key of the element to add.</param>
-        /// <param name="value">The object to use as the value of the element to add.</param>
-        /// <exception cref="ArgumentNullException">Key is null.</exception>
-        /// <exception cref="ArgumentException">An element with the same key already exists in the System.Collections.Generic.IDictionary`2.</exception>
-        /// <exception cref="NotSupportedException">The System.Collections.Generic.IDictionary`2 is read-only.</exception>
+        /// <inheritdoc/>
         public void Add(string key, string value)
         {
             if (this.listVariables.ContainsKey(key))
@@ -50,6 +47,7 @@ namespace JHackson.Core.Variables
             }
         }
 
+        /// <inheritdoc/>
         public void Add(KeyValuePair<string, string> item)
         {
             if (this.Contains(item))
@@ -62,40 +60,49 @@ namespace JHackson.Core.Variables
             }
         }
 
+        /// <inheritdoc/>
         public void Clear()
         {
             this.listVariables.Clear();
         }
 
+        /// <inheritdoc/>
         public bool Contains(KeyValuePair<string, string> item)
         {
             return ((IDictionary<string, string>)this.listVariables).Contains(item);
         }
 
+        /// <inheritdoc/>
         public bool ContainsKey(string key)
         {
             return this.listVariables.ContainsKey(key);
         }
 
+        /// <inheritdoc/>
         public void CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
         {
+            throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
             return ((IDictionary<string, string>)this.listVariables).GetEnumerator();
         }
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.listVariables.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         public bool Remove(string key)
         {
             return this.listVariables.Remove(key);
         }
 
+        /// <inheritdoc/>
         public bool Remove(KeyValuePair<string, string> item)
         {
             return ((IDictionary<string, string>)this.listVariables).Remove(item);
@@ -126,6 +133,7 @@ namespace JHackson.Core.Variables
             return result;
         }
 
+        /// <inheritdoc/>
         public bool TryGetValue(string key, [MaybeNullWhen(false)] out string value)
         {
             return this.listVariables.TryGetValue(key, out value);
