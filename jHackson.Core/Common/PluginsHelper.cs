@@ -17,10 +17,14 @@ namespace JHackson.Core.Common
     /// </summary>
     public static class PluginsHelper
     {
-        public const string INIT_MODULE_METHOD_NAME = "Init";
+        internal const string INIT_MODULE_METHOD_NAME = "Init";
 
         private static readonly Regex RegexParameter = new Regex(@"#\(([a-zA-Z0-9]+)\)");
 
+        /// <summary>
+        /// Load an Action in the DataContext.
+        /// </summary>
+        /// <param name="elementType">Type of the Action to load.</param>
         public static void LoadAction(Type elementType)
         {
             if (elementType == null)
@@ -42,6 +46,10 @@ namespace JHackson.Core.Common
             }
         }
 
+        /// <summary>
+        /// Load a file format in the DataContext.
+        /// </summary>
+        /// <param name="elementType">Type of the file format to load.</param>
         public static void LoadFileFormat(Type elementType)
         {
             if (elementType == null)
@@ -64,7 +72,7 @@ namespace JHackson.Core.Common
         }
 
         /// <summary>
-        /// Load plugins in "Plugins" directory.
+        /// Load "plugins" present in this assembly.
         /// </summary>
         public static void LoadPlugins()
         {
@@ -90,6 +98,10 @@ namespace JHackson.Core.Common
             }
         }
 
+        /// <summary>
+        /// Load a table element in the DataContext.
+        /// </summary>
+        /// <param name="elementType">Type of the table element to load.</param>
         public static void LoadTableElement(Type elementType)
         {
             var element = (ITableElement)elementType.InvokeMember(

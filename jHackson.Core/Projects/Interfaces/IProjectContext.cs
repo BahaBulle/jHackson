@@ -8,6 +8,9 @@ namespace JHackson.Core.Projects
     using JHackson.Core.Tables;
     using JHackson.Core.Variables;
 
+    /// <summary>
+    /// Provides a class to stock loading datas in the project context.
+    /// </summary>
     public interface IProjectContext
     {
         /// <summary>

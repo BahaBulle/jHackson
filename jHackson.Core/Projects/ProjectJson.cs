@@ -15,9 +15,7 @@ namespace JHackson.Core.Projects
     using Newtonsoft.Json;
     using NLog;
 
-    /// <summary>
-    /// Provides a class that represent a project.
-    /// </summary>
+    /// <inheritdoc/>
     public class ProjectJson : IProjectJson
     {
         private const string VERSION = "0.9";

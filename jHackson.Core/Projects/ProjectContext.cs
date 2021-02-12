@@ -8,6 +8,7 @@ namespace JHackson.Core.Projects
     using JHackson.Core.Tables;
     using JHackson.Core.Variables;
 
+    /// <inheritdoc/>
     public class ProjectContext : IProjectContext
     {
         /// <summary>

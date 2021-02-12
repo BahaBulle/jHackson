@@ -9,7 +9,7 @@ namespace JHackson.Core.Projects
     using JHackson.Core.Variables;
 
     /// <summary>
-    /// Provides an interface that represent a project.
+    /// Provides an class that represent a project.
     /// </summary>
     public interface IProjectJson
     {
