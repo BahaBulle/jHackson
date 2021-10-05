@@ -15,15 +15,19 @@ namespace JHackson.Core.Json.JsonConverters
 
     public class PluginJsonConverter : JsonConverter
     {
+        /// <inheritdoc/>
         public override bool CanRead => true;
 
+        /// <inheritdoc/>
         public override bool CanWrite => false;
 
+        /// <inheritdoc/>
         public override bool CanConvert(Type objectType)
         {
             return true;
         }
 
+        /// <inheritdoc/>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             if (serializer == null)
@@ -58,6 +62,7 @@ namespace JHackson.Core.Json.JsonConverters
             return list;
         }
 
+        /// <inheritdoc/>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             throw new InvalidOperationException(LocalizationManager.GetMessage("core.serialization.serializationError"));

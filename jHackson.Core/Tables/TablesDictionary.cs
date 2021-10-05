@@ -12,6 +12,9 @@ namespace JHackson.Core.Tables
     using JHackson.Core.Localization;
     using JHackson.Text.Tables;
 
+    /// <summary>
+    /// Representes o collection of Table.
+    /// </summary>
     public class TablesDictionary : IDictionary<string, ITable>
     {
         private readonly Dictionary<string, ITable> listTables = new Dictionary<string, ITable>();

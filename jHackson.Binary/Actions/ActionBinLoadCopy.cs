@@ -21,6 +21,7 @@ namespace JHackson.Binary.Actions
         /// Initializes a new instance of the <see cref="ActionBinLoadCopy"/> class.
         /// </summary>
         public ActionBinLoadCopy()
+            : base()
         {
             this.Name = "BinLoadCopy";
             this.Title = null;

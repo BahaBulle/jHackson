@@ -27,6 +27,7 @@ namespace JHackson.Binary.Actions
         /// Initializes a new instance of the <see cref="ActionBinInsert" /> class.
         /// </summary>
         public ActionBinInsert()
+            : base()
         {
             this.Name = "BinInsert";
             this.Title = null;

@@ -16,6 +16,7 @@ namespace JHackson.Core.Actions
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ActionGroup()
+            : base()
         {
             this.Name = "Group";
             this.Title = null;

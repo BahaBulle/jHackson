@@ -25,6 +25,7 @@ namespace JHackson.Image.Actions
         /// Initializes a new instance of the <see cref="ActionImgSave" /> class.
         /// </summary>
         public ActionImgSave()
+            : base()
         {
             this.Name = "ImgSave";
             this.Title = null;

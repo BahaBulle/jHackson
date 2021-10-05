@@ -22,6 +22,7 @@ namespace JHackson.StarOcean.Actions
         /// Initializes a new instance of the <see cref="ActionSDD1Compression"/> class.
         /// </summary>
         public ActionSDD1Compression()
+            : base()
         {
             this.Name = "SNES-SO-SDD1-C";
             this.Title = null;

@@ -19,7 +19,11 @@ namespace JHackson.Binary.Actions
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionBinCopy"/> class.
+        /// </summary>
         public ActionBinCopy()
+            : base()
         {
             this.Name = "BinCopy";
             this.Title = null;
@@ -33,10 +37,16 @@ namespace JHackson.Binary.Actions
 
         public BufferParameters Destination { get; set; }
 
+        /// <summary>
+        /// Gets or sets the identifier of the memorystream where read datas.
+        /// </summary>
         public int? From { get; set; }
 
         public BufferParameters Source { get; set; }
 
+        /// <summary>
+        /// Gets or sets the identifier of the memorystream where load the file.
+        /// </summary>
         public int? To { get; set; }
 
         /// <inheritdoc/>
@@ -96,6 +106,10 @@ namespace JHackson.Binary.Actions
             msDest.Write(bytes, 0, (int)this.Source.Size.Value);
         }
 
+        /// <summary>
+        /// Initialize this action.
+        /// </summary>
+        /// <param name="context">Context of the project.</param>
         public override void Init(IProjectContext context)
         {
             base.Init(context);

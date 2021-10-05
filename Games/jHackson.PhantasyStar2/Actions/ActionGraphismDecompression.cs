@@ -24,6 +24,7 @@ namespace JHackson.PhantasyStar2.Actions
         /// Initializes a new instance of the <see cref="ActionGraphismDecompression"/> class.
         /// </summary>
         public ActionGraphismDecompression()
+            : base()
         {
             this.Name = "GEN-PS2-D";
             this.Title = null;

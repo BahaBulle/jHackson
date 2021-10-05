@@ -25,6 +25,7 @@ namespace JHackson.Image.Actions
         /// Initializes a new instance of the <see cref="ActionBmpLoad"/> class.
         /// </summary>
         public ActionBmpLoad()
+            : base()
         {
             this.Name = "BmpLoad";
             this.Title = null;
