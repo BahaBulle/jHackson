@@ -9,24 +9,20 @@
     <Copyright>BahaBulle © 2020</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
-    <RootNamespace>JHackson.Text</RootNamespace>
+    <RootNamespace>JHackson.Text.Pointers</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>..\Build\bin\Debug\jHackson.Text\jHackson.Text.xml</DocumentationFile>
+    <DocumentationFile>..\Build\bin\Debug\jHackson.Text.Pointers\jHackson.Text.Pointers.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\Build\bin\Release\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;" />
-  </Target>
 
   <ItemGroup>
     <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
@@ -42,7 +38,20 @@
 
   <ItemGroup>
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
-    <ProjectReference Include="..\jHackson.Text.Pointers\jHackson.Text.Pointers.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Json\Converters\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Localization\Text.Pointers_fr-FR.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(ProjectName).dll&quot; &quot;$(TargetDir)..\jHackson\Plugins\$(ProjectName).dll&quot;&#xD;&#xA;copy /Y &quot;$(TargetDir)\Localization\Text.Pointers_fr-FR.json&quot; &quot;$(TargetDir)..\jHackson\Localization\Text.Pointers_fr-FR.json&quot;" />
+  </Target>
 
 </Project>

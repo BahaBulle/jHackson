@@ -1,0 +1,7 @@
+{
+  "text": {
+    "pointers": {
+      "incorrectAdressFormat": "{0} : Le format de la propriété '{1}' est incorrecte : {2}"
+    }
+  }
+}

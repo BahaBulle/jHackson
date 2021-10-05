@@ -12,6 +12,9 @@ namespace JHackson.Text.Tables
     using JHackson.Core.Projects;
     using NLog;
 
+    /// <summary>
+    /// Provides a class that allows to load a table file in memory.
+    /// </summary>
     public class ActionTableLoad : ActionBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -20,6 +23,7 @@ namespace JHackson.Text.Tables
         /// Initializes a new instance of the <see cref="ActionTableLoad"/> class.
         /// </summary>
         public ActionTableLoad()
+            : base()
         {
             this.Name = "TableLoad";
             this.Title = null;
@@ -35,6 +39,9 @@ namespace JHackson.Text.Tables
         /// </summary>
         public string Alias { get; set; }
 
+        /// <summary>
+        /// Gets or sets the information to know if the ascii table is extend or not.
+        /// </summary>
         public bool? Extend { get; set; }
 
         /// <summary>
@@ -47,7 +54,7 @@ namespace JHackson.Text.Tables
         /// </summary>
         public override void Check()
         {
-            if (string.IsNullOrWhiteSpace(this.FileName) || (this.FileName.ToUpper(CultureInfo.InvariantCulture) != Table.LabelTableAscii && !File.Exists(this.FileName)))
+            if (string.IsNullOrWhiteSpace(this.FileName) || (this.FileName.ToUpper(CultureInfo.InvariantCulture) != Table.LABEL_TABLE_ASCII && !File.Exists(this.FileName)))
             {
                 this.AddError(LocalizationManager.GetMessage("core.parameterNotFound", this.FileName, this.FileName ?? "null"));
             }
@@ -70,9 +77,9 @@ namespace JHackson.Text.Tables
 
             var tbl = new Table();
 
-            if (this.FileName.ToUpper(CultureInfo.InvariantCulture) == Table.LabelTableAscii)
+            if (this.FileName.ToUpper(CultureInfo.InvariantCulture) == Table.LABEL_TABLE_ASCII)
             {
-                tbl.LoadStdAscii(this.Extend);
+                tbl.LoadStandardAscii(this.Extend);
             }
             else
             {

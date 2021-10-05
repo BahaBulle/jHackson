@@ -24,7 +24,7 @@ namespace JHackson.Tests.Tables
         {
             var tbl = new Table();
 
-            tbl.LoadStdAscii(true);
+            tbl.LoadStandardAscii(true);
 
             Assert.That(225, Is.EqualTo(tbl.Count));
         }
@@ -34,7 +34,7 @@ namespace JHackson.Tests.Tables
         {
             var tbl = new Table();
 
-            tbl.LoadStdAscii(null);
+            tbl.LoadStandardAscii(null);
 
             Assert.That(97, Is.EqualTo(tbl.Count));
         }

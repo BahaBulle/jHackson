@@ -11,6 +11,7 @@ namespace JHackson.Tests.Json
     using JHackson.Core;
     using JHackson.Core.Common;
     using JHackson.Image;
+    using JHackson.Text.Pointers.Common;
     using Newtonsoft.Json;
     using NUnit.Framework;
     using SkiaSharp;
@@ -186,6 +187,35 @@ namespace JHackson.Tests.Json
             parameters.Palette.Add(new SKColor(0x08, 0x52, 0x42, 0xFF));
             parameters.Palette.Add(new SKColor(0x5A, 0x8C, 0xFF, 0xFF));
             parameters.Palette.Add(new SKColor(0xEF, 0xEF, 0xEF, 0xFF));
+
+            var result = JsonConvert.SerializeObject(parameters);
+
+            Assert.That(expected, Is.EqualTo(result));
+        }
+
+        /// <summary>
+        /// Test the serialization of a PointerParameters.
+        /// </summary>
+        [Test]
+        public void ShouldSerializePointerParameters()
+        {
+            var expected = "{" +
+                "\"Adress\":{" +
+                    "\"Origin\":\"Begin\"," +
+                    "\"Value\":\"0x64\"}," +
+                "\"Calcul\":\"X\"," +
+                "\"Endian\":\"LittleEndian\"," +
+                "\"Quantity\":2," +
+                "\"Size\":3}";
+
+            var parameters = new PointerParameters()
+            {
+                Adress = new Adress() { Value = 100, Origin = SeekOrigin.Begin },
+                Calcul = "X",
+                Endian = EnumEndianType.LittleEndian,
+                Quantity = 2,
+                Size = 3,
+            };
 
             var result = JsonConvert.SerializeObject(parameters);
 

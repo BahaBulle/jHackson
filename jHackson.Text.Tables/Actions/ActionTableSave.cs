@@ -10,6 +10,9 @@ namespace JHackson.Text.Tables
     using JHackson.Core.Projects;
     using NLog;
 
+    /// <summary>
+    /// Provides a class that allows to save a table file.
+    /// </summary>
     public class ActionTableSave : ActionBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -18,6 +21,7 @@ namespace JHackson.Text.Tables
         /// Initializes a new instance of the <see cref="ActionTableSave"/> class.
         /// </summary>
         public ActionTableSave()
+            : base()
         {
             this.Name = "TableSave";
             this.Title = null;

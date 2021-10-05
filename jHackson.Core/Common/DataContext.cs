@@ -11,6 +11,7 @@ namespace JHackson.Core.Common
     using JHackson.Core.FileFormat;
     using JHackson.Core.Localization;
     using JHackson.Core.TableElements;
+    using JHackson.Core.TextFormat;
 
     /// <summary>
     /// Class that contains all possible class from plugins.
@@ -36,6 +37,11 @@ namespace JHackson.Core.Common
         /// List of possible table elements.
         /// </summary>
         private static readonly Dictionary<string, Type> ListTableElements = new Dictionary<string, Type>();
+
+        /// <summary>
+        /// List of possible text formats.
+        /// </summary>
+        private static readonly Dictionary<string, Type> ListTextFormats = new Dictionary<string, Type>();
 
         /// <summary>
         /// Add Type of action in the dictionary of possible actions.
@@ -118,18 +124,35 @@ namespace JHackson.Core.Common
         }
 
         /// <summary>
+        /// Add text format in the dictionary of possible text formats.
+        /// </summary>
+        /// <param name="name">Name of the format.</param>
+        /// <param name="type">Type of the format.</param>
+        public static void AddTextFormat(string name, Type type)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.textFormatNotSpecified"));
+            }
+
+            if (ListTextFormats.ContainsKey(name.ToLower(CultureInfo.CurrentCulture)))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.textFormatAlreadyExists", name));
+            }
+
+            ListTextFormats.Add(name.ToLower(CultureInfo.CurrentCulture), type);
+        }
+
+        /// <summary>
         /// Check if the file format exists in the dictionary.
         /// </summary>
         /// <param name="key">Name of the file format.</param>
         /// <returns>Returns true if exists, false otherwise.</returns>
         public static bool FileFormatExists(string key)
         {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new JHacksonException(LocalizationManager.GetMessage("core.formatNotSpecified"));
-            }
-
-            return ListFileFormats.ContainsKey(key.ToLower(CultureInfo.CurrentCulture));
+            return string.IsNullOrWhiteSpace(key)
+                ? throw new JHacksonException(LocalizationManager.GetMessage("core.formatNotSpecified"))
+                : ListFileFormats.ContainsKey(key.ToLower(CultureInfo.CurrentCulture));
         }
 
         /// <summary>
@@ -200,6 +223,35 @@ namespace JHackson.Core.Common
         public static Dictionary<string, Type> GetTableElements()
         {
             return ListTableElements;
+        }
+
+        /// <summary>
+        /// Get an instance of a TextFormat.
+        /// </summary>
+        /// <param name="key">Name of the TextFormat.</param>
+        /// <returns>An instance of the TextFormat.</returns>
+        public static ITextFormat GetTextFormat(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new JHacksonException(LocalizationManager.GetMessage("core.textFormatNotSpecified"));
+            }
+
+            return ListTextFormats.ContainsKey(key.ToLower(CultureInfo.CurrentCulture))
+                ? Activator.CreateInstance(ListTextFormats[key.ToLower(CultureInfo.CurrentCulture)]) as ITextFormat
+                : null;
+        }
+
+        /// <summary>
+        /// Check if the text format exists in the dictionary.
+        /// </summary>
+        /// <param name="key">Name of the text format.</param>
+        /// <returns>True if exists, false otherwise.</returns>
+        public static bool TextFormatExists(string key)
+        {
+            return string.IsNullOrWhiteSpace(key)
+                ? throw new JHacksonException(LocalizationManager.GetMessage("core.formatNotSpecified"))
+                : ListTextFormats.ContainsKey(key.ToLower(CultureInfo.CurrentCulture));
         }
     }
 }

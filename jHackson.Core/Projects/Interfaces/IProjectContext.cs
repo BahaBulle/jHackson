@@ -5,6 +5,7 @@
 namespace JHackson.Core.Projects
 {
     using JHackson.Core.Buffers;
+    using JHackson.Core.PointersTable;
     using JHackson.Core.Tables;
     using JHackson.Core.Variables;
 
@@ -17,6 +18,11 @@ namespace JHackson.Core.Projects
         /// Gets the list of buffers of the project.
         /// </summary>
         BuffersDictionary Buffers { get; }
+
+        /// <summary>
+        /// Gets the list of pointers tables loaded for the project.
+        /// </summary>
+        PointersTableDictionary PointersTables { get; }
 
         /// <summary>
         /// Gets the list of tables loaded for the project.

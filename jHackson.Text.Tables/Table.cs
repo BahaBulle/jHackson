@@ -12,14 +12,21 @@ namespace JHackson.Text.Tables
     using JHackson.Core.Exceptions;
     using JHackson.Core.Localization;
 
+    /// <summary>
+    /// Represents a table of element to convert text in binary or vice versa.
+    /// </summary>
     public class Table : ITable
     {
-        public const string LabelTableAscii = "ASCII";
+        public const string LABEL_TABLE_ASCII = "ascii";
 
         private readonly Encoding encode;
 
         private readonly TableValueCollection valueCollection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Table"/> class.
+        /// </summary>
+        /// <param name="encoding">Encoding of file.</param>
         public Table(string encoding = null)
             : this()
         {
@@ -53,6 +60,10 @@ namespace JHackson.Text.Tables
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Table"/> class.
+        /// </summary>
+        /// <param name="encoding">Encoding of file.</param>
         public Table(Encoding encoding)
             : this()
         {
@@ -64,17 +75,21 @@ namespace JHackson.Text.Tables
             this.valueCollection = new TableValueCollection();
         }
 
+        /// <inheritdoc/>
         public int Count => this.valueCollection.Count;
 
+        /// <inheritdoc/>
         public string Name { get; private set; }
 
+        /// <inheritdoc/>
         public bool WarningAsErrors { get; set; }
 
+        /// <inheritdoc/>
         public void Load(List<string> list)
         {
             if (list != null)
             {
-                foreach (var line in list)
+                foreach (string line in list)
                 {
                     if (string.IsNullOrWhiteSpace(line))
                     {
@@ -86,10 +101,7 @@ namespace JHackson.Text.Tables
             }
         }
 
-        /// <summary>
-        /// Load a tbl file in memory.
-        /// </summary>
-        /// <param name="filename">Filename of the tbl file.</param>
+        /// <inheritdoc/>
         public void Load(string filename)
         {
             if (!File.Exists(filename))
@@ -105,10 +117,7 @@ namespace JHackson.Text.Tables
             }
         }
 
-        /// <summary>
-        /// Load a tbl file in memory.
-        /// </summary>
-        /// <param name="reader">Reader of the tbl file.</param>
+        /// <inheritdoc/>
         public void Load(StreamReader reader)
         {
             if (reader == null)
@@ -118,7 +127,7 @@ namespace JHackson.Text.Tables
 
             while (reader.Peek() >= 0)
             {
-                var line = reader.ReadLine();
+                string line = reader.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(line))
                 {
@@ -129,9 +138,10 @@ namespace JHackson.Text.Tables
             }
         }
 
-        public bool LoadStdAscii(bool? extend)
+        /// <inheritdoc/>
+        public void LoadStandardAscii(bool? extend)
         {
-            this.Name = "ascii";
+            this.Name = LABEL_TABLE_ASCII;
 
             this.Add(@"0A=\n");
 
@@ -147,10 +157,9 @@ namespace JHackson.Text.Tables
                     this.Add(i.ToString("X", CultureInfo.InvariantCulture) + "=" + Convert.ToChar(i));
                 }
             }
-
-            return true;
         }
 
+        /// <inheritdoc/>
         public void Save(string filename = null)
         {
             if (string.IsNullOrWhiteSpace(filename))
