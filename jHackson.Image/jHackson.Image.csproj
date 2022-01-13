@@ -16,7 +16,7 @@
     <OutputPath>..\Build\bin\Debug\$(MSBuildProjectName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>..\Build\bin\Debug\jHackson.Image\jHackson.Image.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -26,8 +26,8 @@
 
   <ItemGroup>
     <PackageReference Include="BmpSharp" Version="0.2.0" />
-    <PackageReference Include="NLog" Version="4.7.7" />
-    <PackageReference Include="SkiaSharp" Version="2.80.2" />
+    <PackageReference Include="NLog" Version="4.7.13" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
