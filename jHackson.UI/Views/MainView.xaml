@@ -14,6 +14,14 @@
     <Grid>
         <Menu>
             <MenuItem Header="Fichier">
+                <MenuItem Header="Nouveau">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <prism:InvokeCommandAction Command="{Binding NewCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+                <Separator />
                 <MenuItem Header="Quitter">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
