@@ -13,8 +13,8 @@
     mc:Ignorable="d">
     <Grid>
         <Menu>
-            <MenuItem Header="Fichier">
-                <MenuItem Header="Nouveau">
+            <MenuItem Header="File">
+                <MenuItem Header="New">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <prism:InvokeCommandAction Command="{Binding NewCommand}" />
@@ -22,7 +22,15 @@
                     </i:Interaction.Triggers>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Quitter">
+                <MenuItem Header="Save">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <prism:InvokeCommandAction Command="{Binding SaveCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Quit">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <prism:InvokeCommandAction Command="{Binding QuitCommand}" />
