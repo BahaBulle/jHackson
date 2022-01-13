@@ -23,11 +23,14 @@ namespace JHackson.UI.ViewModels
             this.serializationService = serializationService;
 
             this.NewCommand = new DelegateCommand(this.New);
+            this.OpenCommand = new DelegateCommand(this.Open);
             this.QuitCommand = new DelegateCommand(this.Quit);
             this.SaveCommand = new DelegateCommand(this.Save);
         }
 
         public DelegateCommand NewCommand { get; private set; }
+
+        public DelegateCommand OpenCommand { get; private set; }
 
         public DelegateCommand QuitCommand { get; private set; }
 
@@ -45,6 +48,22 @@ namespace JHackson.UI.ViewModels
             }
 
             this.project = new ProjectJson();
+        }
+
+        private void Open()
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "jHackson project (.json)|*.json",
+            };
+
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                this.projectPath = openFileDialog.FileName;
+                this.project = this.serializationService.Deserialize(this.projectPath);
+            }
         }
 
         private void Quit()
