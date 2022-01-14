@@ -25,7 +25,8 @@ namespace JHackson.UI.ViewModels
             this.NewCommand = new DelegateCommand(this.New);
             this.OpenCommand = new DelegateCommand(this.Open);
             this.QuitCommand = new DelegateCommand(this.Quit);
-            this.SaveCommand = new DelegateCommand(this.Save);
+            this.SaveCommand = new DelegateCommand(this.Save, this.CanSave);
+            this.SaveAsCommand = new DelegateCommand(this.SaveAs, this.CanSave);
         }
 
         public DelegateCommand NewCommand { get; private set; }
@@ -34,7 +35,14 @@ namespace JHackson.UI.ViewModels
 
         public DelegateCommand QuitCommand { get; private set; }
 
+        public DelegateCommand SaveAsCommand { get; private set; }
+
         public DelegateCommand SaveCommand { get; private set; }
+
+        private bool CanSave()
+        {
+            return this.project != null;
+        }
 
         private void New()
         {
@@ -48,6 +56,8 @@ namespace JHackson.UI.ViewModels
             }
 
             this.project = new ProjectJson();
+            this.SaveCommand.RaiseCanExecuteChanged();
+            this.SaveAsCommand.RaiseCanExecuteChanged();
         }
 
         private void Open()
@@ -96,6 +106,25 @@ namespace JHackson.UI.ViewModels
 
             if (saveConfirmed)
             {
+                this.project.Game = "test";
+                this.serializationService.Serialize(this.project, this.projectPath);
+            }
+        }
+
+        private void SaveAs()
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                FileName = this.project.Game,
+                DefaultExt = ".json",
+                Filter = "jHackson project (.json)|*.json"
+            };
+
+            bool? result = saveFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                this.projectPath = saveFileDialog.FileName;
                 this.project.Game = "test";
                 this.serializationService.Serialize(this.project, this.projectPath);
             }

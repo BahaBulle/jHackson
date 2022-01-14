@@ -24,6 +24,10 @@
             Command="{Binding Path=SaveCommand}"
             Modifiers="Ctrl" />
         <KeyBinding
+            Key="S"
+            Command="{Binding Path=SaveAsCommand}"
+            Modifiers="Shift+Ctrl" />
+        <KeyBinding
             Key="F4"
             Command="{Binding Path=QuitCommand}"
             Modifiers="Alt" />
@@ -44,6 +48,10 @@
                     Command="{Binding SaveCommand}"
                     Header="Save"
                     InputGestureText="Ctrl+S" />
+                <MenuItem
+                    Command="{Binding SaveAsCommand}"
+                    Header="Save As..."
+                    InputGestureText="Shift+Ctrl+S" />
                 <Separator />
                 <MenuItem
                     Command="{Binding QuitCommand}"
