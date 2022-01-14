@@ -4,46 +4,51 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="jHackson"
     Width="800"
     Height="450"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding
+            Key="N"
+            Command="{Binding Path=NewCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="O"
+            Command="{Binding Path=OpenCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="S"
+            Command="{Binding Path=SaveCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="F4"
+            Command="{Binding Path=QuitCommand}"
+            Modifiers="Alt" />
+    </Window.InputBindings>
     <Grid>
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="New">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <prism:InvokeCommandAction Command="{Binding NewCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
-                <MenuItem Header="Open">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <prism:InvokeCommandAction Command="{Binding OpenCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
+                <MenuItem
+                    Command="{Binding NewCommand}"
+                    Header="New"
+                    InputGestureText="Ctrl+N" />
+                <MenuItem
+                    Command="{Binding OpenCommand}"
+                    Header="Open"
+                    InputGestureText="Ctrl+O" />
                 <Separator />
-                <MenuItem Header="Save">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <prism:InvokeCommandAction Command="{Binding SaveCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
+                <MenuItem
+                    Command="{Binding SaveCommand}"
+                    Header="Save"
+                    InputGestureText="Ctrl+S" />
                 <Separator />
-                <MenuItem Header="Quit">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <prism:InvokeCommandAction Command="{Binding QuitCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </MenuItem>
+                <MenuItem
+                    Command="{Binding QuitCommand}"
+                    Header="Quit"
+                    InputGestureText="Alt+F4" />
             </MenuItem>
         </Menu>
     </Grid>

@@ -77,7 +77,8 @@ namespace JHackson.UI.ViewModels
 
             if (string.IsNullOrWhiteSpace(this.projectPath))
             {
-                // TODO : Open select file dialog
+                saveConfirmed = false;
+
                 var saveFileDialog = new SaveFileDialog
                 {
                     FileName = this.project.Game,
@@ -90,10 +91,6 @@ namespace JHackson.UI.ViewModels
                 if (result == true)
                 {
                     this.projectPath = saveFileDialog.FileName;
-                }
-                else
-                {
-                    saveConfirmed = false;
                 }
             }
 
