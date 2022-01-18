@@ -9,14 +9,19 @@ namespace JHackson.UI.ViewModels
     using JHackson.Core.Services;
     using Microsoft.Win32;
     using Prism.Commands;
+    using Prism.Mvvm;
 
-    public class MainViewModel
+    public class MainViewModel : BindableBase
     {
+        private const string TITLE_BASE = "jHackson";
+
         private readonly ISerializationService serializationService;
 
         private IProjectJson project;
 
         private string projectPath;
+
+        private string title;
 
         public MainViewModel(ISerializationService serializationService)
         {
@@ -27,6 +32,8 @@ namespace JHackson.UI.ViewModels
             this.QuitCommand = new DelegateCommand(this.Quit);
             this.SaveCommand = new DelegateCommand(this.Save, this.CanSave);
             this.SaveAsCommand = new DelegateCommand(this.SaveAs, this.CanSave);
+
+            this.UpdateTitle();
         }
 
         public DelegateCommand NewCommand { get; private set; }
@@ -39,6 +46,12 @@ namespace JHackson.UI.ViewModels
 
         public DelegateCommand SaveCommand { get; private set; }
 
+        public string Title
+        {
+            get => this.title;
+            set => this.SetProperty(ref this.title, value);
+        }
+
         private bool CanSave()
         {
             return this.project != null;
@@ -48,7 +61,7 @@ namespace JHackson.UI.ViewModels
         {
             if (this.project != null)
             {
-                // TODO : Save the project
+                // TODO : Save the project ?
 
                 this.project = null;
 
@@ -58,6 +71,8 @@ namespace JHackson.UI.ViewModels
             this.project = new ProjectJson();
             this.SaveCommand.RaiseCanExecuteChanged();
             this.SaveAsCommand.RaiseCanExecuteChanged();
+
+            this.UpdateTitle();
         }
 
         private void Open()
@@ -73,6 +88,8 @@ namespace JHackson.UI.ViewModels
             {
                 this.projectPath = openFileDialog.FileName;
                 this.project = this.serializationService.Deserialize(this.projectPath);
+
+                this.UpdateTitle(this.project.Game);
             }
         }
 
@@ -127,6 +144,18 @@ namespace JHackson.UI.ViewModels
                 this.projectPath = saveFileDialog.FileName;
                 this.project.Game = "test";
                 this.serializationService.Serialize(this.project, this.projectPath);
+            }
+        }
+
+        private void UpdateTitle(string game = null)
+        {
+            if (!string.IsNullOrWhiteSpace(game))
+            {
+                this.Title = $"{TITLE_BASE} - {game}";
+            }
+            else
+            {
+                this.Title = $"{TITLE_BASE}";
             }
         }
     }
