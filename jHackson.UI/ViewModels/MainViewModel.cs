@@ -17,11 +17,19 @@ namespace JHackson.UI.ViewModels
 
         private readonly ISerializationService serializationService;
 
+        private string console;
+
+        private string description;
+
+        private string game;
+
         private IProjectJson project;
 
         private string projectPath;
 
         private string title;
+
+        private string version;
 
         public MainViewModel(ISerializationService serializationService)
         {
@@ -36,9 +44,65 @@ namespace JHackson.UI.ViewModels
             this.UpdateTitle();
         }
 
+        public string Console
+        {
+            get
+            {
+                if (this.console == null && this.project?.Console != null)
+                {
+                    this.console = this.project.Console;
+                }
+
+                return this.console;
+            }
+            set
+            {
+                _ = this.SetProperty(ref this.console, value);
+                this.project.Console = this.console;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                if (this.description == null && this.project?.Description != null)
+                {
+                    this.description = this.project.Description;
+                }
+
+                return this.description;
+            }
+            set
+            {
+                _ = this.SetProperty(ref this.description, value);
+                this.project.Description = this.description;
+            }
+        }
+
+        public string Game
+        {
+            get
+            {
+                if (this.game == null && this.project?.Game != null)
+                {
+                    this.game = this.project.Game;
+                }
+
+                return this.game;
+            }
+            set
+            {
+                _ = this.SetProperty(ref this.game, value);
+                this.project.Game = this.game;
+            }
+        }
+
         public DelegateCommand NewCommand { get; private set; }
 
         public DelegateCommand OpenCommand { get; private set; }
+
+        public bool ProjectIsEditable => this.project != null;
 
         public DelegateCommand QuitCommand { get; private set; }
 
@@ -50,6 +114,24 @@ namespace JHackson.UI.ViewModels
         {
             get => this.title;
             set => this.SetProperty(ref this.title, value);
+        }
+
+        public string Version
+        {
+            get
+            {
+                if (this.version == null && this.project?.Version != null)
+                {
+                    this.version = this.project.Version;
+                }
+
+                return this.version;
+            }
+            set
+            {
+                _ = this.SetProperty(ref this.version, value);
+                this.project.Version = this.version;
+            }
         }
 
         private bool CanSave()
@@ -86,10 +168,19 @@ namespace JHackson.UI.ViewModels
 
             if (result == true)
             {
+                this.project = null;
+
                 this.projectPath = openFileDialog.FileName;
                 this.project = this.serializationService.Deserialize(this.projectPath);
 
                 this.UpdateTitle(this.project.Game);
+                this.RaisePropertyChanged(nameof(this.Console));
+                this.RaisePropertyChanged(nameof(this.Description));
+                this.RaisePropertyChanged(nameof(this.Game));
+                this.RaisePropertyChanged(nameof(this.Version));
+                this.RaisePropertyChanged(nameof(this.ProjectIsEditable));
+                this.SaveCommand.RaiseCanExecuteChanged();
+                this.SaveAsCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -123,7 +214,6 @@ namespace JHackson.UI.ViewModels
 
             if (saveConfirmed)
             {
-                this.project.Game = "test";
                 this.serializationService.Serialize(this.project, this.projectPath);
             }
         }
