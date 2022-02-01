@@ -4,6 +4,7 @@
 
 namespace JHackson.UI.ViewModels
 {
+    using System.IO;
     using System.Windows;
     using JHackson.Core.Projects;
     using JHackson.Core.Services;
@@ -17,19 +18,11 @@ namespace JHackson.UI.ViewModels
 
         private readonly ISerializationService serializationService;
 
-        private string console;
-
-        private string description;
-
-        private string game;
-
         private IProjectJson project;
 
         private string projectPath;
 
         private string title;
-
-        private string version;
 
         public MainViewModel(ISerializationService serializationService)
         {
@@ -46,55 +39,40 @@ namespace JHackson.UI.ViewModels
 
         public string Console
         {
-            get
-            {
-                if (this.console == null && this.project?.Console != null)
-                {
-                    this.console = this.project.Console;
-                }
-
-                return this.console;
-            }
+            get => this.project?.Console;
             set
             {
-                _ = this.SetProperty(ref this.console, value);
-                this.project.Console = this.console;
+                if (this.project.Console != value)
+                {
+                    this.project.Console = value;
+                }
+                this.RaisePropertyChanged(nameof(this.Console));
             }
         }
 
         public string Description
         {
-            get
-            {
-                if (this.description == null && this.project?.Description != null)
-                {
-                    this.description = this.project.Description;
-                }
-
-                return this.description;
-            }
+            get => this.project?.Description;
             set
             {
-                _ = this.SetProperty(ref this.description, value);
-                this.project.Description = this.description;
+                if (this.project.Description != value)
+                {
+                    this.project.Description = value;
+                }
+                this.RaisePropertyChanged(nameof(this.Console));
             }
         }
 
         public string Game
         {
-            get
-            {
-                if (this.game == null && this.project?.Game != null)
-                {
-                    this.game = this.project.Game;
-                }
-
-                return this.game;
-            }
+            get => this.project?.Game;
             set
             {
-                _ = this.SetProperty(ref this.game, value);
-                this.project.Game = this.game;
+                if (this.project.Game != value)
+                {
+                    this.project.Game = value;
+                }
+                this.RaisePropertyChanged(nameof(this.Game));
             }
         }
 
@@ -118,19 +96,14 @@ namespace JHackson.UI.ViewModels
 
         public string Version
         {
-            get
-            {
-                if (this.version == null && this.project?.Version != null)
-                {
-                    this.version = this.project.Version;
-                }
-
-                return this.version;
-            }
+            get => this.project?.Version;
             set
             {
-                _ = this.SetProperty(ref this.version, value);
-                this.project.Version = this.version;
+                if (this.project.Version != value)
+                {
+                    this.project.Version = value;
+                }
+                this.RaisePropertyChanged(nameof(this.Version));
             }
         }
 
@@ -146,15 +119,12 @@ namespace JHackson.UI.ViewModels
                 // TODO : Save the project ?
 
                 this.project = null;
-
-                // TODO : Close all UI elements
             }
 
             this.project = new ProjectJson();
-            this.SaveCommand.RaiseCanExecuteChanged();
-            this.SaveAsCommand.RaiseCanExecuteChanged();
 
             this.UpdateTitle();
+            this.RaiseProjectChanged();
         }
 
         private void Open()
@@ -173,20 +143,25 @@ namespace JHackson.UI.ViewModels
                 this.projectPath = openFileDialog.FileName;
                 this.project = this.serializationService.Deserialize(this.projectPath);
 
-                this.UpdateTitle(this.project.Game);
-                this.RaisePropertyChanged(nameof(this.Console));
-                this.RaisePropertyChanged(nameof(this.Description));
-                this.RaisePropertyChanged(nameof(this.Game));
-                this.RaisePropertyChanged(nameof(this.Version));
-                this.RaisePropertyChanged(nameof(this.ProjectIsEditable));
-                this.SaveCommand.RaiseCanExecuteChanged();
-                this.SaveAsCommand.RaiseCanExecuteChanged();
+                this.UpdateTitle(Path.GetFileNameWithoutExtension(openFileDialog.FileName));
+                this.RaiseProjectChanged();
             }
         }
 
         private void Quit()
         {
             Application.Current.MainWindow.Close();
+        }
+
+        private void RaiseProjectChanged()
+        {
+            this.RaisePropertyChanged(nameof(this.Console));
+            this.RaisePropertyChanged(nameof(this.Description));
+            this.RaisePropertyChanged(nameof(this.Game));
+            this.RaisePropertyChanged(nameof(this.Version));
+            this.RaisePropertyChanged(nameof(this.ProjectIsEditable));
+            this.SaveCommand.RaiseCanExecuteChanged();
+            this.SaveAsCommand.RaiseCanExecuteChanged();
         }
 
         private void Save()
@@ -237,11 +212,11 @@ namespace JHackson.UI.ViewModels
             }
         }
 
-        private void UpdateTitle(string game = null)
+        private void UpdateTitle(string fileName = null)
         {
-            if (!string.IsNullOrWhiteSpace(game))
+            if (!string.IsNullOrWhiteSpace(fileName))
             {
-                this.Title = $"{TITLE_BASE} - {game}";
+                this.Title = $"{TITLE_BASE} - {fileName}";
             }
             else
             {
