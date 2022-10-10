@@ -32,10 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\jHackson.Image\jHackson.Image.csproj" />
     <ProjectReference Include="..\jHackson.Binary\jHackson.Binary.csproj" />
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />

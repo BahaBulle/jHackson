@@ -41,10 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

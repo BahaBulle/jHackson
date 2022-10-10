@@ -28,10 +28,6 @@
   </Target>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\\..\\.stylecop.json" Link="Properties\.stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="NLog" Version="5.0.4" />
   </ItemGroup>
 

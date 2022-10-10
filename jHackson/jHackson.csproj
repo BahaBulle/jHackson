@@ -32,10 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\jHackson.Core\jHackson.Core.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
-  </ItemGroup>
   
   <ItemGroup>
     <None Update="Localization\Batch_fr-FR.json">

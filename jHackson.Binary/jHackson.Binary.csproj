@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\\.stylecop.json" Link="Properties\.stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Localization\Binary_fr-FR.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
