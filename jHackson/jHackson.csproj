@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>BahaBulle</Authors>
     <Copyright>BahaBulle © 2020</Copyright>
     <NeutralLanguage>fr-FR</NeutralLanguage>
