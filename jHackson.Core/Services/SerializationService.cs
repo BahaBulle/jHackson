@@ -5,29 +5,18 @@
 namespace JHackson.Core.Services
 {
     using System.IO;
-    using JHackson.Core.Json.ContractResolver;
     using JHackson.Core.Projects;
     using Newtonsoft.Json;
 
     public class SerializationService : ISerializationService
     {
-        private readonly UnityContractResolver contractResolver;
-
-        public SerializationService(UnityContractResolver unityContractResolver)
-        {
-            this.contractResolver = unityContractResolver;
-        }
-
         public IProjectJson Deserialize(string filename)
         {
             IProjectJson pj;
 
             using (var file = File.OpenText(filename))
             {
-                var serializer = new JsonSerializer()
-                {
-                    ContractResolver = this.contractResolver,
-                };
+                var serializer = new JsonSerializer();
 
                 // ITraceWriter traceWriter = new MemoryTraceWriter();
                 pj = (IProjectJson)serializer.Deserialize(file, typeof(ProjectJson));

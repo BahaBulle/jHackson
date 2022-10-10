@@ -22,7 +22,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8C7C0929-BB53-456B-9B75-1C33A38EE607}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		.stylecop.json = .stylecop.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Games", "Games", "{844A111E-0CA0-4B14-9555-B8BE30F83342}"
@@ -36,8 +35,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.StarOcean", "Games\jHackson.StarOcean\jHackson.StarOcean.csproj", "{5BD47705-C47F-4FA7-86B7-3AF637D5A87F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jHackson.Text.Pointers", "jHackson.Text.Pointers\jHackson.Text.Pointers.csproj", "{E2CB1E48-94E3-4C80-8479-8F1278B946A0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThridParty", "ThridParty", "{A060716F-239D-4B5D-85D5-9CAFF9591C7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

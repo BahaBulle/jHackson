@@ -5,17 +5,24 @@
 namespace JHackson
 {
     using System.Linq;
-    using Unity;
+    using JHackson.Core.Common;
+    using JHackson.Core.Localization;
+    using JHackson.Core.Services;
 
     internal class Program
     {
         private static void Main(string[] args)
         {
-            IUnityContainer container = new UnityContainer();
+            LocalizationHelper.InitCulture();
 
-            BootStrapper.Init(container);
+            // Load plugins
+            PluginsHelper.LoadPlugins();
 
-            container.Resolve<Batch>().Run(args.ToList());
+            var service = new SerializationService();
+
+            var batch = new Batch(service);
+
+            batch.Run(args.ToList());
         }
     }
 }
