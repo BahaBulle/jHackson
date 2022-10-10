@@ -4,6 +4,10 @@ root = true
 # Fichiers C#
 [*.cs]
 
+#### File Header ####
+file_header_template=<copyright file="{fileName}" company="BahaBulle">\r\nCopyright (c) BahaBulle. All rights reserved.\r\n</copyright>
+
+
 #### Options EditorConfig principales ####
 
 # Indentation et espacement
