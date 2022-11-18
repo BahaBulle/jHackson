@@ -2,14 +2,10 @@
 //     Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
-namespace JHackson.PhantasyStar2
+namespace jHackson.Okamiden
 {
     using JHackson.Core.Common;
-    using JHackson.PhantasyStar2.Actions;
 
-    /// <summary>
-    /// Provides a class that to allow to load this library dynamically.
-    /// </summary>
     public class Plugin : IPlugin
     {
         /// <summary>
@@ -17,8 +13,6 @@ namespace JHackson.PhantasyStar2
         /// </summary>
         public void Init()
         {
-            PluginsHelper.LoadAction(typeof(ActionGraphismCompression));
-            PluginsHelper.LoadAction(typeof(ActionGraphismDecompression));
         }
     }
 }
