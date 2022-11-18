@@ -4,10 +4,13 @@
 
 namespace JHackson.UI.ViewModels
 {
+    using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
     using System.Windows;
     using JHackson.Core.Projects;
     using JHackson.Core.Services;
+    using JHackson.Core.Variables;
     using Microsoft.Win32;
     using Prism.Commands;
     using Prism.Mvvm;
@@ -23,6 +26,8 @@ namespace JHackson.UI.ViewModels
         private string projectPath;
 
         private string title;
+
+        private ObservableCollection<Variable> variableList;
 
         public MainViewModel(ISerializationService serializationService)
         {
@@ -94,6 +99,19 @@ namespace JHackson.UI.ViewModels
             set => this.SetProperty(ref this.title, value);
         }
 
+        public ObservableCollection<Variable> VariablesList
+        {
+            get
+            {
+                if (this.variableList == null && this.project != null && this.project.Variables.Any())
+                {
+                    this.variableList = new ObservableCollection<Variable>(this.project.Variables);
+                }
+
+                return this.variableList;
+            }
+        }
+
         public string Version
         {
             get => this.project?.Version;
@@ -160,6 +178,7 @@ namespace JHackson.UI.ViewModels
             this.RaisePropertyChanged(nameof(this.Game));
             this.RaisePropertyChanged(nameof(this.Version));
             this.RaisePropertyChanged(nameof(this.ProjectIsEditable));
+            this.RaisePropertyChanged(nameof(this.VariablesList));
             this.SaveCommand.RaiseCanExecuteChanged();
             this.SaveAsCommand.RaiseCanExecuteChanged();
         }
