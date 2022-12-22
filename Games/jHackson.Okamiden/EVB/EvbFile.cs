@@ -4,16 +4,11 @@
 
 namespace jHackson.Okamiden.EVB
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using JHackson.Core.Exceptions;
 
     internal class EvbFile
     {
-        private MemoryStream source;
+        private readonly MemoryStream source;
 
         internal EvbFile(MemoryStream source)
         {
@@ -22,9 +17,9 @@ namespace jHackson.Okamiden.EVB
             this.Parse();
         }
 
-        internal EvbHeader Header { get; set; }
+        internal EvbHeader? Header { get; set; }
 
-        internal EvbFunction Main { get; set; }
+        internal EvbFunction? Main { get; set; }
 
         private void Parse()
         {
@@ -36,6 +31,7 @@ namespace jHackson.Okamiden.EVB
                 }
 
                 this.Header = new EvbHeader(binaryReader);
+                this.Main = new EvbFunction(binaryReader, this.Header, "Main");
             }
         }
     }

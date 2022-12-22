@@ -8,10 +8,10 @@ namespace jHackson.Okamiden.EVB
 
     internal static class EvbHelper
     {
-        internal static int ReadInteger(BinaryReader reader, bool isLittleEndian, byte intSize)
+        internal static long ReadInteger(BinaryReader reader, bool isLittleEndian, byte intSize)
         {
             byte[] bytes = reader.ReadBytes(intSize);
-            int ret = 0;
+            long ret = 0;
 
             if (isLittleEndian)
             {
@@ -54,11 +54,11 @@ namespace jHackson.Okamiden.EVB
 
         internal static string? ReadString(BinaryReader reader, bool isLittleEndian, byte size)
         {
-            int stringSize = ReadInteger(reader, isLittleEndian, size);
+            long stringSize = ReadInteger(reader, isLittleEndian, size);
 
             if (stringSize == 0) { return null; }
 
-            byte[] bytes = reader.ReadBytes(stringSize);
+            byte[] bytes = reader.ReadBytes((int)stringSize);
 
             char[] chars = new char[bytes.Length];
 
