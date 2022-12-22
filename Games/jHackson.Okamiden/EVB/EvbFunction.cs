@@ -30,9 +30,12 @@ namespace jHackson.Okamiden.EVB
 
             this.Instructions = new EvbInstructionsCollection(this.reader, this.header);
             this.Constants = new EvbConstantsCollection(this.reader, this.header);
+            this.Functions = new EvbFunctionsCollection(this.reader, this.header);
         }
 
         internal EvbConstantsCollection? Constants { get; private set; }
+
+        internal EvbFunctionsCollection? Functions { get; private set; }
 
         internal string Id { get; private set; }
 

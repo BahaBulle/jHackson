@@ -6,7 +6,7 @@ namespace jHackson.Okamiden.EVB
 {
     using System.Collections.ObjectModel;
 
-    internal class EvbConstantsCollection : Collection<object>
+    internal class EvbConstantsCollection : Collection<EvbConstant>
     {
         private readonly EvbHeader header;
         private readonly BinaryReader reader;
