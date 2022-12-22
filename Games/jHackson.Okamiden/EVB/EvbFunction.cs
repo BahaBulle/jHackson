@@ -29,7 +29,10 @@ namespace jHackson.Okamiden.EVB
             this.MaxStack = this.reader.ReadByte();
 
             this.Instructions = new EvbInstructionsCollection(this.reader, this.header);
+            this.Constants = new EvbConstantsCollection(this.reader, this.header);
         }
+
+        internal EvbConstantsCollection? Constants { get; private set; }
 
         internal string Id { get; private set; }
 
