@@ -4,48 +4,45 @@
 
 namespace jHackson.Okamiden.EVB
 {
+    using System.IO;
+
     internal class EvbFunction
     {
-        private readonly EvbHeader header;
-        private readonly BinaryReader reader;
-
         public EvbFunction(BinaryReader binaryReader, EvbHeader header, string id)
         {
-            this.reader = binaryReader;
-            this.header = header;
             this.Id = id;
 
-            this.Parse();
+            this.Name = EvbHelper.ReadString(binaryReader, header.IsLittleEndian, header.SizeOfSizeT);
+            this.LineStart = EvbHelper.ReadInteger(binaryReader, header.IsLittleEndian, header.SizeOfInt);
+            this.LineEnd = EvbHelper.ReadInteger(binaryReader, header.IsLittleEndian, header.SizeOfInt);
+            this.NumberOfUpValues = binaryReader.ReadByte();
+            this.NumberOfParams = binaryReader.ReadByte();
+            this.VarArg = binaryReader.ReadByte();
+            this.MaxStack = binaryReader.ReadByte();
+
+            this.Instructions = new EvbInstructionsCollection(binaryReader, header);
+            this.Constants = new EvbConstantsCollection(binaryReader, header);
+            this.Functions = new EvbFunctionsCollection(binaryReader, header);
+            this.LinesPositions = new EvbLinesPositionsCollection(binaryReader, header);
+            this.Locals = new EvbLocalsCollection(binaryReader, header);
+            this.UpValues = new EvbUpValuesCollection(binaryReader, header);
         }
 
-        private void Parse()
-        {
-            this.Name = EvbHelper.ReadString(this.reader, this.header.IsLittleEndian, this.header.SizeOfSizeT);
-            this.LineStart = EvbHelper.ReadInteger(this.reader, this.header.IsLittleEndian, this.header.SizeOfInt);
-            this.LineEnd = EvbHelper.ReadInteger(this.reader, this.header.IsLittleEndian, this.header.SizeOfInt);
-            this.NumberOfUpValues = this.reader.ReadByte();
-            this.NumberOfParams = this.reader.ReadByte();
-            this.VarArg = this.reader.ReadByte();
-            this.MaxStack = this.reader.ReadByte();
+        internal EvbConstantsCollection Constants { get; private set; }
 
-            this.Instructions = new EvbInstructionsCollection(this.reader, this.header);
-            this.Constants = new EvbConstantsCollection(this.reader, this.header);
-            this.Functions = new EvbFunctionsCollection(this.reader, this.header);
-        }
-
-        internal EvbConstantsCollection? Constants { get; private set; }
-
-        internal EvbFunctionsCollection? Functions { get; private set; }
+        internal EvbFunctionsCollection Functions { get; private set; }
 
         internal string Id { get; private set; }
 
-        internal EvbInstructionsCollection? Instructions { get; private set; }
+        internal EvbInstructionsCollection Instructions { get; private set; }
 
-        internal List<EvbInstructionsCollection> InstructionsList { get; private set; } = new List<EvbInstructionsCollection>();
+        internal ulong LineEnd { get; private set; }
 
-        internal long LineEnd { get; private set; }
+        internal EvbLinesPositionsCollection LinesPositions { get; private set; }
 
-        internal long LineStart { get; private set; }
+        internal ulong LineStart { get; private set; }
+
+        internal EvbLocalsCollection Locals { get; private set; }
 
         internal byte MaxStack { get; private set; }
 
@@ -54,6 +51,8 @@ namespace jHackson.Okamiden.EVB
         internal byte NumberOfParams { get; private set; }
 
         internal byte NumberOfUpValues { get; private set; }
+
+        internal EvbUpValuesCollection UpValues { get; private set; }
 
         internal byte VarArg { get; private set; }
     }

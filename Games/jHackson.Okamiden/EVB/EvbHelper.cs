@@ -5,26 +5,27 @@
 namespace jHackson.Okamiden.EVB
 {
     using System;
+    using System.IO;
 
     internal static class EvbHelper
     {
-        internal static long ReadInteger(BinaryReader reader, bool isLittleEndian, byte intSize)
+        internal static ulong ReadInteger(BinaryReader reader, bool isLittleEndian, byte intSize)
         {
             byte[] bytes = reader.ReadBytes(intSize);
-            long ret = 0;
+            ulong ret = 0;
 
             if (isLittleEndian)
             {
                 for (int i = 0; i < intSize; ++i)
                 {
-                    ret += bytes[i] << (i * 8);
+                    ret += (ulong)bytes[i] << (i * 8);
                 }
             }
             else
             {
                 for (int i = 0; i < intSize; ++i)
                 {
-                    ret += bytes[i] >> (i * 8);
+                    ret += (ulong)(bytes[i]) << ((intSize - i - 1) * 8);
                 }
             }
 
@@ -54,15 +55,15 @@ namespace jHackson.Okamiden.EVB
 
         internal static string? ReadString(BinaryReader reader, bool isLittleEndian, byte size)
         {
-            long stringSize = ReadInteger(reader, isLittleEndian, size);
+            ulong stringSize = ReadInteger(reader, isLittleEndian, size);
 
             if (stringSize == 0) { return null; }
 
             byte[] bytes = reader.ReadBytes((int)stringSize);
 
-            char[] chars = new char[bytes.Length];
+            char[] chars = new char[bytes.Length - 1];
 
-            for (int i = 0; i < bytes.Length; ++i)
+            for (int i = 0; i < bytes.Length - 1; ++i)
             {
                 chars[i] = (char)bytes[i];
             }

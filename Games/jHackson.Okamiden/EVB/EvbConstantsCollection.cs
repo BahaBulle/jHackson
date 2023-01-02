@@ -5,41 +5,31 @@
 namespace jHackson.Okamiden.EVB
 {
     using System.Collections.ObjectModel;
+    using System.IO;
 
     internal class EvbConstantsCollection : Collection<EvbConstant>
     {
-        private readonly EvbHeader header;
-        private readonly BinaryReader reader;
-
         public EvbConstantsCollection(BinaryReader binaryReader, EvbHeader header)
         {
-            this.reader = binaryReader;
-            this.header = header;
+            ulong numberOfElement = EvbHelper.ReadInteger(binaryReader, header.IsLittleEndian, header.SizeOfInt);
 
-            this.Parse();
-        }
-
-        private void Parse()
-        {
-            long numberOfElement = EvbHelper.ReadInteger(this.reader, this.header.IsLittleEndian, this.header.SizeOfInt);
-
-            for (int i = 0; i < numberOfElement; i++)
+            for (ulong i = 0; i < numberOfElement; i++)
             {
-                byte type = this.reader.ReadByte();
+                byte type = binaryReader.ReadByte();
 
                 EvbConstant? constant = null;
                 switch (type)
                 {
                     case 1:
-                        constant = new EvbConstant(type, this.reader.ReadBoolean());
+                        constant = new EvbConstant(type, binaryReader.ReadBoolean());
                         break;
 
                     case 3:
-                        constant = new EvbConstant(type, EvbHelper.ReadNumber(this.reader, this.header.SizeOfLuaNumber));
+                        constant = new EvbConstant(type, EvbHelper.ReadNumber(binaryReader, header.SizeOfLuaNumber));
                         break;
 
                     case 4:
-                        constant = new EvbConstant(type, EvbHelper.ReadString(this.reader, this.header.IsLittleEndian, this.header.SizeOfInt));
+                        constant = new EvbConstant(type, EvbHelper.ReadString(binaryReader, header.IsLittleEndian, header.SizeOfInt));
                         break;
 
                 }

@@ -5,6 +5,7 @@
 namespace jHackson.Okamiden.EVB
 {
     using System.Collections.ObjectModel;
+    using System.IO;
 
     internal class EvbFunctionsCollection : Collection<EvbFunction>
     {
@@ -21,9 +22,9 @@ namespace jHackson.Okamiden.EVB
 
         private void Parse()
         {
-            long numberOfElement = EvbHelper.ReadInteger(this.reader, this.header.IsLittleEndian, this.header.SizeOfInt);
+            ulong numberOfElement = EvbHelper.ReadInteger(this.reader, this.header.IsLittleEndian, this.header.SizeOfInt);
 
-            for (int i = 0; i < numberOfElement; i++)
+            for (ulong i = 0; i < numberOfElement; i++)
             {
                 var function = new EvbFunction(this.reader, this.header, $"Function_{i}");
 

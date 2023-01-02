@@ -1,4 +1,4 @@
-﻿// <copyright file="EvbInstructionsCollection.cs" company="BahaBulle">
+﻿// <copyright file="EvbLinesPositionsCollection.cs" company="BahaBulle">
 //     Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
@@ -7,9 +7,9 @@ namespace jHackson.Okamiden.EVB
     using System.Collections.ObjectModel;
     using System.IO;
 
-    internal class EvbInstructionsCollection : Collection<ulong>
+    internal class EvbLinesPositionsCollection : Collection<ulong>
     {
-        internal EvbInstructionsCollection(BinaryReader binaryReader, EvbHeader header)
+        internal EvbLinesPositionsCollection(BinaryReader binaryReader, EvbHeader header)
         {
             ulong numberOfElement = EvbHelper.ReadInteger(binaryReader, header.IsLittleEndian, header.SizeOfInt);
 

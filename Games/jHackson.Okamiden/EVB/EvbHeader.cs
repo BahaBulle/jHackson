@@ -5,6 +5,7 @@
 namespace jHackson.Okamiden.EVB
 {
     using System;
+    using System.IO;
     using JHackson.Core.Exceptions;
 
     internal class EvbHeader
