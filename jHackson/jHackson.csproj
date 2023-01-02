@@ -7,8 +7,7 @@
     <Copyright>BahaBulle © 2020</Copyright>
     <NeutralLanguage>fr-FR</NeutralLanguage>
     <Product>jHackson</Product>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>jHackson.Key.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>False</SignAssembly>
     <RootNamespace>JHackson</RootNamespace>
   </PropertyGroup>
 
