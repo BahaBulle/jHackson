@@ -1,5 +1,5 @@
-﻿// <copyright file="FileFormatBin.cs" company="BahaBulle">
-// Copyright (c) BahaBulle. All rights reserved.
+﻿// <copyright file="FileFormatTxt.cs" company="BahaBulle">
+//     Copyright (c) BahaBulle. All rights reserved.
 // </copyright>
 
 namespace JHackson.Binary.FileFormat
@@ -9,11 +9,11 @@ namespace JHackson.Binary.FileFormat
     using JHackson.Core.FileFormat;
     using JHackson.Core.Localization;
 
-    public class FileFormatBin : IFileFormat
+    public class FileFormatTxt : IFileFormat
     {
-        public FileFormatBin()
+        public FileFormatTxt()
         {
-            this.Name = "Bin";
+            this.Name = "Txt";
         }
 
         public string Name { get; set; }

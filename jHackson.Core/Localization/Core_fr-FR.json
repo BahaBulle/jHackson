@@ -9,6 +9,7 @@
     "fileFormatAlreadyExists": "Le format de fichier {0} existe déjà !",
     "fileFormatNotSpecified": "Le nom du format de fichier doit être renseigné !",
     "fileFormatUnknow": "Le format de fichier {0} n'existe pas !",
+    "formatNotSpecified": "Le format n'est pas renseigné !'",
     "imageFormatAlreadyExists": "Le format d'image {0} existe déjà !",
     "imageFormatNotSpecified": "Le nom du format d'image doit être renseigné !",
     "parameterNotFound": "La paramètre '{0}' n'est pas renseigné : {1}",
