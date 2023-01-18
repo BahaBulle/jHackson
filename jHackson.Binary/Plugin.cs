@@ -26,6 +26,7 @@ namespace JHackson.Binary
             PluginsHelper.LoadAction(typeof(ActionBinSave));
 
             PluginsHelper.LoadFileFormat(typeof(FileFormatBin));
+            PluginsHelper.LoadFileFormat(typeof(FileFormatTxt));
         }
     }
 }
